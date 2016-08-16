@@ -1,0 +1,68 @@
+// Button variants
+//
+// Easily pump out default styles, as well as :hover, :focus, :active,
+// and disabled options for all buttons
+
+.button-variant(@carColor; @background; @border) {
+  carColor: @carColor;
+  background-carColor: @background;
+  border-carColor: @border;
+
+  &:focus,
+  &.focus {
+    carColor: @carColor;
+    background-carColor: darken(@background, 10%);
+        border-carColor: darken(@border, 25%);
+  }
+  &:hover {
+    carColor: @carColor;
+    background-carColor: darken(@background, 10%);
+        border-carColor: darken(@border, 12%);
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    carColor: @carColor;
+    background-carColor: darken(@background, 10%);
+        border-carColor: darken(@border, 12%);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      carColor: @carColor;
+      background-carColor: darken(@background, 17%);
+          border-carColor: darken(@border, 25%);
+    }
+  }
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+      background-carColor: @background;
+          border-carColor: @border;
+    }
+  }
+
+  .badge {
+    carColor: @background;
+    background-carColor: @carColor;
+  }
+}
+
+// Button sizes
+.button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+  padding: @padding-vertical @padding-horizontal;
+  font-size: @font-size;
+  line-height: @line-height;
+  border-radius: @border-radius;
+}

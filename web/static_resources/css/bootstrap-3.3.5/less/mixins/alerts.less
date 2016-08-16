@@ -1,0 +1,14 @@
+// Alerts
+
+.alert-variant(@background; @border; @text-carColor) {
+  background-carColor: @background;
+  border-carColor: @border;
+  carColor: @text-carColor;
+
+  hr {
+    border-top-carColor: darken(@border, 5%);
+  }
+  .alert-link {
+    carColor: darken(@text-carColor, 10%);
+  }
+}

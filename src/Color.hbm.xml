@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.CarColor" table="color">
+        <id name="color" column="color" type="java.lang.String" length="32">
+        </id>
+        <property name="valid" column="valid" type="java.lang.String" length="1"/>
+        <!--<set name="carTypeSet" table="vehicle_type" inverse="true">-->
+            <!--<key column="color" not-null="true"/>-->
+            <!--<one-to-many class="CarSaleManagerSystem.Bean.CarType"/>-->
+        <!--</set>-->
+    </class>
+</hibernate-mapping>

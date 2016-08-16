@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.Insurance" table="insurance">
+        <id name="insuranceID" column="insurance_id" type="java.lang.Integer">
+            <generator class="increment"/>
+        </id>
+        <property name="name" column="name" type="java.lang.String" length="64" not-null="true"/>
+        <!--<property name="type" column="type" type="java.lang.String" length="64" not-null="true"/>-->
+        <property name="cost" column="cost" type="java.lang.Float" precision="10" scale="2" not-null="true"/>
+        <property name="discount" column="discount" type="java.lang.Float" precision="10" scale="2" not-null="false"/>
+        <property name="actualGetMoney" column="actual_get_money" type="java.lang.Float" precision="10" scale="2" not-null="false"/>
+        <property name="default_price" column="default_price" type="java.lang.Float" precision="10" scale="2" not-null="true"/>
+        <property name="selling_price" column="selling_price" type="java.lang.Float" precision="10" scale="2" not-null="false"/>
+        <property name="valid" column="valid" type="java.lang.String" length="1"/>
+        <property name="orderID" column="order_id" type="java.lang.String" length="64"/>
+        <property name="type" column="type" type="java.lang.String" length="64"/>
+        <!--<many-to-one name="order" class="CarSaleManagerSystem.Bean.Order" cascade="none"-->
+                     <!--outer-join="auto"-->
+                     <!--update="true"-->
+                     <!--insert="true"-->
+                     <!--column="order_id"-->
+                     <!--not-null="false"/>-->
+        <!--<many-to-one name="insuranceType" class="CarSaleManagerSystem.Bean.InsuranceType" outer-join="auto" column="type" update="true" insert="true" not-null="true">-->
+        <!--</many-to-one>-->
+
+    </class>
+
+</hibernate-mapping>

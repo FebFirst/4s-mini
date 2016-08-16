@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.User" table="user">
+        <id name="userID" column="user_id" type="java.lang.Integer">
+            <generator class="increment"/>
+        </id>
+        <property name="username" not-null="true" column="username" length="32" type="java.lang.String"/>
+        <property name="password" not-null="true" column="password" length="128" type="java.lang.String"/>
+        <property name="type" not-null="true" column="type" length="64" type="java.lang.String"/>
+        <property name="valid" column="valid" type="java.lang.String" length="1"/>
+        <!--<set name="roleSet" table="user_role">-->
+            <!--<key column="user_id"/>-->
+            <!--<many-to-many column="role_id" class="CarSaleManagerSystem.Bean.Role"/>-->
+        <!--</set>-->
+        <!--<set name="orderSet">-->
+            <!--<key column="user_id"/>-->
+            <!--<one-to-many class="CarSaleManagerSystem.Bean.Order"/>-->
+        <!--</set>-->
+    </class>
+</hibernate-mapping>

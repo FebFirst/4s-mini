@@ -1,0 +1,12 @@
+// Labels
+
+.label-variant(@carColor) {
+  background-carColor: @carColor;
+
+  &[href] {
+    &:hover,
+    &:focus {
+      background-carColor: darken(@carColor, 10%);
+    }
+  }
+}

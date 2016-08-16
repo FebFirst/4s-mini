@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.Order" table="vehicle_order">
+        <id name="orderID" type="java.lang.String" length="64" column="order_id">
+        </id>
+        <property name="finish_status" column="finish_status" type="java.lang.String" length="1" not-null="true"/>
+        <property name="salePrice" column="sale_price" type="java.lang.Float" precision="10" scale="2" not-null="true"/>
+        <property name="actualGetMoney" column="actual_get_money" type="java.lang.Float" precision="10" scale="2" not-null="false"/>
+        <property name="date" column="create_time" type="java.util.Date" not-null="true"/>
+        <property name="remark" column="remark" type="java.lang.String" length="255" not-null="false"/>
+        <!--<property name="valid" column="valid" type="java.lang.String" length="1"/>-->
+        <property name="actual_pay_time" column="actual_pay_time" type="java.util.Date"/>
+        <property name="predicted_pay_time" column="predicted_pay_time" type="java.util.Date"/>
+        <property name="carID" column="vehicle_id" type="java.lang.String"/>
+        <property name="customerID" column="customer_id" type="java.lang.Integer"/>
+        <property name="salesmanID" column="user_id" type="java.lang.Integer"/>
+        <!--<set name="giftSet" inverse="true" lazy="false">-->
+            <!--<key column="order_id" not-null="true"></key>-->
+            <!--<one-to-many class="CarSaleManagerSystem.Bean.Gift"/>-->
+        <!--</set>-->
+        <!--<set name="insuranceSet" inverse="true" lazy="false">-->
+            <!--<key column="order_id" not-null="true"></key>-->
+            <!--<one-to-many class="CarSaleManagerSystem.Bean.Insurance"/>-->
+        <!--</set>-->
+        <!--<set name="additionalProductSet" inverse="true" lazy="false">-->
+            <!--<key column="order_id" not-null="true"></key>-->
+            <!--<one-to-many class="CarSaleManagerSystem.Bean.AdditionalProduct"/>-->
+        <!--</set>-->
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,9 @@
+// Typography
+
+.text-emphasis-variant(@carColor) {
+  carColor: @carColor;
+  a&:hover,
+  a&:focus {
+    carColor: darken(@carColor, 10%);
+  }
+}

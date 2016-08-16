@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+        <session-factory>
+                <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+                <property name="connection.url">jdbc:mysql://localhost:3306/learning</property>
+                <property name="connection.username">root</property>
+                <property name="connection.password">casual960113</property>
+
+                <property name="connection.pool_size">1</property>
+                <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+                <property name="current_session_context_class">thread</property>
+                <property name="show_sql">true</property>
+                <property name="hbm2ddl.auto">update</property>
+
+                <mapping resource="Car.hbm.xml"/>
+                <mapping resource="User.hbm.xml"/>
+                <mapping resource="Order.hbm.xml"/>
+                <mapping resource="Garage.hbm.xml"/>
+                <mapping resource="Customer.hbm.xml"/>
+                <mapping resource="Gift.hbm.xml"/>
+                <mapping resource="Insurance.hbm.xml"/>
+                <mapping resource="Role.hbm.xml"/>
+                <mapping resource="Color.hbm.xml"/>
+                <mapping resource="StockStatus.hbm.xml"/>
+                <mapping resource="CarBrand.hbm.xml"/>
+                <mapping resource="InsuranceType.hbm.xml"/>
+                <mapping resource="GiftType.hbm.xml"/>
+                <mapping resource="SFX.hbm.xml"/>
+                <mapping resource="CarType.hbm.xml"/>
+                <mapping resource="AdditionalProduct.hbm.xml"/>
+                <mapping resource="AdditionalProductType.hbm.xml"/>
+        </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,59 @@
+// Gradients
+
+#gradient {
+
+  // Horizontal gradient, from left to right
+  //
+  // Creates two carColor stops, start and end, by specifying a carColor and position for each carColor stop.
+  // CarColor stops are not available in IE9 and below.
+  .horizontal(@start-carColor: #555; @end-carColor: #333; @start-percent: 0%; @end-percent: 100%) {
+    background-image: -webkit-linear-gradient(left, @start-carColor @start-percent, @end-carColor @end-percent); // Safari 5.1-6, Chrome 10+
+    background-image: -o-linear-gradient(left, @start-carColor @start-percent, @end-carColor @end-percent); // Opera 12
+    background-image: linear-gradient(to right, @start-carColor @start-percent, @end-carColor @end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+    background-repeat: repeat-x;
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",argb(@start-carColor),argb(@end-carColor))); // IE9 and down
+  }
+
+  // Vertical gradient, from top to bottom
+  //
+  // Creates two carColor stops, start and end, by specifying a carColor and position for each carColor stop.
+  // CarColor stops are not available in IE9 and below.
+  .vertical(@start-carColor: #555; @end-carColor: #333; @start-percent: 0%; @end-percent: 100%) {
+    background-image: -webkit-linear-gradient(top, @start-carColor @start-percent, @end-carColor @end-percent);  // Safari 5.1-6, Chrome 10+
+    background-image: -o-linear-gradient(top, @start-carColor @start-percent, @end-carColor @end-percent);  // Opera 12
+    background-image: linear-gradient(to bottom, @start-carColor @start-percent, @end-carColor @end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+    background-repeat: repeat-x;
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@start-carColor),argb(@end-carColor))); // IE9 and down
+  }
+
+  .directional(@start-carColor: #555; @end-carColor: #333; @deg: 45deg) {
+    background-repeat: repeat-x;
+    background-image: -webkit-linear-gradient(@deg, @start-carColor, @end-carColor); // Safari 5.1-6, Chrome 10+
+    background-image: -o-linear-gradient(@deg, @start-carColor, @end-carColor); // Opera 12
+    background-image: linear-gradient(@deg, @start-carColor, @end-carColor); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+  }
+  .horizontal-three-carColors(@start-carColor: #00b3ee; @mid-carColor: #7a43b6; @carColor-stop: 50%; @end-carColor: #c3325f) {
+    background-image: -webkit-linear-gradient(left, @start-carColor, @mid-carColor @carColor-stop, @end-carColor);
+    background-image: -o-linear-gradient(left, @start-carColor, @mid-carColor @carColor-stop, @end-carColor);
+    background-image: linear-gradient(to right, @start-carColor, @mid-carColor @carColor-stop, @end-carColor);
+    background-repeat: no-repeat;
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",argb(@start-carColor),argb(@end-carColor))); // IE9 and down, gets no carColor-stop at all for proper fallback
+  }
+  .vertical-three-carColors(@start-carColor: #00b3ee; @mid-carColor: #7a43b6; @carColor-stop: 50%; @end-carColor: #c3325f) {
+    background-image: -webkit-linear-gradient(@start-carColor, @mid-carColor @carColor-stop, @end-carColor);
+    background-image: -o-linear-gradient(@start-carColor, @mid-carColor @carColor-stop, @end-carColor);
+    background-image: linear-gradient(@start-carColor, @mid-carColor @carColor-stop, @end-carColor);
+    background-repeat: no-repeat;
+    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@start-carColor),argb(@end-carColor))); // IE9 and down, gets no carColor-stop at all for proper fallback
+  }
+  .radial(@inner-carColor: #555; @outer-carColor: #333) {
+    background-image: -webkit-radial-gradient(circle, @inner-carColor, @outer-carColor);
+    background-image: radial-gradient(circle, @inner-carColor, @outer-carColor);
+    background-repeat: no-repeat;
+  }
+  .striped(@carColor: rgba(255,255,255,.15); @angle: 45deg) {
+    background-image: -webkit-linear-gradient(@angle, @carColor 25%, transparent 25%, transparent 50%, @carColor 50%, @carColor 75%, transparent 75%, transparent);
+    background-image: -o-linear-gradient(@angle, @carColor 25%, transparent 25%, transparent 50%, @carColor 50%, @carColor 75%, transparent 75%, transparent);
+    background-image: linear-gradient(@angle, @carColor 25%, transparent 25%, transparent 50%, @carColor 50%, @carColor 75%, transparent 75%, transparent);
+  }
+}

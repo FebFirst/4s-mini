@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.CarType" table="vehicle_type">
+        <!--<id name="brand" type="java.lang.String" length="64" column="brand">-->
+        <!--</id>-->
+        <composite-id>
+            <key-property name="brand" type="java.lang.String" length="64" column="brand"/>
+            <key-property name="garage" type="java.lang.String" column="garage_brand"/>
+            <key-property name="carColor" type="java.lang.String" column="color"/>
+            <key-property name="carSfx" type="java.lang.String" column="sfx"/>
+            <!--<key-many-to-one name="garage" class="CarSaleManagerSystem.Bean.Garage" column="garage_brand"/>-->
+            <!--<key-many-to-one name="carColor" class="CarSaleManagerSystem.Bean.CarColor" column="color"/>-->
+            <!--<key-many-to-one name="carSfx" class="CarSaleManagerSystem.Bean.CarSFX" column="sfx"/>-->
+        </composite-id>
+        <property name="cost" column="cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="price" column="price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="plan" column="plan" type="java.lang.Integer"/>
+        <property name="order" column="book" type="java.lang.Integer"/>
+        <property name="stock" column="stock" type="java.lang.Integer"/>
+        <property name="requestNumber" column="request_number" type="java.lang.Integer"/>
+        <property name="valid" column="valid" type="java.lang.String" length="1"/>
+        <!--<set name="carSet" table="vehicle" inverse="true">-->
+            <!--<key column="carID" not-null="true"/>-->
+            <!--<one-to-many class="CarSaleManagerSystem.Bean.Car"/>-->
+        <!--</set>-->
+        <!--<set name="giftSet" table="gift" inverse="true">-->
+            <!--<key column="brand" not-null="true"/>-->
+            <!--<one-to-many class="CarSaleManagerSystem.Bean.Gift"/>-->
+        <!--</set>-->
+        <!--<many-to-one name="garage" class="CarSaleManagerSystem.Bean.Garage" outer-join="auto" column="garage_brand" update="true" insert="true" not-null="true">-->
+        <!--</many-to-one>-->
+        <!--<many-to-one name="carColor" class="CarSaleManagerSystem.Bean.CarColor" outer-join="auto" column="color" update="true" insert="true" not-null="true">-->
+        <!--</many-to-one>-->
+        <!--<many-to-one name="carSfx" class="CarSaleManagerSystem.Bean.CarSFX" outer-join="auto" column="sfx" update="true" insert="true" not-null="true">-->
+        <!--</many-to-one>-->
+    </class>
+</hibernate-mapping>

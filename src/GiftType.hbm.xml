@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.GiftType" table="gift_type">
+        <id name="type" column="type" type="java.lang.String" length="64">
+        </id>
+        <property name="valid" column="valid" type="java.lang.String" length="1"/>
+        <!--<set name="giftSet" table="gift" inverse="true">-->
+            <!--<key column="type" not-null="true"/>-->
+            <!--<one-to-many class="CarSaleManagerSystem.Bean.Gift"/>-->
+        <!--</set>-->
+    </class>
+</hibernate-mapping>

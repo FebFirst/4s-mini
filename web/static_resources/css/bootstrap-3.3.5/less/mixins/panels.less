@@ -1,0 +1,24 @@
+// Panels
+
+.panel-variant(@border; @heading-text-carColor; @heading-bg-carColor; @heading-border) {
+  border-carColor: @border;
+
+  & > .panel-heading {
+    carColor: @heading-text-carColor;
+    background-carColor: @heading-bg-carColor;
+    border-carColor: @heading-border;
+
+    + .panel-collapse > .panel-body {
+      border-top-carColor: @border;
+    }
+    .badge {
+      carColor: @heading-bg-carColor;
+      background-carColor: @heading-text-carColor;
+    }
+  }
+  & > .panel-footer {
+    + .panel-collapse > .panel-body {
+      border-bottom-carColor: @border;
+    }
+  }
+}
