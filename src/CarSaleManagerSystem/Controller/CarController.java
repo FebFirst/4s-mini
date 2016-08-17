@@ -2,6 +2,7 @@ package CarSaleManagerSystem.Controller;
 
 import CarSaleManagerSystem.Bean.*;
 import CarSaleManagerSystem.Service.CarService;
+import com.mongodb.util.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Created by HFQ on 2016/8/7.
@@ -45,17 +47,24 @@ public class CarController {
     @RequestMapping(value = "/createStock",method = RequestMethod.POST)
     public ModelAndView createStock(@ModelAttribute Car car){
         ModelAndView modelAndView = new ModelAndView("redirect:/Car/list");
+
+        System.out.println(car.toString());
+        car.setValid("Y");
+        car.setCost(0);
+        car.setNormal("Y");
+
+        car.setPredictedTime(new Date());
+        car.setPurchasedTime(new Date());
+
         carService.createCar(car);
         return modelAndView;
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public ModelAndView listCar(HttpSession session) {
-//        ModelAndView modelAndView = loginFilter.adminLogin(session);
-//        if (modelAndView != null)
-//            return modelAndView;
+
         ModelAndView modelAndView = new ModelAndView("Car/carList");
-//        List<?> carList = carService.getAllCars();
+
         Map<Car, Integer> carList = carService.getCarAgeList();
         modelAndView.addObject("cars",carList);
         return modelAndView;

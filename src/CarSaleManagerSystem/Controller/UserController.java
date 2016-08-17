@@ -99,7 +99,7 @@ public class UserController {
         int userID = userService.login(user);
         if(userID < 0) {
             modelAndView = new ModelAndView("redirect:/User/login");
-            modelAndView.addObject("message","ÓÃ»§Ãû»òÃÜÂë´íÎó");
+            modelAndView.addObject("message","ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             return modelAndView;
         }else{
             modelAndView = new ModelAndView("redirect:/User/profile");
@@ -123,7 +123,7 @@ public class UserController {
 
     @RequestMapping(value = "/logout",method = RequestMethod.GET)
     public ModelAndView logout(HttpSession session){
-        ModelAndView modelAndView = new ModelAndView("redirect:/Site/home");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Site/index");
         if(session.getAttribute("userID") != null){
             session.removeAttribute("userID");
         }

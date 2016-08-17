@@ -22,7 +22,7 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">品牌：</label>
     <div class="col-sm-7">
-      <form:input cssClass="form-control" ID="Brand" path="Brand"/>
+      <form:input cssClass="form-control" id="Brand" path="Brand"/>
     </div>
   </div>
 

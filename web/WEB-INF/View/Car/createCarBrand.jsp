@@ -34,7 +34,7 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">品牌：</label>
     <div class="col-sm-7">
-      <form:input cssClass="form-control" ID="Brand" path="brand"/>
+      <form:input cssClass="form-control" id="Brand" path="brand"/>
     </div>
   </div>
 
@@ -55,7 +55,7 @@
     obj = document.getElementById("Garage");
     var index = obj.selectedIndex;
     var garage = obj.options[index].value;
-    // alert(brand + garage);
+    alert(brand + garage);
     $.ajax({
       url: "${pageContext.request.contextPath}/Car/brandExists",
       data:{"brand":brand,"garage":garage},

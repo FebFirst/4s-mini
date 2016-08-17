@@ -18,6 +18,12 @@ public class SiteController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/index",method = RequestMethod.GET)
+    public ModelAndView indexPage(){
+        ModelAndView modelAndView = new ModelAndView("Site/index");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/DataManagement",method = RequestMethod.GET)
     public ModelAndView dataManagementPage(){
         ModelAndView modelAndView = new ModelAndView("Site/DataManagement");

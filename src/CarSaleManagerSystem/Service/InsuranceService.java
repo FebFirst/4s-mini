@@ -102,8 +102,12 @@ public class InsuranceService {
         List<Insurance> result = new ArrayList<>();
 
        for(Insurance insurance : insuranceList){
-           if(insurance.getName().equals(name)){
-               result.add(insurance);
+           if(insurance.getOrderID() == null) {
+               if(insurance.getValid().equals("Y")) {
+                   if (insurance.getName().equals(name)) {
+                       result.add(insurance);
+                   }
+               }
            }
        }
 

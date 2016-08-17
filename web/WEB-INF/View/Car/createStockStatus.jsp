@@ -23,7 +23,7 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">库存状态：</label>
     <div class="col-sm-7">
-      <form:input cssClass="form-control" ID="State" path="State"/>
+      <form:input cssClass="form-control" id="State" path="State"/>
     </div>
   </div>
 

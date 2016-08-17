@@ -120,11 +120,9 @@ public class SaleController {
 
         List<GiftType> giftTypes = giftService.getAllGiftTypes();
 
-
         for(int j = 0; j < giftTypes.size(); j ++){
            map.put(String.valueOf(j), giftTypes.get(j).getType());
         }
-        //System.out.println(ja.toString());
        return map;
     }
 
@@ -144,8 +142,6 @@ public class SaleController {
                 }
             }
         }
-       // System.out.println(map.get("0"));
-        //System.out.println(ja.toString());
         return map;
     }
 
@@ -236,7 +232,6 @@ public class SaleController {
         for(int j = 0; j < insuranceTypes.size(); j ++){
             map.put(String.valueOf(j), insuranceTypes.get(j).getType());
         }
-        //System.out.println(ja.toString());
         return map;
     }
 
@@ -340,7 +335,7 @@ public class SaleController {
 
 
 
-    @RequestMapping(value = "Exists")
+    @RequestMapping(value = "giftExists")
     public @ResponseBody
     Map<String, Object> giftExists(HttpServletRequest request) throws IOException {
         Map<String,Object> map = new HashMap<String,Object>();

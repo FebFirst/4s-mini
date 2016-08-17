@@ -17,9 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -115,9 +113,13 @@ public class OrderController {
             String insurances = request.getParameter("insurances");
 
             Car car = carService.findCarById(carId);
+            car.setValid("N");
+            carService.updateCar(car);
 
             Order order = new Order();
             float price = car.getPrice();
+
+
             order.setOrderID(orderId);
             order.setCarID(carId);
             order.setCustomerID(Integer.valueOf(customer));
@@ -130,6 +132,8 @@ public class OrderController {
             order.setPredicted_pay_time(date);
             order.setFinish_status("N");
             order.setDate(new Date());
+
+
 
             JSONArray JAgifts = new JSONArray();
             JSONArray JAinsurances = new JSONArray();
@@ -169,14 +173,29 @@ public class OrderController {
             for(Insurance insurance: insuranceList){
                 insuranceService.updateInsurance(insurance);
             }
-//            System.out.println(JAgifts.getJSONObject(0).getString("type"));
-//            System.out.println(insurances);
+
 
             return modelAndView;
         }catch(Exception e){
             e.printStackTrace();
             return modelAndView;
         }
+    }
+
+
+    @RequestMapping(value = "/orderExists")
+    public @ResponseBody
+    Map<String, Object> orderExists(HttpServletRequest request) throws IOException {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        String orderId = request.getParameter("orderId");
+
+        if(!orderService.orderExists(orderId)){
+            map.put("message","false");
+        }else {
+            map.put("message","true");
+        }
+        return map;
     }
 
 }

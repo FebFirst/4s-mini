@@ -121,8 +121,12 @@ public class GiftService {
 
         List<Gift> result = new ArrayList<>();
        for(Gift gift:giftList){
-           if(gift.getName().equals(name)){
-               result.add(gift);
+           if(gift.getOrderID() == null) {
+               if (gift.getValid().equals("Y")) {
+                   if (gift.getName().equals(name)) {
+                       result.add(gift);
+                   }
+               }
            }
        }
 

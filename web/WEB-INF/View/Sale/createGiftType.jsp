@@ -22,7 +22,7 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">精品类别：</label>
     <div class="col-sm-7">
-      <form:input cssClass="form-control" ID="type" path="type"/>
+      <form:input cssClass="form-control" id="type" path="type"/>
     </div>
   </div>
 
@@ -37,6 +37,7 @@
   function existsChecking() {
     var obj = document.getElementById("type");
     var type = obj.value;
+    //alert(type);
     $.ajax({
       url: "${pageContext.request.contextPath}/Sale/giftExists",
       data:{"type":type},
@@ -44,7 +45,7 @@
       dataType:'JSON',
       success:function (data) {
         if(data.message == "false"){
-          // alert("haha");
+          //alert("haha");
           var form = document.getElementById("formAddGiftType");
           form.submit();
         }else{

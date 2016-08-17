@@ -45,6 +45,16 @@ public class OrderService {
         return orderDAO.findOrderByCar(carID);
     }
 
+    public boolean orderExists(String orderId){
+         Order order = orderDAO.findOrderById(orderId);
+        if(order == null){
+            return false;
+        }
+//        if(order.getValid().equals("N")){
+//            return false;
+//        }
 
+        return true;
+    }
 
 }

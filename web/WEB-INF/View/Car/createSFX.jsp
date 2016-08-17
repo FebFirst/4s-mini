@@ -17,12 +17,12 @@
 
 
 <body>
-<form:form cssClass="mywrapper form-horizontal" id="formAddGarage" method="post" commandName="SFX" action="${pageContext.request.contextPath}/Car/createSFX">
+<form:form cssClass="mywrapper form-horizontal" id="formAddSfx" method="post" commandName="SFX" action="${pageContext.request.contextPath}/Car/createSFX">
 
   <div class="form-group">
     <label class="col-sm-2 control-label">SFX：</label>
     <div class="col-sm-7">
-      <form:input cssClass="form-control" ID="sfx" path="sfx"/>
+      <form:input cssClass="form-control" id="sfx" path="sfx"/>
     </div>
   </div>
 
@@ -39,7 +39,7 @@
     var obj = document.getElementById("sfx");
     //alert(obj);
     var sfx = obj.value;
-//alert(brand);
+    //alert(sfx);
 
     $.ajax({
       url: "${pageContext.request.contextPath}/Car/sfxExists",

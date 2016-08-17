@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Bootstrap Admin Theme</title>
+  <title>4S管理中心</title>
 
   <!-- Bootstrap Core CSS -->
   <link href="/web_resources/css/bootstrap-3.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -58,7 +58,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.jsp">首页</a>
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/Sale/index">首页</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -258,12 +258,15 @@
           <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-          <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-          </li>
-          <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+          <%--<% if(session.getAttribute("userId") != null) { %>--%>
+         <%--<%= "<li><a href='${pageContext.request.contextPath}/User/profile'><i class='fa fa-user fa-fw'></i> 用户信息</a></li>"%>--%>
+          <%--<%}else{%>--%>
+          <%--<%= "<li><a href='$\{pageContext.request.contextPath\}/User/login'><i class='fa fa-user fa-fw'></i> 登入</a></li>"%>--%>
+          <%--<%}%>--%>
+          <li><a href="#"><i class="fa fa-gear fa-fw"></i> 设置</a>
           </li>
           <li class="divider"></li>
-          <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+          <li><a href="${pageContext.request.contextPath}/User/logout"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
           </li>
         </ul>
         <!-- /.dropdown-user -->
@@ -287,7 +290,7 @@
             <!-- /input-group -->
           </li>
           <li>
-            <a href="index.jsp"><i class="fa fa-dashboard fa-fw"></i> 主页</a>
+            <a href="${pageContext.request.contextPath}/Site/index"><i class="fa fa-dashboard fa-fw"></i> 主页</a>
           </li>
           <li>
             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 用户数据中心<span class="fa arrow"></span></a>
@@ -355,6 +358,14 @@
 
 
               <li>
+                <a href="${pageContext.request.contextPath}/Sale/createInsuranceType">创建保险</a>
+              </li>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/Sale/listInsuranceType">保险列表</a>
+              </li>
+
+              <li>
                 <a href="${pageContext.request.contextPath}/Sale/createInsurance">创建保险</a>
               </li>
 
@@ -363,12 +374,22 @@
               </li>
 
               <li>
-                <a href="${pageContext.request.contextPath}/Sale/createInsurance">创建保险</a>
+                <a href="${pageContext.request.contextPath}/Sale/createAdditionalProductType">创建其他类型</a>
               </li>
 
               <li>
-                <a href="${pageContext.request.contextPath}/Sale/listInsurance">保险列表</a>
+                <a href="${pageContext.request.contextPath}/Sale/listAdditionalProductType">其他类型列表</a>
               </li>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/Sale/createAdditionalProduct">创建其他</a>
+              </li>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/Sale/listAdditionalProduct">其他列表</a>
+              </li>
+
+
             </ul>
             <!-- /.nav-second-level -->
           </li>

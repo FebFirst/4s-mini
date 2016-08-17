@@ -145,6 +145,7 @@ To be implemented 检查重复
     var index = obj.selectedIndex; // 选中索引
 
     var value = obj.options[index].value; // 选中值
+   // alert(divNum + value);
     $.ajax({
       url:"${pageContext.request.contextPath}/Sale/selectGiftName",
       data: {"type":value},
@@ -152,6 +153,7 @@ To be implemented 检查重复
       dataType:'JSON',
       cache:true,
       success:function(data){
+        //alert(JSON.stringify(data));
         var nameHtml = document.getElementById("giftName" + divNum);
         var jsonObj=eval(data);
         nameHtml.innerHTML = "";
@@ -201,6 +203,7 @@ To be implemented 检查重复
     var index = obj.selectedIndex; // 选中索引
 
     var value = obj.options[index].value; // 选中值
+    alert(value);
     $.ajax({
       url:"${pageContext.request.contextPath}/Sale/selectInsuranceName",
       data: {"type":value},
@@ -254,25 +257,24 @@ To be implemented 检查重复
 <script>
   function existsChecking() {
     var orderId = document.getElementById("orderId").value;
-    infoSubmit(orderId);
-    <%--$.ajax({--%>
-      <%--url: "${pageContext.request.contextPath}/Order/orderExists",--%>
-      <%--data:{"orderId":orderId},--%>
-      <%--type: 'POST',--%>
-      <%--dataType:'JSON',--%>
-      <%--success:function (data) {--%>
-        <%--if(data.message == "false"){--%>
-         <%--infoSubmit(orderId);--%>
-        <%--}else{--%>
-          <%--var html = document.getElementById("msg");--%>
-          <%--html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + "此类型已经存在!";--%>
-        <%--}--%>
-      <%--},--%>
-      <%--error:function () {--%>
-        <%--var html = document.getElementById("msg");--%>
-        <%--html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + "此类型已经存在!";--%>
-      <%--}--%>
-    <%--})--%>
+    $.ajax({
+      url: "${pageContext.request.contextPath}/Order/orderExists",
+      data:{"orderId":orderId},
+      type: 'POST',
+      dataType:'JSON',
+      success:function (data) {
+        if(data.message == "false"){
+         infoSubmit(orderId);
+        }else{
+          var html = document.getElementById("msg");
+          html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + "此订单号已经存在!";
+        }
+      },
+      error:function () {
+        var html = document.getElementById("msg");
+        html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + "此订单号已经存在!";
+      }
+    })
   }
 
   function infoSubmit(orderId) {
@@ -285,7 +287,7 @@ To be implemented 检查重复
 
     var obj;
     var index;
-    var type
+    var type;
     var name;
     var info;
 

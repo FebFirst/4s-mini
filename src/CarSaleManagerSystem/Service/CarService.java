@@ -405,11 +405,14 @@ public class CarService {
         Map<Car,Integer> result = new HashMap<>();
         int age;
         for(int i = 0;i < cars.size();i++){
-            age = getCarAge(cars.get(i).getCarID());
-            result.put(cars.get(i),age);
+            if(cars.get(i).getValid().equals("Y")) {
+                age = getCarAge(cars.get(i).getCarID());
+                result.put(cars.get(i), age);
+            }
         }
         return result;
     }
+
 
     public Map<Car,Integer> getCarAgeListByCarType(CarTypeID carTypeID){
         List<Car> cars = findCarByCarType(carTypeID);
