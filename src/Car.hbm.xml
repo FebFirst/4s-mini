@@ -15,6 +15,12 @@
         <property name="payback" column="pay_back" type="java.lang.Float" precision="10" scale="2"/>
         <property name="purchasedTime" column="purchase_time" type="java.util.Date"/>
         <property name="predictedTime" column="predicted_time" type="java.util.Date"/>
+
+        <property name="inGarageTime" column="in_garage_time" type="java.util.Date"/>
+        <property name="outGarageTime" column="out_garage_time" type="java.util.Date"/>
+        <property name="submitTime" column="submit_time" type="java.util.Date"/>
+
+
         <property name="discount" column="discount" type="java.lang.Float" precision="10" scale="2" not-null="false"/>
         <property name="price" column="price" type="java.lang.Float" precision="10" scale="2"/>
         <property name="stockStatus" column="status" type="java.lang.String" length="32"/>

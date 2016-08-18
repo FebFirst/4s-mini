@@ -11,6 +11,15 @@
         <property name="username" not-null="true" column="username" length="32" type="java.lang.String"/>
         <property name="password" not-null="true" column="password" length="128" type="java.lang.String"/>
         <property name="type" not-null="true" column="type" length="64" type="java.lang.String"/>
+        <property name="apartment" column="apartment" length="64" type="java.lang.String"/>
+        <property name="job" column="job" length="64" type="java.lang.String"/>
+        <property name="job_status" column="job_status" length="64" type="java.lang.String"/>
+        <property name="gender" column="gender" length="64" type="java.lang.String"/>
+        <property name="name" column="name" length="64" type="java.lang.String"/>
+        <property name="level" column="level" length="64" type="java.lang.String"/>
+        <property name="cellphone" column="cellphone" length="64" type="java.lang.String"/>
+        <property name="bean" column="bean" length="64" type="java.lang.Integer"/>
+        <property name="birthday" column="birthday" type="java.util.Date"/>
         <property name="valid" column="valid" type="java.lang.String" length="1"/>
         <!--<set name="roleSet" table="user_role">-->
             <!--<key column="user_id"/>-->

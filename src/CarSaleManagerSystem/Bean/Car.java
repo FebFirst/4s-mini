@@ -13,14 +13,41 @@ public class Car {
     private String color;
     private String carNumber;
     private float cost;
-    private Date predictedTime;
-    private Date purchasedTime;
+    private Date predictedTime;//订货
+    private Date purchasedTime;//在途
+    private Date inGarageTime;//在库
+    private Date outGarageTime;//出库
+    private Date submitTime;//交车
     private float price;
     private float discount;
     private String normal;
     private float payback;
     private String stockStatus;
     private String valid;
+
+    public Date getInGarageTime() {
+        return inGarageTime;
+    }
+
+    public void setInGarageTime(Date inGarageTime) {
+        this.inGarageTime = inGarageTime;
+    }
+
+    public Date getOutGarageTime() {
+        return outGarageTime;
+    }
+
+    public void setOutGarageTime(Date outGarageTime) {
+        this.outGarageTime = outGarageTime;
+    }
+
+    public Date getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(Date submitTime) {
+        this.submitTime = submitTime;
+    }
 
     public float getPayback() {
         return payback;

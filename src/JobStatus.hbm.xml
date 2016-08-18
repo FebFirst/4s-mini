@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.JobStatus" table="job_status">
+        <id name="jobStatus" column="job_status" type="java.lang.String" length="64">
+        </id>
+        <property name="valid" column="valid" type="java.lang.String" length="1"/>
+    </class>
+</hibernate-mapping>

@@ -30,17 +30,18 @@
   <div class="form-group">
     <div class="col-sm-2"></div>
     <div class="col-sm-7" id="msg">
-      <input class="btn btn-primary" value="提交" onclick="existsChecking()" readonly="readonly">
+      <input class="btn btn-primary" value="提交" onclick="existsChecking()" readonly="readonly"/>
     </div>
   </div>
 </form:form>
+
 <script>
   function existsChecking() {
     //alert(1111);
     var obj = document.getElementById("Color");
     //alert(obj);
     var color = obj.value;
-//alert(brand);
+    //alert(color);
 
     $.ajax({
       url: "${pageContext.request.contextPath}/Car/colorExists",
@@ -53,7 +54,7 @@
           form.submit();
         }else{
           var html = document.getElementById("msg");
-          html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'> + "此颜色已经存在!";
+          html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + " 此颜色已经存在! ";
         }
       },
       error:function () {
@@ -66,4 +67,5 @@
 <jsp:include page="../Site/footer.jsp"/>
 
 </body>
+
 </html>

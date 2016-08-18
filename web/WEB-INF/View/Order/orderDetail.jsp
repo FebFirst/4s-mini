@@ -14,6 +14,7 @@
 <body>
 <jsp:include page="../Site/header.jsp"/>
 <jsp:include page="../Site/seperator.jsp"/>
+<div class="col-sm-12">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
         <table class="table table-bordered table-responsive">
@@ -23,8 +24,9 @@
                 <th>订单号</th>
                 <th>应收款</th>
                 <th>实收款</th>
-                <%--<th>销售员</th>--%>
+                <th>销售员</th>
                 <th>销售日期</th>
+                <th>预计付款时间</th>
                 <th>备注</th>
             </tr>
             </thead>
@@ -33,13 +35,16 @@
                     <td>${order.orderID}</td>
                     <td>${order.salePrice}</td>
                     <td>${order.actualGetMoney}</td>
-                    <%--<td>${order.salesman.username}</td>--%>
+                    <td>${order.salesmanID}</td>
                     <td>${order.date}</td>
+                    <th>${order.predicted_pay_time}</th>
                     <td>${order.remark}</td>
                 </tr>
             </tbody>
         </table>
     </div>
+</div>
+<div class="col-sm-12">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
         <table class="table table-bordered table-responsive">
@@ -56,6 +61,7 @@
                 <th>成本</th>
                 <th>指导价</th>
                 <th>折扣</th>
+                <th>返利</th>
                 <%--<th>车龄</th>--%>
 
             </tr>
@@ -63,7 +69,7 @@
             <tbody>
             <tr>
                 <td>${car.carID}</td>
-                <td>${car.brand}</td>
+                <td>${car.garage}</td>
                 <td>${car.brand}</td>
                 <td>${car.sfx}</td>
                 <td>${car.color}</td>
@@ -72,45 +78,48 @@
                 <td>${car.cost}</td>
                 <td>${car.price}</td>
                 <td>${car.discount}</td>
+                <th>${car.payback}</th>
                 <%--<td>${car.value}</td>--%>
             </tr>
             </tbody>
         </table>
     </div>
+</div>
 <%--<div class="mywrapper form-group">--%>
-    <%--<div class="col-sm-2"></div>--%>
-    <%--<div class="col-sm-8">--%>
-        <%--<table class="table table-bordered table-responsive">--%>
-            <%--<caption>精品</caption>--%>
-            <%--<thead>--%>
-            <%--<tr>--%>
-                <%--<th>编号</th>--%>
-                <%--<th>名称</th>--%>
-                <%--<th>品牌</th>--%>
-                <%--<th>成本</th>--%>
-                <%--<th>标价</th>--%>
-                <%--<th>折扣</th>--%>
-                <%--<th>应售价</th>--%>
-                <%--<th>实际收款</th>--%>
-            <%--</tr>--%>
-            <%--</thead>--%>
-            <%--<tbody>--%>
-            <%--<c:forEach items="${gifts}" var="gift">--%>
-            <%--<tr>--%>
-                <%--<td>${gift.giftID}</td>--%>
-                <%--<td>${gift.name}</td>--%>
-                <%--<td>${gift.brand}</td>--%>
-                <%--<td>${gift.cost}</td>--%>
-                <%--<td>${gift.default_price}</td>--%>
-                <%--<td>${gift.discount}</td>--%>
-                <%--<td>${gift.selling_price}</td>--%>
-                <%--<td>${gift.actualGetMoney}</td>--%>
-
-            <%--</tr>--%>
-            <%--</c:forEach>--%>
-            <%--</tbody>--%>
-        <%--</table>--%>
-    <%--</div>--%>
+<div>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <table class="table table-bordered table-responsive">
+            <caption>精品</caption>
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>名称</th>
+                <th>品牌</th>
+                <th>成本</th>
+                <th>标价</th>
+                <th>折扣</th>
+                <th>应售价</th>
+                <th>实际收款</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${gifts}" var="gift">
+            <tr>
+                <td>${gift.giftID}</td>
+                <td>${gift.name}</td>
+                <td>${gift.brand}</td>
+                <td>${gift.cost}</td>
+                <td>${gift.default_price}</td>
+                <td>${gift.discount}</td>
+                <td>${gift.selling_price}</td>
+                <td>${gift.actualGetMoney}</td>
+            </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 <%--</div>--%>
 
 <%--<div class="mywrapper form-group">--%>
@@ -145,27 +154,27 @@
         <%--</table>--%>
     <%--</div>--%>
 <%--</div>--%>
-<div class="mywrapper form-group">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-8">
-        <table class="table table-bordered table-responsive">
-            <caption>用户信息</caption>
-            <thead>
-            <tr>
-                <th>姓名</th>
-                <th>手机号</th>
-            </tr>
-            </thead>
-            <tbody>
+<%--<div class="mywrapper form-group">--%>
+    <%--<div class="col-sm-2"></div>--%>
+    <%--<div class="col-sm-8">--%>
+        <%--<table class="table table-bordered table-responsive">--%>
+            <%--<caption>用户信息</caption>--%>
+            <%--<thead>--%>
             <%--<tr>--%>
-                <%--<td>${customer.name}</td>--%>
-                <%--<td>${customer.cellphone}</td>--%>
-
+                <%--<th>姓名</th>--%>
+                <%--<th>手机号</th>--%>
             <%--</tr>--%>
-            </tbody>
-        </table>
-    </div>
-</div>
+            <%--</thead>--%>
+            <%--<tbody>--%>
+            <%--&lt;%&ndash;<tr>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<td>${customer.name}</td>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<td>${customer.cellphone}</td>&ndash;%&gt;--%>
+
+            <%--&lt;%&ndash;</tr>&ndash;%&gt;--%>
+            <%--</tbody>--%>
+        <%--</table>--%>
+    <%--</div>--%>
+<%--</div>--%>
 <jsp:include page="../Site/footer.jsp"/>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <hibernate-configuration>
         <session-factory>
                 <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-                <property name="connection.url">jdbc:mysql://localhost:3306/learning</property>
+                <property name="connection.url">jdbc:mysql://localhost:3306/4s</property>
                 <property name="connection.username">root</property>
                 <property name="connection.password">casual960113</property>
 
@@ -33,5 +33,10 @@
                 <mapping resource="CarType.hbm.xml"/>
                 <mapping resource="AdditionalProduct.hbm.xml"/>
                 <mapping resource="AdditionalProductType.hbm.xml"/>
+                <mapping resource="Job.hbm.xml"/>
+                <mapping resource="Level.hbm.xml"/>
+                <mapping resource="Apartment.hbm.xml"/>
+                <mapping resource="JobStatus.hbm.xml"/>
+                <mapping resource="GiftBrand.hbm.xml"/>
         </session-factory>
 </hibernate-configuration>

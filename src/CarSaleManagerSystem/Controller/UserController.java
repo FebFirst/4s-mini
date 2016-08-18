@@ -1,6 +1,6 @@
 package CarSaleManagerSystem.Controller;
 
-import CarSaleManagerSystem.Bean.User;
+import CarSaleManagerSystem.Bean.*;
 import CarSaleManagerSystem.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,13 +29,24 @@ public class UserController {
     @RequestMapping(value = "/create",method = RequestMethod.GET)
     public ModelAndView createUserPage(){
         ModelAndView modelAndView = new ModelAndView("User/userCreate");
+        List<Job> jobs = userService.getAllJobs();
+        List<Apartment> apartments = userService.getAllApartment();
+        List<Level> levels = userService.getAllLevels();
+        List<JobStatus> jobStatuses = userService.getAllJobStatus();
+        modelAndView.addObject("jobs",jobs);
+        modelAndView.addObject("apartments",apartments);
+        modelAndView.addObject("levels", levels);
+        modelAndView.addObject("jobStatuses", jobStatuses);
         modelAndView.addObject("user",new User());
+
         return modelAndView;
     }
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public ModelAndView createUser(@ModelAttribute User user,HttpSession session,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("redirect:/User/list");
+        System.out.println(user.getApartment() + "HHH");
+        user.setType(user.getJob());
         userService.createUser(user);
         session.setAttribute("userID",user.getUserID());
         session.setAttribute("username",user.getUsername());

@@ -20,10 +20,28 @@ public class Order {
     private Date date;//create time
     private Date predicted_pay_time;
     private Date actual_pay_time;
+    private Date predicted_submit_car_time;
+    private Date actual_submit_car_time;
     private String finish_status; // is finished?
     private String remark;
 //    private String valid;
 
+
+    public Date getPredicted_submit_car_time() {
+        return predicted_submit_car_time;
+    }
+
+    public void setPredicted_submit_car_time(Date predicted_submit_car_time) {
+        this.predicted_submit_car_time = predicted_submit_car_time;
+    }
+
+    public Date getActual_submit_car_time() {
+        return actual_submit_car_time;
+    }
+
+    public void setActual_submit_car_time(Date actual_submit_car_time) {
+        this.actual_submit_car_time = actual_submit_car_time;
+    }
 
     public String getOrderID() {
         return orderID;

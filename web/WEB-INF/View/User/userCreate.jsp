@@ -1,4 +1,3 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: HFQ
@@ -7,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Register</title>
@@ -72,12 +73,67 @@
     </div>
 
     <div class="form-group" align="center">
-      <label class="col-sm-2 control-label">用户类型</label>
+      <label class="col-sm-2 control-label">用户部门</label>
       <div class="col-sm-3">
-        <select class="form-control" name="Type">
-          <option value="Accountant">财务员</option>
-          <option value="Stockman">库管员</option>
-          <option value="Salesman">销售员</option>
+        <select class="form-control" name="apartment">
+          <c:forEach items="${apartments}" var="apartment">
+            <option value="${apartment}">${apartment.apartment}</option>
+          </c:forEach>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" align="center">
+      <label class="col-sm-2 control-label">用户职业</label>
+      <div class="col-sm-3">
+        <select class="form-control" name="job">
+          <c:forEach items="${jobs}" var="job">
+            <option value="${job.job}">${job.job}</option>
+          </c:forEach>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" align="center">
+      <label class="col-sm-2 control-label">level</label>
+      <div class="col-sm-3">
+        <select class="form-control" name="level">
+          <c:forEach items="${levels}" var="level">
+            <option value="${level.level}">${level.level}</option>
+          </c:forEach>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" align="center">
+      <label class="col-sm-2 control-label">jobStatus</label>
+      <div class="col-sm-3">
+        <select class="form-control" name="job_status">
+          <c:forEach items="${jobStatuses}" var="jobStatus">
+            <option value="${jobStatus.jobStatus}">${jobStatus.jobStatus}</option>
+          </c:forEach>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" align="center">
+      <label class="col-sm-2 control-label">职员姓名</label>
+      <div class="col-sm-3">
+        <form:input cssClass="form-control" ID="name" path="name"/>
+      </div>
+    </div>
+    <div class="form-group" align="center">
+      <label class="col-sm-2 control-label">手机号码</label>
+      <div class="col-sm-3">
+        <form:input cssClass="form-control" ID="cellphone" path="cellphone"/>
+      </div>
+    </div>
+    <div class="form-group" align="center">
+      <label class="col-sm-2 control-label">性别</label>
+      <div class="col-sm-3">
+        <select class="form-control" name="gender">
+          <option value="男">男</option>
+          <option value="女">女</option>
         </select>
       </div>
     </div>

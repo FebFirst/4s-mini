@@ -1,5 +1,6 @@
 package CarSaleManagerSystem.Bean;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,10 +13,93 @@ public class User {
     protected String password;
     protected String type;
 
+    protected String apartment;
+    protected String job;
+    protected String level;
+    protected String job_status;
+    protected String cellphone;
+    protected String gender;
+    protected Date birthday;
+    protected int bean;
+    protected String name;
+
     private String valid;
 
 //    protected Set<Role> roleSet = new HashSet<Role>();
 //    protected Set<Order>orderSet = new HashSet<Order>();
+
+
+    public String getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(String apartment) {
+        this.apartment = apartment;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getJob_status() {
+        return job_status;
+    }
+
+    public void setJob_status(String job_status) {
+        this.job_status = job_status;
+    }
+
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public int getBean() {
+        return bean;
+    }
+
+    public void setBean(int bean) {
+        this.bean = bean;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getValid() {
         return valid;

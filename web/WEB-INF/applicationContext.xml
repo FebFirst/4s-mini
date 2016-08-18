@@ -43,6 +43,11 @@
                             <value>CarType.hbm.xml</value>
                             <value>AdditionalProduct.hbm.xml</value>
                             <value>AdditionalProductType.hbm.xml</value>
+                            <value>Job.hbm.xml</value>
+                            <value>JobStatus.hbm.xml</value>
+                            <value>Level.hbm.xml</value>
+                            <value>Apartment.hbm.xml</value>
+                            <value>GiftBrand.hbm.xml</value>
                      </list>
               </property>
               <property name="hibernateProperties">

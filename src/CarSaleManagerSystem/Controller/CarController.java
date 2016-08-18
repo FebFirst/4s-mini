@@ -3,18 +3,18 @@ package CarSaleManagerSystem.Controller;
 import CarSaleManagerSystem.Bean.*;
 import CarSaleManagerSystem.Service.CarService;
 import com.mongodb.util.JSON;
+import net.sf.json.JSONArray;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by HFQ on 2016/8/7.
@@ -66,6 +66,16 @@ public class CarController {
         ModelAndView modelAndView = new ModelAndView("Car/carList");
 
         Map<Car, Integer> carList = carService.getCarAgeList();
+        List<Garage> garages = carService.getAllGarages();
+        List<CarBrand> carBrands = carService.getAllCarBrands();
+        List<CarColor> carColors = carService.getAllColors();
+        List<CarSFX> carSFXes = carService.getAllCarSFX();
+
+        modelAndView.addObject("garages",garages);
+        modelAndView.addObject("brands",carBrands);
+        modelAndView.addObject("colors",carColors);
+        modelAndView.addObject("sfxes",carSFXes);
+
         modelAndView.addObject("cars",carList);
         return modelAndView;
     }
@@ -421,5 +431,52 @@ public class CarController {
     }
 
 
+    @RequestMapping(value = "/select")
+    public @ResponseBody
+    void selectCar(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String garage = request.getParameter("garage");
+        String brand = request.getParameter("brand");
+        String sfx = request.getParameter("sfx");
+        String color = request.getParameter("color");
+
+        List<Car> result = carService.getAllCars();
+
+        if(!garage.equals("empty")){
+            result = carService.CarGarageBrandFilter(result, garage);
+        }
+
+        if(!brand.equals("empty")){
+            result = carService.CarBrandFilter(result, brand);
+        }
+
+        if(!sfx.equals("empty")){
+            result = carService.CarSFXFilter(result, sfx);
+        }
+
+        if(!color.equals("empty")){
+            result = carService.CarColorFilter(result, color);
+        }
+
+        JSONArray ja = JSONArray.fromObject(result);
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(ja.toString());
+        response.getWriter().flush();
+    }
+
+    @RequestMapping(value = "/predict")
+    public @ResponseBody
+    Map<String,Object> predict(HttpServletRequest request) throws IOException{
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        String carId = request.getParameter("carId");
+
+        float loss = carService.carWarning(carId);
+        int leftDay = carService.remainingProfitDay(carId);
+
+        System.out.println(loss + leftDay +" heihei ");
+        map.put("loss",loss);
+        map.put("day",leftDay);
+        return map;
+    }
 
 }

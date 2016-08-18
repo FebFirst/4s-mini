@@ -1,7 +1,7 @@
 package CarSaleManagerSystem.Service;
 
-import CarSaleManagerSystem.Bean.User;
-import CarSaleManagerSystem.DAO.UserDAO;
+import CarSaleManagerSystem.Bean.*;
+import CarSaleManagerSystem.DAO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +16,18 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private JobDAO jobDAO;
+
+    @Autowired
+    private ApartmentDAO apartmentDAO;
+
+    @Autowired
+    private JobStatusDAO jobStatusDAO;
+
+    @Autowired
+    private LeverDAO leverDAO;
 
     public void createUser(User user){
         if(userExist(user.getUserID())){
@@ -66,4 +78,34 @@ public class UserService {
     }
 
 
+    /*
+    * Job Service
+     */
+
+    public List<Job> getAllJobs(){
+        return jobDAO.getAllJobs();
+    }
+
+    /*
+    * JobStatus Service
+     */
+
+    public List<JobStatus> getAllJobStatus(){
+        return jobStatusDAO.getAllJobStatuses();
+    }
+    /*
+    *Apartment Service
+     */
+
+    public List<Apartment> getAllApartment(){
+        return apartmentDAO.getAllApartments();
+    }
+
+    /*
+    *Level service
+     */
+
+    public List<Level> getAllLevels(){
+        return leverDAO.getAllLevels();
+    }
 }

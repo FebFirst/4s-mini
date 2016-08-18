@@ -35,38 +35,19 @@
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">车架号：</label>
-    <div class="col-sm-3">
-      <label class="control-label" id="carId">${car.carID}</label>
-      <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
-    </div>
-    <div class="col-sm-3">
-      <%--<label class="control-label">${car.carID}</label>--%>
-      <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
-      <input class="btn btn-primary" value="车辆详情" onclick="carInfoShow()" readonly="readonly"/>
-    </div>
-  </div>
-<div id="gift">
 
-</div>
-  <div id="insurance">
-
+    <label class="control-label" id="carId">${car.carID}</label>
+    <label  class="col-sm-2 control-label"></label>
+    <input class="btn btn-primary" value="车辆详情" onclick="carInfoShow()" readonly="readonly"/>
+    <input class="btn btn-primary" value="添加精品" onclick="addGift()">
+    <input class="btn btn-primary" value="添加保险" onclick="addInsurance()">
   </div>
-  <div class="form-group">
-    <div class="col-sm-7">
-     <input class="btn btn-primary" value="添加精品" onclick="addGift()">
-      <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
-    </div>
-  </div>
+  <div id="gift"></div>
+  <div id="insurance"></div>
 
 
   <div class="form-group">
-    <div class="col-sm-7">
-      <input class="btn btn-primary" value="添加保险" onclick="addInsurance()">
-      <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
-    </div>
-  </div>
-
-  <div class="form-group">
+    <label class="col-sm-2 control-label">预计付款时间: </label>
     <div class="col-sm-7">
       <input class="form-control" value="" id="predictDate" type="date">
       <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
@@ -91,39 +72,25 @@
                 data-dismiss="modal" aria-hidden="true">
         </button>
         <h4 class="modal-title" id="myModalLabel">
-         选择精品
+         车辆详情
         </h4>
       </div>
       <div class="modal-body">
-        
-        <div class="form-group">
-          <label class="col-sm-2 control-label">厂家：</label>
-          <div class="col-sm-7">
-            <label class="control-label">${car.garage}</label>
-            <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
-          </div>
+
+        <div class="form-group  required"><label class="control-label">厂家：</label>
+          <label class="control-label">${car.garage}</label>
         </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">型号：</label>
-          <div class="col-sm-7">
-            <label class="control-label">${car.brand}</label>
-            <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
-          </div>
+        <div class="form-group  required"> <label class="control-label">型号：</label>
+          <label class="control-label">${car.brand}</label>
         </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">SFX：</label>
-          <div class="col-sm-7">
-            <label class="control-label">${car.sfx}</label>
-            <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
-          </div>
+
+        <div class="form-group  required"> <label class="control-label">SFX：</label>
+          <label class="control-label">${car.sfx}</label>
         </div>
-        <div class="form-group">
-          <label class="col-sm-2 control-label">颜色：</label>
-          <div class="col-sm-7">
-            <label class="control-label">${car.color}</label>
-            <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
-          </div>
+        <div class="form-group  required">  <label class="control-label">颜色：</label>
+          <label class="control-label">${car.color}</label>
         </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default"
@@ -174,9 +141,9 @@ To be implemented 检查重复
             "<div class='form-group'> <label class='col-sm-2 control-label'>精品类别 :</label> " +
             "<div class='col-sm-7'> <select class='form-control'  id='GiftType" + divNum +
             "' onchange='getGiftName(" +divNum +
-            ")'></select> </div> </div>" +  "<div class='form-group'> <label class='col-sm-2 control-label'>精品名称 :</label> " +
+            ")'></select> </div> <input class='btn btn-primary' onclick='removeGiDiv()' value='删除' readonly='readonly'/></div>" +  "<div class='form-group'> <label class='col-sm-2 control-label'>精品名称 :</label> " +
             "<div class='col-sm-7'> <select class='form-control'  id='giftName" + divNum +
-            "'></select> </div> </div>";
+            "'></select> </div><input class='btn btn-primary' onclick='removeGiDiv()' value='删除' readonly='readonly'/> </div>";
     $.ajax({
       url:"${pageContext.request.contextPath}/Sale/getGiftType",
       type:'POST',
@@ -230,9 +197,9 @@ To be implemented 检查重复
             "<div class='form-group'> <label class='col-sm-2 control-label'>保险类别 :</label> " +
             "<div class='col-sm-7'> <select class='form-control'  id='insuranceType" + divNum +
             "' onchange='getInsuranceName(" +divNum +
-            ")'></select> </div> </div>" +  "<div class='form-group'> <label class='col-sm-2 control-label'>保险名称 :</label> " +
+            ")'></select> </div> <input class='btn btn-primary' onclick='removeInDiv()' value='删除' readonly='readonly'/></div>" +  "<div class='form-group'> <label class='col-sm-2 control-label'>保险名称 :</label> " +
             "<div class='col-sm-7'> <select class='form-control'  id='insuranceName" + divNum +
-            "'></select> </div> </div>";
+            "'></select> </div><input class='btn btn-primary' onclick='removeInDiv()' value='删除' readonly='readonly'/> </div>";
     $.ajax({
       url:"${pageContext.request.contextPath}/Sale/getInsuranceType",
       type:'POST',
@@ -251,6 +218,22 @@ To be implemented 检查重复
         alert("error");
       }
     });
+  }
+  
+  function removeInDiv() {
+    var insurance = document.getElementById("insurance");
+    var divs = insurance.getElementsByTagName("div");
+    var divNum = divs.length;
+    divs[divNum-2].remove();
+    divs[divNum-4].remove();
+  }
+
+  function removeGiDiv() {
+    var gift = document.getElementById("gift");
+    var divs = gift.getElementsByTagName("div");
+    var divNum = divs.length;
+    divs[divNum-2].remove();
+    divs[divNum-4].remove();
   }
 </script>
 
@@ -303,7 +286,6 @@ To be implemented 检查重复
       obj = document.getElementById("giftName" + i);
       index = obj.selectedIndex;
       name = obj.options[index].value;
-
       info = {"type": type, "name": name};
       giftsData.push(info);
     }

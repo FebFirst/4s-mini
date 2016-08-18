@@ -15,8 +15,7 @@ public class Gift {
     private String orderID;
     private String giftType;
 //    private CarBrand carBrand = new CarBrand();
-    private String garage;
-    private String brand;
+    private String giftBrand;
     private String valid;
 
     public int getGiftID() {
@@ -91,20 +90,12 @@ public class Gift {
         this.giftType = giftType;
     }
 
-    public String getGarage() {
-        return garage;
+    public String getGiftBrand() {
+        return giftBrand;
     }
 
-    public void setGarage(String garage) {
-        this.garage = garage;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setGiftBrand(String giftBrand) {
+        this.giftBrand = giftBrand;
     }
 
     public String getValid() {
