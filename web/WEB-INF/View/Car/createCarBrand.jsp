@@ -55,7 +55,7 @@
     obj = document.getElementById("Garage");
     var index = obj.selectedIndex;
     var garage = obj.options[index].value;
-    alert(brand + garage);
+
     $.ajax({
       url: "${pageContext.request.contextPath}/Car/brandExists",
       data:{"brand":brand,"garage":garage},
@@ -67,13 +67,13 @@
           form.submit();
         }else{
           var html = document.getElementById("msg");
-          html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + "此车型已经存在!";
+          html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'/>" + "此车型已经存在!";
 
         }
       },
       error:function () {
         var html = document.getElementById("msg");
-        html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + "此车型已经存在!";
+        html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'/>" + "此车型已经存在!";
       }
     })
   }

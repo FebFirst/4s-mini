@@ -16,14 +16,7 @@
         <property name="default_price" column="default_price" type="java.lang.Float" precision="10" scale="2" not-null="true"/>
         <property name="selling_price" column="selling_price" type="java.lang.Float" precision="10" scale="2" not-null="false"/>
         <property name="valid" column="valid" type="java.lang.String" length="1"/>
-        <many-to-one name="order" class="CarSaleManagerSystem.Bean.Order" cascade="none"
-                     outer-join="auto"
-                     update="true"
-                     insert="true"
-                     lazy="false"
-                     column="order_id"
-                     not-null="false"/>
-        <many-to-one name="additionalProductType" class="CarSaleManagerSystem.Bean.AdditionalProductType" outer-join="auto" column="type" update="true" insert="true" not-null="true">
-        </many-to-one>
+        <property name="orderID" column="order_id" type="java.lang.String" length="64"/>
+        <property name="additionalProductType" column="type" type="java.lang.String" length="64"/>
     </class>
 </hibernate-mapping>

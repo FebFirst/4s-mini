@@ -113,4 +113,17 @@ public class InsuranceService {
 
        return result;
     }
+
+    public List<Insurance> findInsuranceByOrderId(String orderID){
+        List<Insurance> insuranceList = getAllInsurance();
+        List<Insurance> result = new ArrayList<>();
+
+        for(Insurance insurance : insuranceList){
+            if(insurance.getOrderID().equals(orderID)){
+                result.add(insurance);
+            }
+        }
+
+        return result;
+    }
 }

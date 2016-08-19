@@ -1,7 +1,9 @@
 package CarSaleManagerSystem.Service;
 
 import CarSaleManagerSystem.Bean.Gift;
+import CarSaleManagerSystem.Bean.GiftBrand;
 import CarSaleManagerSystem.Bean.GiftType;
+import CarSaleManagerSystem.DAO.GiftBrandDAO;
 import CarSaleManagerSystem.DAO.GiftDAO;
 import CarSaleManagerSystem.DAO.GiftTypeDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class GiftService {
 
     @Autowired
     private GiftTypeDAO giftTypeDAO;
+
+    @Autowired
+    private GiftBrandDAO giftBrandDAO;
 
     public void createGift(Gift gift){
         if(giftExist(gift.getGiftID())){
@@ -52,6 +57,7 @@ public class GiftService {
 
     public Gift findGiftById(int giftID){return  giftDAO.findGiftById(giftID);}
 
+
     public void createGiftType(GiftType giftType){
         if(giftTypeExist(giftType.getType())){
             return;
@@ -73,6 +79,30 @@ public class GiftService {
         return giftTypeDAO.getAllGiftTypes();
     }
 
+
+    public void createGiftBrand(GiftBrand giftBrand){
+        if(giftBrandExist(giftBrand.getGiftBrand())){
+            return;
+        }
+        if(giftBrandDAO.findGiftBrandById(giftBrand.getGiftBrand()) != null){
+            giftBrand.setValid("Y");
+            giftBrandDAO.updateGiftBrand(giftBrand);
+            return;
+        }
+        giftBrand.setValid("Y");
+        giftBrandDAO.createGiftBrand(giftBrand);
+    }
+
+    public GiftBrand findGiftBrandById(String brand){
+        return giftBrandDAO.findGiftBrandById(brand);
+    }
+
+    public List<GiftBrand> getAllGiftBrands(){
+        return giftBrandDAO.getAllGiftBrands();
+    }
+
+
+
     public List<Gift> findGiftByOrderId(String orderId){
         List<Gift> gifts = getAllGifts();
         if(gifts == null){
@@ -83,8 +113,10 @@ public class GiftService {
             return gifts;
         }
         for(int i = 0;i < gifts.size();i++){
-            if(gifts.get(i).getOrderID().equals(orderId)){
-                result.add(gifts.get(i));
+            if(gifts.get(i).getOrderID() != null) {
+                if (gifts.get(i).getOrderID().equals(orderId)) {
+                    result.add(gifts.get(i));
+                }
             }
         }
         return result;
@@ -112,6 +144,17 @@ public class GiftService {
         return true;
     }
 
+    public boolean giftBrandExist(String giftBrandId){
+        GiftBrand giftBrand = giftBrandDAO.findGiftBrandById(giftBrandId);
+        if(giftBrand == null){
+            return false;
+        }
+        if(giftBrand.getValid().equals("N")){
+            return false;
+        }
+        return true;
+    }
+
     public List<Gift> findGiftByType(String type){
         return giftDAO.findGiftByType(type);
     }
@@ -132,4 +175,6 @@ public class GiftService {
 
        return result;
     }
+
+
 }

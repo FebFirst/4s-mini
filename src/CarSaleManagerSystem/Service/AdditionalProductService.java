@@ -2,6 +2,7 @@ package CarSaleManagerSystem.Service;
 
 import CarSaleManagerSystem.Bean.AdditionalProduct;
 import CarSaleManagerSystem.Bean.AdditionalProductType;
+import CarSaleManagerSystem.Bean.Order;
 import CarSaleManagerSystem.DAO.AdditionalProductDAO;
 import CarSaleManagerSystem.DAO.AdditionalProductTypeDAO;
 import org.springframework.asm.Label;
@@ -71,6 +72,39 @@ public class AdditionalProductService {
     }
 
 
+    public List<AdditionalProduct> additionalProductTypeFilter(List<AdditionalProduct> additionalProducts, String type){
+
+        if(additionalProducts == null){
+            return null;
+        }
+
+        if(type ==null){
+            return null;
+        }
+        List<AdditionalProduct> result = new ArrayList<>();
+
+        for(AdditionalProduct additionalProduct : additionalProducts){
+            if(additionalProduct.getAdditionalProductType().equals(type)){
+                result.add(additionalProduct);
+            }
+        }
+
+        return result;
+    }
+//    public List<AdditionalProduct> findAdditionalProductByOrder(String orderId){
+//        List<AdditionalProduct> additionalProducts = getAllAdditionalProducts();
+//
+//        List<AdditionalProduct> result = new ArrayList<>();
+//
+//        for(AdditionalProduct additionalProduct : additionalProducts){
+//            if(additionalProduct.getOrderID().equals(orderId)){
+//                result.add(additionalProduct);
+//            }
+//        }
+//
+//        return result;
+//    }
+
 /*
 *additionalProductType Service
  */
@@ -122,7 +156,7 @@ public class AdditionalProductService {
         }
 
         for(AdditionalProduct additionalProduct : additionalProducts){
-            if(additionalProduct.getOrderId().equals(orderId)){
+            if(additionalProduct.getOrderID().equals(orderId)){
                 result.add(additionalProduct);
             }
         }

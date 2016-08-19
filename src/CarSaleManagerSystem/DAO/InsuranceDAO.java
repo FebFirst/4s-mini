@@ -63,5 +63,14 @@ public class InsuranceDAO {
 
         return insuranceList;
     }
+
+    public List<Insurance> findInsuranceByOrderId(String orderId){
+        Session session = this.sessionFactory.getCurrentSession();
+
+        String hql = "from Insurance where orderID = '" + orderId +"'";
+        List<Insurance> insuranceList = session.createQuery(hql).list();
+
+        return insuranceList;
+    }
 }
 

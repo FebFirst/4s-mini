@@ -84,7 +84,7 @@
     </div>
 
     <div class="form-group" align="center">
-      <label class="col-sm-2 control-label">用户职业</label>
+      <label class="col-sm-2 control-label">岗位</label>
       <div class="col-sm-3">
         <select class="form-control" name="job">
           <c:forEach items="${jobs}" var="job">
@@ -95,7 +95,7 @@
     </div>
 
     <div class="form-group" align="center">
-      <label class="col-sm-2 control-label">level</label>
+      <label class="col-sm-2 control-label">级别</label>
       <div class="col-sm-3">
         <select class="form-control" name="level">
           <c:forEach items="${levels}" var="level">
@@ -106,7 +106,7 @@
     </div>
 
     <div class="form-group" align="center">
-      <label class="col-sm-2 control-label">jobStatus</label>
+      <label class="col-sm-2 control-label">在职状态</label>
       <div class="col-sm-3">
         <select class="form-control" name="job_status">
           <c:forEach items="${jobStatuses}" var="jobStatus">

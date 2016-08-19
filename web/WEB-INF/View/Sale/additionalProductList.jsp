@@ -27,11 +27,11 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${additionalProducts}" var="additionalProduct">
+            <c:forEach items="${AdditionalProducts}" var="additionalProduct">
                 <tr>
                     <td>${additionalProduct.additionalProductID}</td>
                     <td>${additionalProduct.name}</td>
-                    <td>${additionalProduct.additionalProductType.type}</td>
+                    <td>${additionalProduct.additionalProductType}</td>
                     <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Sale/deleteAdditionalProduct/${additionalProduct.additionalProductID}'">删除</button></td>
                     <td><button type="button" class="btn btn-primary" onclick="window.location='#'">修改</button></td>
                 </tr>

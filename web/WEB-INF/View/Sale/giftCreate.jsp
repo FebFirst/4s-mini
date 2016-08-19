@@ -42,23 +42,23 @@
         <button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Sale/createGiftType'">添加一个类别</button>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">厂家:</label>
-        <div class="col-sm-7">
-            <select class="form-control" name="Garage" id="Garage" onchange="brandSelect()">
-                <c:forEach items="${carBrands}" var="carBrand">
-                    <option value="${carBrand.garage}">${carBrand.garage}</option>
-                </c:forEach>
-            </select>
-        </div>
-    </div>>
+    <%--<div class="form-group">--%>
+        <%--<label class="col-sm-2 control-label">厂家:</label>--%>
+        <%--<div class="col-sm-7">--%>
+            <%--<select class="form-control" name="Garage" id="Garage" onchange="brandSelect()">--%>
+                <%--<c:forEach items="${carBrands}" var="carBrand">--%>
+                    <%--<option value="${carBrand.garage}">${carBrand.garage}</option>--%>
+                <%--</c:forEach>--%>
+            <%--</select>--%>
+        <%--</div>--%>
+    <%--</div>>--%>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label">车型品牌:</label>
+        <label class="col-sm-2 control-label">品牌:</label>
         <div class="col-sm-7">
-            <select class="form-control" name="Brand" id="Brand">
-                <c:forEach items="${carBrands}" var="carBrand">
-                    <option value="${carBrand.brand}">${carBrand.brand}</option>
+            <select class="form-control" name="GiftBrand" id="GiftBrand">
+                <c:forEach items="${giftBrands}" var="Brand">
+                    <option value="${Brand.giftBrand}">${Brand.giftBrand}</option>
                 </c:forEach>
             </select>
         </div>
@@ -96,32 +96,32 @@
 
 <jsp:include page="../Site/footer.jsp"/>
 <script>
-    $(document).ready(function() {
-        brandSelect();
-    });
+    <%--$(document).ready(function() {--%>
+        <%--brandSelect();--%>
+    <%--});--%>
 
-    function brandSelect() {
+    <%--function brandSelect() {--%>
 
-        var obj = document.getElementById("Garage");
-        var index = obj.selectedIndex; // 选中索引
-        var value = obj.options[index].value; // 选中值
-        $.ajax({
-            url:"${pageContext.request.contextPath}/Car/selectCarBrand",
-            data: {"garage":value},
-            type:'POST',
-            dataType:'JSON',
-            cache:true,
-            success:function(data){
-                //alert(data.size());
-                var brand = document.getElementById("Brand");
-                var jsonObj=eval(data);
-                brand.innerHTML = "";
-                $.each(jsonObj, function (i, item) {
-                    brand.innerHTML = brand.innerHTML + "<option value=" + JSON.stringify(item) + ">" +JSON.stringify(item).substr(1,JSON.stringify(item).length - 2) + "</option>";
-                });
-            }
-        })
-    }
+        <%--var obj = document.getElementById("Garage");--%>
+        <%--var index = obj.selectedIndex; // 选中索引--%>
+        <%--var value = obj.options[index].value; // 选中值--%>
+        <%--$.ajax({--%>
+            <%--url:"${pageContext.request.contextPath}/Car/selectCarBrand",--%>
+            <%--data: {"garage":value},--%>
+            <%--type:'POST',--%>
+            <%--dataType:'JSON',--%>
+            <%--cache:true,--%>
+            <%--success:function(data){--%>
+                <%--//alert(data.size());--%>
+                <%--var brand = document.getElementById("Brand");--%>
+                <%--var jsonObj=eval(data);--%>
+                <%--brand.innerHTML = "";--%>
+                <%--$.each(jsonObj, function (i, item) {--%>
+                    <%--brand.innerHTML = brand.innerHTML + "<option value=" + JSON.stringify(item) + ">" +JSON.stringify(item).substr(1,JSON.stringify(item).length - 2) + "</option>";--%>
+                <%--});--%>
+            <%--}--%>
+        <%--})--%>
+    <%--}--%>
 
 </script>
 

@@ -108,10 +108,10 @@
           <td>${car.key.discount}</td>
           <td>${car.key.payback}</td>
           <td>${car.value}</td>
-          <td><button type="button" class="btn btn-primary" onclick="redirectBuy(${car.key.carID})">购买</button></td>
+          <td><button type="button" class="btn btn-primary" onclick="redirectBuy('${car.key.carID}')">购买</button></td>
           <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/setCost/${car.key.carID}'">设置成本</button></td>
           <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/setStockStatus/${car.key.carID}'">更改库存状态</button></td>
-            <td><button type="button" class="btn btn-primary" onclick="predict(${car.key.carID})">预警明细</button></td>
+          <td><button type="button" class="btn btn-primary" onclick="predict('${car.key.carID}')">预警明细</button></td>
         </tr>
       </c:forEach>
       </tbody>
@@ -204,7 +204,7 @@
         index = sfx.selectedIndex;
         var sValue = sfx.options[index].value;
 
-        index = color.selectedIndex
+        index = color.selectedIndex;
         var cValue = color.options[index].value;
 
         $.ajax({
@@ -238,10 +238,11 @@
                             "<td>" + item.price + "</td>" +
                             "<td>" + item.discount + "</td>" +
                             "<td>" + item.payback + "</td>" +
-                            "<td><button type='button' class='btn btn-primary' onclick= 'redirectBuy("+item.carID +")'>购买</button></td>" +
-                            "<td><button type='button' class='btn btn-primary' onclick= 'redirectCost("+item.carID + ")'>设置成本</button></td>" +
-                            "<td><button type='button' class='btn btn-primary' onclick= 'redirectStock("+item.carID+")'>更改库存状态</button></td>" +
-                            "<td><button type='button' class='btn btn-primary' onclick= 'predict("+item.carID +")'>预警明细</button></td>";
+                            "<td>" + item.age + "</td>" +
+                            "<td><button type='button' class='btn btn-primary' onclick= 'redirectBuy(\'" + item.carID + "\')'>购买</button></td>" +
+                            "<td><button type='button' class='btn btn-primary' onclick= 'redirectCost(\'"+item.carID + "\')'>设置成本</button></td>" +
+                            "<td><button type='button' class='btn btn-primary' onclick= 'redirectStock(\'"+item.carID+"\')'>更改库存状态</button></td>" +
+                            "<td><button type='button' class='btn btn-primary' onclick= 'predict(\'"+item.carID +"\')'>预警明细</button></td>";
 
                     year= 1900;
                     month = 1;

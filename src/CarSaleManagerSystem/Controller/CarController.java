@@ -1,9 +1,10 @@
 package CarSaleManagerSystem.Controller;
 
 import CarSaleManagerSystem.Bean.*;
-import CarSaleManagerSystem.Service.CarService;
+import CarSaleManagerSystem.Service.*;
 import com.mongodb.util.JSON;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,18 @@ import java.util.*;
 public class CarController {
     @Autowired
     private CarService carService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private GiftService giftService;
+
+    @Autowired
+    private InsuranceService insuranceService;
+
+    @Autowired
+    private AdditionalProductService additionalProductService;
 
     private LoginFilter loginFilter = new LoginFilter();
 
@@ -106,15 +119,39 @@ public class CarController {
 
     @RequestMapping(value = "/setStockStatus/{carID}",method = RequestMethod.GET)
     public ModelAndView setStockStatusPage(@PathVariable String carID){
-        ModelAndView modelAndView = new ModelAndView("Car/setStockStatus");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/list");
         Car car = carService.findCarById(carID);
-        if(car != null){
-            modelAndView.addObject("car",car);
-            List<?> statusList = carService.getAllStockStatus();
-            modelAndView.addObject("statusList",statusList);
+        try {
+            final String ON_WAY = new String("在途".getBytes("UTF-8"),"UTF-8");
+            final String IN_GARAGE = new String("在库".getBytes("UTF-8"),"UTF-8");
+            final String OUT_GARAGE = new String("出库".getBytes("UTF-8"),"UTF-8");
+            final String SUBMIT = new String("交车".getBytes("UTF-8"),"UTF-8");
+            
+            if(car != null){
+                if(car.getStockStatus().equals(ON_WAY)){
+                    car.setStockStatus(IN_GARAGE);
+                    car.setInGarageTime(new Date());
+                    carService.updateCar(car);
+                }
+                else if(car.getStockStatus().equals(IN_GARAGE)){
+                    car.setStockStatus(OUT_GARAGE);
+                    car.setOutGarageTime(new Date());
+                    carService.updateCar(car);
+                }
+                else if(car.getStockStatus().equals(OUT_GARAGE)){
+                    car.setStockStatus(SUBMIT);
+                    car.setSubmitTime(new Date());
+                    carService.updateCar(car);
+                }
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            return modelAndView;
         }
         return modelAndView;
     }
+
 
     @RequestMapping(value = "/setStockStatus/{carID}",method = RequestMethod.POST)
     public ModelAndView setCarStockStatus(@PathVariable String carID,@ModelAttribute Car car){
@@ -457,11 +494,21 @@ public class CarController {
             result = carService.CarColorFilter(result, color);
         }
 
-        JSONArray ja = JSONArray.fromObject(result);
+        JSONArray ja = new JSONArray();
+        JSONObject jo = new JSONObject();
+        int age;
+        for(Car car : result){
+            age = carService.getCarAge(car.getCarID());
+            jo = JSONObject.fromObject(car);
+            jo.put("age", age);
+            ja.add(jo);
+        }
+
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(ja.toString());
         response.getWriter().flush();
     }
+
 
     @RequestMapping(value = "/predict")
     public @ResponseBody
@@ -477,6 +524,155 @@ public class CarController {
         map.put("loss",loss);
         map.put("day",leftDay);
         return map;
+    }
+    @RequestMapping(value = "/carSold",method = RequestMethod.GET)
+    public ModelAndView carSoldPage(){
+        ModelAndView modelAndView = new ModelAndView("/Car/carSoldInfo");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/carSoldInfo")
+    public @ResponseBody
+    void soldCarInfo(HttpServletResponse response) throws IOException{
+//        ModelAndView modelAndView = new ModelAndView("/Car/carSoldInfo");
+        List<Car> cars = carService.getAllCars();
+        List<Car> carList = carService.CarStatusFilter(cars,"交车");
+
+        JSONObject jo = new JSONObject();
+        JSONArray ja = new JSONArray();
+
+
+        for(Car car : carList){
+            Order order = orderService.findOrderByCar(car.getCarID());
+
+            List<Gift> gifts = giftService.findGiftByOrderId(order.getOrderID());
+            List<Insurance> insurances = insuranceService.findInsuranceByOrderId(order.getOrderID());
+            List<AdditionalProduct> additionalProducts = additionalProductService.findAdditionalProductByOrderId(order.getOrderID());
+
+            float get = 0;
+            float earn = 0;
+
+            for(Gift gift : gifts){
+                get += gift.getActualGetMoney();
+                earn += (get - gift.getCost());
+            }
+
+            jo.put("giftGet",get);
+            jo.put("giftEarn", earn);
+
+            get = 0;
+            earn = 0;
+
+            for(Insurance insurance : insurances){
+                get += insurance.getActualGetMoney();
+                earn += (get - insurance.getCost());
+            }
+            jo.put("insuranceGet",get);
+            jo.put("insuranceEarn", earn);
+
+            get = 0;
+            earn = 0;
+
+            List<AdditionalProduct> finance = additionalProductService.additionalProductTypeFilter(additionalProducts,"金融");
+
+            for(AdditionalProduct add : finance){
+                get += add.getActualGetMoney();
+                earn += (get - add.getCost());
+            }
+
+            jo.put("financeGet",get);
+            jo.put("financeEarn", earn);
+
+            get = 0;
+            earn = 0;
+
+            List<AdditionalProduct> secondHand = additionalProductService.additionalProductTypeFilter(additionalProducts,"二手车");
+
+            for(AdditionalProduct add : secondHand){
+                get += add.getActualGetMoney();
+                earn += (get - add.getCost());
+            }
+
+            jo.put("secondHandCarGet",get);
+            jo.put("secondHandCarEarn", earn);
+
+            get = 0;
+            earn = 0;
+
+
+            List<AdditionalProduct> service = additionalProductService.additionalProductTypeFilter(additionalProducts,"服务费");
+
+            for(AdditionalProduct add : service){
+                get += add.getActualGetMoney();
+                earn += (get - add.getCost());
+            }
+
+            jo.put("serviceGet",get);
+            jo.put("serviceEarn", earn);
+
+            get = 0;
+            earn = 0;
+
+            List<AdditionalProduct> VIP = additionalProductService.additionalProductTypeFilter(additionalProducts,"VIP");
+
+            for(AdditionalProduct add : VIP){
+                get += add.getActualGetMoney();
+                earn += (get - add.getCost());
+            }
+
+            jo.put("VIPGet",get);
+            jo.put("VIPEarn", earn);
+
+            get = 0;
+            earn = 0;
+
+            List<AdditionalProduct> rent = additionalProductService.additionalProductTypeFilter(additionalProducts,"租赁");
+
+            for(AdditionalProduct add : rent){
+                get += add.getActualGetMoney();
+                earn += (get - add.getCost());
+            }
+
+            jo.put("rentGet",get);
+            jo.put("rentEarn", earn);
+
+            /**水平事业毛利*/
+            float allEarn = carService.additionalProfit(car.getCarID());
+            /**水平事业收入*/
+            float allIncome = carService.additionalIncome(car.getCarID());
+            /**单车利润*/
+            float carEarn = carService.carTotalProfit(car.getCarID());
+            /**变动费用*/
+            float dynamic = carService.carDynamicFee(car.getCarID(),1);
+
+
+            jo.put("peripheralGet",allIncome);
+            jo.put("peripheralEarn",allEarn);
+            jo.put("getMoney", carEarn);
+            jo.put("dynamic",dynamic);
+            System.out.println(dynamic);
+
+            jo.put("carId", car.getCarID());
+            jo.put("brand",car.getBrand());
+            jo.put("sfx",car.getSfx());
+            jo.put("price",car.getPrice());
+            jo.put("discount",car.getDiscount());
+            jo.put("cost",car.getCost());
+            jo.put("carEarn",car.getPrice() - car.getCost());
+            jo.put("payback",car.getPayback());
+
+
+
+            ja.add(jo);
+            jo.clear();
+
+        }
+
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(ja.toString());
+        response.getWriter().flush();
+//        return modelAndView;
     }
 
 }

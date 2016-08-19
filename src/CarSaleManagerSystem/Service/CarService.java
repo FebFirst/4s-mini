@@ -39,6 +39,14 @@ public class CarService {
     @Autowired
     private OrderDAO orderDAO;
 
+    @Autowired
+    private AdditionalProductDAO additionalProductDAO;
+
+    @Autowired
+    private GiftDAO giftDAO;
+
+    @Autowired
+    private InsuranceDAO insuranceDAO;
     public void createCar(Car car) {
         if (carExist(car.getCarID())) {
             return;
@@ -76,9 +84,14 @@ public class CarService {
     }
 
     public void updateCar(Car car) {
+        if(stockStatusDAO.getStockStatusByID(car.getStockStatus()) == null){
+            StockStatus stockStatus = new StockStatus();
+            stockStatus.setState(car.getStockStatus());
+            stockStatus.setValid("Y");
+            stockStatusDAO.createStockStatus(stockStatus);
+        }
         carDAO.updateCar(car);
     }
-
     public Car findCarById(String carID) {
 //        Car car = carDAO.findCarById(carID);
         if (carExist(carID))
@@ -355,6 +368,23 @@ public class CarService {
         return result;
     }
 
+    public List<Car> CarStatusFilter(List<Car> cars, String status) {
+        if (status == null) {
+            return cars;
+        }
+        List<Car> result = new ArrayList<>();
+        if (cars == null) {
+            return null;
+        }
+        for (int i = 0; i < cars.size(); i++) {
+            if (cars.get(i).getStockStatus().equals(status)) {
+                result.add(cars.get(i));
+            }
+        }
+        return result;
+    }
+
+
     public List<Car> CarSFXFilter(List<Car> cars, String SFX) {
         if (SFX == null) {
             return cars;
@@ -576,9 +606,51 @@ public class CarService {
         if (order == null) {
             return 0;
         }
-        return 0;
+
+        List<AdditionalProduct> additionalProducts = additionalProductDAO.findAdditionalProductByOrderId(order.getOrderID());
+        List<Gift> gifts = giftDAO.findGiftByOrderId(order.getOrderID());
+        List<Insurance> insurances = insuranceDAO.findInsuranceByOrderId(order.getOrderID());
+        float total = 0;
+        for(AdditionalProduct additionalProduct : additionalProducts){
+            total += (additionalProduct.getActualGetMoney() - additionalProduct.getCost());
+        }
+
+        for(Gift gift : gifts){
+            total += gift.getActualGetMoney()- gift.getCost();
+        }
+
+        for(Insurance insurance : insurances){
+            total += insurance.getActualGetMoney() - insurance.getCost();
+        }
+
+        return total;
     }
 
+    public float additionalIncome(String carID) {
+        /** to be implemented*/
+        Order order = getOrderByCarID(carID);
+        if (order == null) {
+            return 0;
+        }
+
+        List<AdditionalProduct> additionalProducts = additionalProductDAO.findAdditionalProductByOrderId(order.getOrderID());
+        List<Gift> gifts = giftDAO.findGiftByOrderId(order.getOrderID());
+        List<Insurance> insurances = insuranceDAO.findInsuranceByOrderId(order.getOrderID());
+        float total = 0;
+        for(AdditionalProduct additionalProduct : additionalProducts){
+            total += (additionalProduct.getActualGetMoney());
+        }
+
+        for(Gift gift : gifts){
+            total += gift.getActualGetMoney();
+        }
+
+        for(Insurance insurance : insurances){
+            total += insurance.getActualGetMoney();
+        }
+
+        return total;
+    }
     /**
      * 综合利润公式＝整车毛利+返利+水平事业毛利－可变经营费用
      * 若此车没卖 返回0

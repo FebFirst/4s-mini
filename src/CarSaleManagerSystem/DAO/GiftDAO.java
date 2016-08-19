@@ -64,4 +64,14 @@ public class GiftDAO {
 
         return giftList;
     }
+
+    public List<Gift> findGiftByOrderId(String orderId){
+        Session session = this.sessionFactory.getCurrentSession();
+
+        String hql = "from Gift where orderID = '" + orderId + "'";
+
+        List<Gift> giftList = session.createQuery(hql).list();
+
+        return giftList;
+    }
 }

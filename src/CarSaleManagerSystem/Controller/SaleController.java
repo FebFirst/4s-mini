@@ -32,8 +32,6 @@ public class SaleController {
     private InsuranceService insuranceService;
 
     @Autowired
-    private CarService carService;
-    @Autowired
     private AdditionalProductService additionalProductService;
 
     /*
@@ -42,10 +40,10 @@ public class SaleController {
     @RequestMapping(value = "/createGift", method = RequestMethod.GET)
     public ModelAndView createGiftPage(){
         ModelAndView modelAndView = new ModelAndView("Sale/giftCreate");
-        List<CarBrand> carBrandList = carService.getAllCarBrands();
         List<GiftType> giftTypeList = giftService.getAllGiftTypes();
+        List<GiftBrand> giftBrandList = giftService.getAllGiftBrands();
         modelAndView.addObject("gift", new Gift());
-        modelAndView.addObject("carBrands",carBrandList);
+        modelAndView.addObject("giftBrands",giftBrandList);
         modelAndView.addObject("types",giftTypeList);
         return modelAndView;
     }
@@ -109,6 +107,28 @@ public class SaleController {
         ModelAndView modelAndView = new ModelAndView("Sale/giftTypeList");
         List<?> giftTypeList = giftService.getAllGiftTypes();
         modelAndView.addObject("giftTypes", giftTypeList);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/createGiftBrand",method = RequestMethod.GET)
+    public ModelAndView createGiftBrandPage(){
+        ModelAndView modelAndView = new ModelAndView("Sale/createGiftBrand");
+        modelAndView.addObject("giftBrand",new GiftBrand());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/createGiftBrand",method = RequestMethod.POST)
+    public ModelAndView createGiftBrand(@ModelAttribute GiftBrand giftBrand){
+        ModelAndView modelAndView = new ModelAndView("redirect:/Sale/createGift");
+        giftService.createGiftBrand(giftBrand);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/listGiftBrand", method = RequestMethod.GET)
+    public ModelAndView listGiftBrand(){
+        ModelAndView modelAndView = new ModelAndView("Sale/giftBrandList");
+        List<?> giftBrandList = giftService.getAllGiftBrands();
+        modelAndView.addObject("giftBrands", giftBrandList);
         return modelAndView;
     }
 
@@ -335,25 +355,35 @@ public class SaleController {
 
 
 
-    @RequestMapping(value = "giftExists")
+    @RequestMapping(value = "giftTypeExists")
     public @ResponseBody
-    Map<String, Object> giftExists(HttpServletRequest request) throws IOException {
+    Map<String, Object> giftTypeExists(HttpServletRequest request) throws IOException {
         Map<String,Object> map = new HashMap<String,Object>();
 
         String type = request.getParameter("type");
 
-        // System.out.println(garage + brand + "11111");
-        // System.out.println(garage + brand + "22222");
         if(!giftService.giftTypeExist(type)){
-//            System.out.println("hahaha");
             map.put("message","false");
         }else {
-//            System.out.println("yaoyaoqiekenao");
             map.put("message","true");
         }
         return map;
     }
 
+
+    @RequestMapping(value = "giftBrandExists")
+    public @ResponseBody
+    Map<String, Object> giftBrandExists(HttpServletRequest request) throws IOException {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        String brand = request.getParameter("giftBrand");
+        if(!giftService.giftBrandExist(brand)){
+            map.put("message","false");
+        }else {
+            map.put("message","true");
+        }
+        return map;
+    }
 
     public SaleController() {
     }
@@ -364,14 +394,9 @@ public class SaleController {
         Map<String,Object> map = new HashMap<String,Object>();
 
         String type = request.getParameter("type");
-
-        // System.out.println(garage + brand + "11111");
-        // System.out.println(garage + brand + "22222");
         if(!insuranceService.insuranceTypeExist(type)){
-//            System.out.println("hahaha");
             map.put("message","false");
         }else {
-//            System.out.println("yaoyaoqiekenao");
             map.put("message","true");
         }
         return map;

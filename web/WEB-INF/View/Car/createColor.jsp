@@ -54,12 +54,12 @@
           form.submit();
         }else{
           var html = document.getElementById("msg");
-          html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + " 此颜色已经存在! ";
+          html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'/>" + " 此颜色已经存在! ";
         }
       },
       error:function () {
         var html = document.getElementById("msg");
-        html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'>" + "此颜色已经存在!";
+        html.innerHTML = "<input class='btn btn-primary' value='提交' onclick='existsChecking()' readonly='readonly'/>" + "此颜色已经存在!";
       }
     })
   }

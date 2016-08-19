@@ -55,4 +55,15 @@ public class AdditionalProductDAO {
 
         return additionalProduct;
     }
+
+    public List<AdditionalProduct> findAdditionalProductByOrderId(String orderId){
+        Session session  = this.sessionFactory.getCurrentSession();
+
+        String hql = "from AdditionalProduct where orderID = '" + orderId + "'";
+
+        List<AdditionalProduct> additionalProducts = null;
+
+        additionalProducts = session.createQuery(hql).list();
+        return additionalProducts;
+    }
 }

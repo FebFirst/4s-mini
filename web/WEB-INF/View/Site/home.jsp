@@ -36,6 +36,10 @@
 <a href="${pageContext.request.contextPath}/Sale/createInsuranceType">创建保险类型</a>
 <a href="${pageContext.request.contextPath}/Sale/listInsuranceType">保险类型列表</a>
 
+<a href="${pageContext.request.contextPath}/Sale/createAdditionalProductType">创建其他水平事业类型</a>
+<a href="${pageContext.request.contextPath}/Sale/createAdditionalProduct">创建其他水平事业</a>
+<a href="${pageContext.request.contextPath}/Sale/listAdditionalProduct">其他水平事业列表</a>
+
 <a href="${pageContext.request.contextPath}/User/login">登录</a>
 </body>
 </html>

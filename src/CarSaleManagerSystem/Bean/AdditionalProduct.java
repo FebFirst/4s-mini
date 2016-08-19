@@ -12,9 +12,8 @@ public class AdditionalProduct {
     private float discount;
     private float actualGetMoney;
     private String valid;
-    private Order order;
-    private String orderId;
-    private AdditionalProductType additionalProductType = new AdditionalProductType();
+    private String orderID;
+    private String additionalProductType;// = new AdditionalProductType();
 
     public String getValid() {
         return valid;
@@ -80,35 +79,20 @@ public class AdditionalProduct {
         this.actualGetMoney = actualGetMoney;
     }
 
-    public Order getOrder() {
-        return order;
+    public String getOrderID() {
+        return orderID;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
     }
 
-    public AdditionalProductType getAdditionalProductType() {
+    public String getAdditionalProductType() {
         return additionalProductType;
     }
 
-    public void setAdditionalProductType(AdditionalProductType additionalProductType) {
+    public void setAdditionalProductType(String additionalProductType) {
         this.additionalProductType = additionalProductType;
     }
 
-    public String getType() {
-        return additionalProductType.getType();
-    }
-
-    public void setType(String type) {
-        this.additionalProductType.setType(type);
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
 }
