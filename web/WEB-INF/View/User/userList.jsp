@@ -22,8 +22,15 @@
       <tr>
         <th>ID</th>
         <th>用户名</th>
-        <th>职位</th>
-        <th colspan=2>Action</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>部门</th>
+        <th>岗位</th>
+        <th>级别</th>
+        <th>在职状态</th>
+        <th>联系方式</th>
+        <th>攒豆数</th>
+        <th colspan=2>操作</th>
       </tr>
       </thead>
       <tbody>
@@ -31,7 +38,14 @@
         <tr>
           <td>${user.userID}</td>
           <td>${user.username}</td>
+          <td>${user.name}</td>
+          <td>${user.gender}</td>
+          <td>${user.apartment}</td>
           <td>${user.job}</td>
+          <td>${user.level}</td>
+          <td>${user.job_status}</td>
+          <td>${user.cellphone}</td>
+          <td>${user.bean}</td>
           <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/User/delete/${user.userID}'">删除用户</button></td>
           <td><button type="button" class="btn btn-primary" onclick="window.location='#'">权限管理</button></td>
         </tr>

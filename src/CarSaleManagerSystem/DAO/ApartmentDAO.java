@@ -17,7 +17,7 @@ public class ApartmentDAO{
     @Autowired
     private  SessionFactory sessionFactory;
 
-    public void createApartement(Apartment apartment){
+    public void createApartment(Apartment apartment){
         Session session = this.sessionFactory.getCurrentSession();
 
         session.save(apartment);

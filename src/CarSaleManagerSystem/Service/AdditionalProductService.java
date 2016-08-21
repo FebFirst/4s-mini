@@ -5,6 +5,8 @@ import CarSaleManagerSystem.Bean.AdditionalProductType;
 import CarSaleManagerSystem.Bean.Order;
 import CarSaleManagerSystem.DAO.AdditionalProductDAO;
 import CarSaleManagerSystem.DAO.AdditionalProductTypeDAO;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.asm.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -163,4 +165,18 @@ public class AdditionalProductService {
 
         return result;
     }
+
+    public void updateAdditionalProductByJSON(String data){
+        if(data == null){
+            return;
+        }
+        JSONArray ja = JSONArray.fromObject(data);
+        JSONObject jo = ja.getJSONObject(0);
+        int Id = Integer.valueOf(jo.getString("key"));
+
+        AdditionalProduct additionalProduct = additionalProductDAO.findAdditionalProductById(Id);
+        additionalProduct.setActualGetMoney(Float.parseFloat(jo.getString("value")));
+        additionalProductDAO.updateAdditionalProduct(additionalProduct);
+    }
+
 }

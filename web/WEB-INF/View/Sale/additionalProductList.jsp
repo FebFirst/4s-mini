@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>精品列表</title>
+    <title>其他水平事业列表</title>
 </head>
 <body>
 <jsp:include page="../Site/header.jsp"/>

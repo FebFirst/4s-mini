@@ -18,6 +18,8 @@
   <a href="${pageContext.request.contextPath}/Sale/createInsurance">创建保险</a>
   <a href="${pageContext.request.contextPath}/Sale/listInsurance">保险列表</a>
 
+  <br>
+
   <a href="${pageContext.request.contextPath}/Sale/createGiftType">创建精品类型</a>
   <a href="${pageContext.request.contextPath}/Sale/listGiftType">精品类型列表</a>
   <a href="${pageContext.request.contextPath}/Car/createGarage">创建厂家品牌</a>
@@ -26,5 +28,17 @@
   <a href="${pageContext.request.contextPath}/Car/createSFX">创建SFX</a>
   <a href="${pageContext.request.contextPath}/Sale/createInsuranceType">创建保险类型</a>
   <a href="${pageContext.request.contextPath}/Sale/listInsuranceType">保险类型列表</a>
+
+  <br>
+    <a href="${pageContext.request.contextPath}/User/createApartment">创建部门</a>
+    <a href="${pageContext.request.contextPath}/User/listApartment">部门列表</a>
+    <a href="${pageContext.request.contextPath}/User/createJob">创建部门</a>
+    <a href="${pageContext.request.contextPath}/User/listJob">部门列表</a>
+    <a href="${pageContext.request.contextPath}/User/createJobStatus">创建岗位</a>
+    <a href="${pageContext.request.contextPath}/User/listJobStatus">岗位列表</a>
+    <a href="${pageContext.request.contextPath}/User/createLevel">创建在职状态</a>
+    <a href="${pageContext.request.contextPath}/User/listLevel">在职状态列表</a>
+
+
 </body>
 </html>

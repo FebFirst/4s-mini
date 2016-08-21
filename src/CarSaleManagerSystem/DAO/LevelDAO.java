@@ -12,7 +12,7 @@ import java.util.List;
  * Created by googo on 16/8/18.
  */
 @Repository
-public class LeverDAO {
+public class LevelDAO {
     @Autowired
     private SessionFactory sessionFactory;
 

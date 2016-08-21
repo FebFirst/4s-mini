@@ -4,15 +4,15 @@ import CarSaleManagerSystem.Bean.*;
 import CarSaleManagerSystem.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by HFQ on 2016/8/5.
@@ -110,7 +110,7 @@ public class UserController {
         int userID = userService.login(user);
         if(userID < 0) {
             modelAndView = new ModelAndView("redirect:/User/login");
-            modelAndView.addObject("message","�û������������");
+            modelAndView.addObject("message","用户名或密码错误");
             return modelAndView;
         }else{
             modelAndView = new ModelAndView("redirect:/User/profile");
@@ -148,4 +148,158 @@ public class UserController {
         }
         return modelAndView;
     }
+
+    @RequestMapping(value = "/createApartment",method = RequestMethod.GET)
+    public ModelAndView createApartmentPage(){
+        ModelAndView modelAndView = new ModelAndView("User/createApartment");
+        modelAndView.addObject("apartment",new Apartment());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/createApartment",method = RequestMethod.POST)
+    public ModelAndView createApartment(@ModelAttribute Apartment apartment){
+        ModelAndView modelAndView = new ModelAndView("redirect:/User/listApartment");
+        userService.createApartment(apartment);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/listApartment",method = RequestMethod.GET)
+    public ModelAndView listApartment(){
+        ModelAndView modelAndView = new ModelAndView("User/apartmentList");
+        modelAndView.addObject("apartments",userService.getAllApartment());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/apartmentExists")
+    public @ResponseBody
+    Map<String, Object> apartmentExists(HttpServletRequest request) throws IOException {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        String apartment = request.getParameter("apartment");
+
+        if(!userService.apartmentExist(apartment)){
+
+            map.put("message","false");
+        }else {
+
+            map.put("message","true");
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/createJob",method = RequestMethod.GET)
+    public ModelAndView createJobPage(){
+        ModelAndView modelAndView = new ModelAndView("User/createJob");
+        modelAndView.addObject("job",new Job());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/createJob",method = RequestMethod.POST)
+    public ModelAndView createJob(@ModelAttribute Job job){
+        ModelAndView modelAndView = new ModelAndView("redirect:/User/listJob");
+        userService.createJob(job);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/listJob",method = RequestMethod.GET)
+    public ModelAndView listJob(){
+        ModelAndView modelAndView = new ModelAndView("User/jobList");
+        modelAndView.addObject("jobs",userService.getAllJobs());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/jobExists")
+    public @ResponseBody
+    Map<String, Object> jobExists(HttpServletRequest request) throws IOException {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        String job = request.getParameter("job");
+
+        if(!userService.jobExist(job)){
+
+            map.put("message","false");
+        }else {
+
+            map.put("message","true");
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/createJobStatus",method = RequestMethod.GET)
+    public ModelAndView createJobStatusPage(){
+        ModelAndView modelAndView = new ModelAndView("User/createJobStatus");
+        modelAndView.addObject("jobStatus",new JobStatus());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/createJobStatus",method = RequestMethod.POST)
+    public ModelAndView createJobStatus(@ModelAttribute JobStatus jobStatus){
+        ModelAndView modelAndView = new ModelAndView("redirect:/User/listJobStatus");
+        userService.createJobStatus(jobStatus);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/listJobStatus",method = RequestMethod.GET)
+    public ModelAndView listJobStatus(){
+        ModelAndView modelAndView = new ModelAndView("User/jobStatusList");
+        modelAndView.addObject("jobStatuss",userService.getAllJobStatus());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/jobStatusExists")
+    public @ResponseBody
+    Map<String, Object> jobStatusExists(HttpServletRequest request) throws IOException {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        String jobStatus = request.getParameter("jobStatus");
+
+        if(!userService.jobStatusExist(jobStatus)){
+
+            map.put("message","false");
+        }else {
+
+            map.put("message","true");
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/createLevel",method = RequestMethod.GET)
+    public ModelAndView createLevelPage(){
+        ModelAndView modelAndView = new ModelAndView("User/createLevel");
+        modelAndView.addObject("level",new Level());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/createLevel",method = RequestMethod.POST)
+    public ModelAndView createLevel(@ModelAttribute Level level){
+        ModelAndView modelAndView = new ModelAndView("redirect:/User/listLevel");
+        userService.createLevel(level);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/listLevel",method = RequestMethod.GET)
+    public ModelAndView listLevel(){
+        ModelAndView modelAndView = new ModelAndView("User/levelList");
+        modelAndView.addObject("levels",userService.getAllLevels());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/levelExists")
+    public @ResponseBody
+    Map<String, Object> levelExists(HttpServletRequest request) throws IOException {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        String level = request.getParameter("level");
+
+        if(!userService.levelExist(level)){
+
+            map.put("message","false");
+        }else {
+
+            map.put("message","true");
+        }
+        return map;
+    }
+
+
 }

@@ -27,7 +27,7 @@ public class UserService {
     private JobStatusDAO jobStatusDAO;
 
     @Autowired
-    private LeverDAO leverDAO;
+    private LevelDAO levelDAO;
 
     public void createUser(User user){
         if(userExist(user.getUserID())){
@@ -68,6 +68,7 @@ public class UserService {
         }
         return true;
     }
+
     public int login(User user){
         User usr = userDAO.findUserByUsername(user.getUsername());
         if(user.getUsername().equals(usr.getUsername()) && user.getPassword().equals(usr.getPassword()))
@@ -77,35 +78,115 @@ public class UserService {
         return -1;
     }
 
-
-    /*
-    * Job Service
-     */
+    public void createJob(Job job){
+        if(jobExist(job.getJob())){
+            return;
+        }
+        if(jobDAO.findJobById(job.getJob()) != null){
+            job.setValid("Y");
+            jobDAO.updateJob(job);
+            return;
+        }
+        job.setValid("Y");
+        jobDAO.createJob(job);
+    }
 
     public List<Job> getAllJobs(){
         return jobDAO.getAllJobs();
     }
 
-    /*
-    * JobStatus Service
-     */
+    public boolean jobExist(String jobID){
+        Job job = jobDAO.findJobById(jobID);
+        if(job == null){
+            return false;
+        }
+        if(job.getValid().equals("N")){
+            return false;
+        }
+        return true;
+    }
+
+    public void createJobStatus(JobStatus jobStatus){
+        if(jobStatusExist(jobStatus.getJobStatus())){
+            return;
+        }
+        if(jobStatusDAO.findJobStatusById(jobStatus.getJobStatus()) != null){
+            jobStatus.setValid("Y");
+            jobStatusDAO.updateJobStatus(jobStatus);
+            return;
+        }
+        jobStatus.setValid("Y");
+        jobStatusDAO.createJobStatus(jobStatus);
+    }
+
+    public boolean jobStatusExist(String jobStatusID){
+        JobStatus jobStatus = jobStatusDAO.findJobStatusById(jobStatusID);
+        if(jobStatus == null){
+            return false;
+        }
+        if(jobStatus.getValid().equals("N")){
+            return false;
+        }
+        return true;
+    }
 
     public List<JobStatus> getAllJobStatus(){
         return jobStatusDAO.getAllJobStatuses();
     }
-    /*
-    *Apartment Service
-     */
+
+    public void createApartment(Apartment apartment){
+        if(apartmentExist(apartment.getApartment())){
+            return;
+        }
+        if(apartmentDAO.findApartmentById(apartment.getApartment()) != null){
+            apartment.setValid("Y");
+            apartmentDAO.updateApartment(apartment);
+            return;
+        }
+        apartment.setValid("Y");
+        apartmentDAO.createApartment(apartment);
+    }
+
+    public boolean apartmentExist(String apartmentID){
+        Apartment apartment = apartmentDAO.findApartmentById(apartmentID);
+        if(apartment == null){
+            return false;
+        }
+        if(apartment.getValid().equals("N")){
+            return false;
+        }
+        return true;
+    }
 
     public List<Apartment> getAllApartment(){
         return apartmentDAO.getAllApartments();
     }
 
-    /*
-    *Level service
-     */
+    public void createLevel(Level level){
+        if(levelExist(level.getLevel())){
+            return;
+        }
+        if(levelDAO.findLevelById(level.getLevel()) != null){
+            level.setValid("Y");
+            levelDAO.updateLevel(level);
+            return;
+        }
+        level.setValid("Y");
+        levelDAO.createLevel(level);
+    }
+
+    public boolean levelExist(String levelID){
+        Level level = levelDAO.findLevelById(levelID);
+        if(level == null){
+            return false;
+        }
+        if(level.getValid().equals("N")){
+            return false;
+        }
+        return true;
+    }
 
     public List<Level> getAllLevels(){
-        return leverDAO.getAllLevels();
+        return levelDAO.getAllLevels();
     }
 }
