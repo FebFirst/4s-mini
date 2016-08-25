@@ -13,17 +13,51 @@ public class Car {
     private String color;
     private String carNumber;
     private float cost;
-    private Date predictedTime;//¶©»õ
-    private Date purchasedTime;//ÔÚÍ¾
-    private Date inGarageTime;//ÔÚ¿â
-    private Date outGarageTime;//³ö¿â
-    private Date submitTime;//½»³µ
+    private Date predictedTime;//ï¿½ï¿½ï¿½ï¿½
+    private Date purchasedTime;//ï¿½ï¿½Í¾
+    private Date inGarageTime;//ï¿½Ú¿ï¿½
+    private Date outGarageTime;//ï¿½ï¿½ï¿½ï¿½
+    private Date submitTime;//ï¿½ï¿½ï¿½ï¿½
     private float price;
     private float discount;
     private String normal;
     private float payback;
     private String stockStatus;
     private String valid;
+    private int planID;
+
+    public Car(Car car){
+        this.carID = car.carID;
+        this.garage = car.garage;
+        this.brand = car.brand;
+        this.sfx = car.sfx;
+        this.color = car.color;
+        this.carNumber = car.carNumber;
+        this.cost = car.cost;
+        this.predictedTime = car.predictedTime;
+        this.purchasedTime = car.purchasedTime;
+        this.inGarageTime = car.inGarageTime;
+        this.outGarageTime = car.outGarageTime;
+        this.submitTime = car.submitTime;
+        this.price = car.price;
+        this.discount = car.discount;
+        this.normal = car.normal;
+        this.payback = car.payback;
+        this.stockStatus = car.stockStatus;
+        this.valid = car.valid;
+        this.planID = car.planID;
+    }
+
+    public Car() {
+    }
+
+    public int getPlanID() {
+        return planID;
+    }
+
+    public void setPlanID(int planID) {
+        this.planID = planID;
+    }
 
     public Date getInGarageTime() {
         return inGarageTime;

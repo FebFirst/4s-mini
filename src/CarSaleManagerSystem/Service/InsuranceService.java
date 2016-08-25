@@ -4,6 +4,8 @@ import CarSaleManagerSystem.Bean.Insurance;
 import CarSaleManagerSystem.Bean.InsuranceType;
 import CarSaleManagerSystem.DAO.InsuranceDAO;
 import CarSaleManagerSystem.DAO.InsuranceTypeDAO;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -125,5 +127,35 @@ public class InsuranceService {
         }
 
         return result;
+    }
+
+
+    public void updateInsurancesByJSONOrderCreateHelper(String insuranceList, String orderId){
+        JSONArray JAInsurances = new JSONArray();
+        JAInsurances = JSONArray.fromObject(insuranceList);
+
+        for (int i = 0; i < JAInsurances.size(); i++) {
+            JSONObject jo = JAInsurances.getJSONObject(i);
+            String type = jo.getString("type");
+            String name = jo.getString("name");
+            Insurance insurance = insuranceTypeNameFilter(type, name).get(0);
+            insurance.setOrderID(orderId);
+            insurance.setValid("N");
+            insuranceDAO.updateInsurance(insurance);
+        }
+    }
+
+    public void updateInsuranceByJSONWaitressHelper(String insuranceList){
+        JSONArray ja;
+        JSONObject jo;
+        ja = JSONArray.fromObject(insuranceList);
+        for(int i = 0; i < ja.size(); i ++){
+            jo = ja.getJSONObject(i);
+            int insuranceId = Integer.valueOf(jo.getString("insuranceId"));
+            Insurance insurance = insuranceDAO.findInsuranceById(insuranceId);
+            insurance.setActualGetMoney(Float.parseFloat(jo.getString("money")));
+            insuranceDAO.updateInsurance(insurance);
+
+        }
     }
 }

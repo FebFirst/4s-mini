@@ -123,7 +123,6 @@
         if(secondCar == ""){
             secondCar = 0;
         }
-       // alert(secondCar);
         var data = {"orderId":orderId,"carId":carId,"actualGetMoney":actualGetMoney,"secondCar":secondCar};
         var url = "${pageContext.request.contextPath}/Order/orderSaleImpl";
 

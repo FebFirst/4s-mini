@@ -7,6 +7,7 @@
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <title>添加订单</title>
@@ -28,9 +29,11 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">顾客姓名：</label>
     <div class="col-sm-7">
-      <input id="customer" class="form-control">
-      <%--<label class="control-label">${car.garage}</label>--%>
-      <%--<form:input cssClass="form-control" ID="orderId" path="orderId"/>--%>
+      <select class="form-control" id="customer">
+        <c:forEach items="${customers}" var="customer">
+          <option value="${customer.customerID}">${customer.name}</option>
+        </c:forEach>
+    </select>
     </div>
   </div>
   <div class="form-group">
@@ -261,28 +264,28 @@ To be implemented 检查重复
   }
 
   function infoSubmit(orderId) {
-    var carId = document.getElementById("carId").innerHTML;
-    var customer = document.getElementById("customer").value;
-    var predictDate = document.getElementById("predictDate").value;
-
-    var giftDivNum = document.getElementById("gift").getElementsByTagName("div").length/4;
-    var insuranceDivNum = document.getElementById("insurance").getElementsByTagName("div").length/4;
-
     var obj;
     var index;
     var type;
     var name;
     var info;
 
+    var carId = document.getElementById("carId").innerHTML;
+    var customer = document.getElementById("customer");
+    index = customer.selectedIndex;
+    customer = customer.options[index].value;
+    var predictDate = document.getElementById("predictDate").value;
+
+    var giftDivNum = document.getElementById("gift").getElementsByTagName("div").length/4;
+    var insuranceDivNum = document.getElementById("insurance").getElementsByTagName("div").length/4;
+
+
     var giftsData = [];
     for(var i = 1; i <= giftDivNum; i ++){
 
       obj = document.getElementById("GiftType" + i);
       index = obj.selectedIndex; // 选中索引
-
       type = obj.options[index].value; // 选中值
-
-
       obj = document.getElementById("giftName" + i);
       index = obj.selectedIndex;
       name = obj.options[index].value;

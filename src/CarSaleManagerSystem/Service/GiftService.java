@@ -6,6 +6,8 @@ import CarSaleManagerSystem.Bean.GiftType;
 import CarSaleManagerSystem.DAO.GiftBrandDAO;
 import CarSaleManagerSystem.DAO.GiftDAO;
 import CarSaleManagerSystem.DAO.GiftTypeDAO;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -176,5 +178,33 @@ public class GiftService {
        return result;
     }
 
+
+    public void updateGiftListByJSONOrderCreateHelper(String giftList, String orderId){
+        JSONArray JAgifts = new JSONArray();
+        JAgifts = JSONArray.fromObject(giftList);
+
+        for (int i = 0; i < JAgifts.size(); i++) {
+            JSONObject jo = JAgifts.getJSONObject(i);
+            String type = jo.getString("type");
+            String name = jo.getString("name");
+            Gift gift = giftTypeNameFilter(type, name).get(0);
+            gift.setOrderID(orderId);
+            gift.setValid("N");
+            giftDAO.updateGift(gift);
+        }
+    }
+
+    public void updateGiftListByJSONWaitressHelper(String giftList){
+        JSONArray ja;
+        JSONObject jo;
+        ja = JSONArray.fromObject(giftList);
+        for(int i = 0; i < ja.size(); i ++){
+            jo = ja.getJSONObject(i);
+            int giftId = Integer.valueOf(jo.getString("giftId"));
+            Gift gift = giftDAO.findGiftById(giftId);
+            gift.setActualGetMoney(Float.parseFloat(jo.getString("money")));
+            giftDAO.updateGift(gift);
+        }
+    }
 
 }

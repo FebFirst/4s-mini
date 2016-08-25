@@ -40,6 +40,10 @@ public class OrderController {
     @Autowired
     private  AdditionalProductService additionalProductService;
 
+    @Autowired
+    private CustomerService customerService;
+
+
     @RequestMapping(value = "/detail/{carID}", method = RequestMethod.GET)
     public ModelAndView orderDetailPage(@PathVariable String carID){
         ModelAndView modelAndView = new ModelAndView("Order/orderDetail");
@@ -64,24 +68,26 @@ public class OrderController {
 //        return modelAndView;
 //    }
 
-    @RequestMapping(value = "/detail/{carID}", method = RequestMethod.POST)
-    public void listOrder(@PathVariable String carID, HttpServletResponse response){
-       // JSONObject orderInfo = budgetService.getOrderInfo(carID);
-//
-//        PrintWriter printWriter;
-//        try {
-//            printWriter = response.getWriter();
-//            printWriter.write(orderInfo.toString());
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
-    }
+//    @RequestMapping(value = "/detail/{carID}", method = RequestMethod.POST)
+//    public void listOrder(@PathVariable String carID, HttpServletResponse response){
+//       // JSONObject orderInfo = budgetService.getOrderInfo(carID);
+////
+////        PrintWriter printWriter;
+////        try {
+////            printWriter = response.getWriter();
+////            printWriter.write(orderInfo.toString());
+////        }catch (IOException e){
+////            e.printStackTrace();
+////        }
+//    }
 
     @RequestMapping(value = "/addCarToOrder/{carID}",method = RequestMethod.GET)
     public ModelAndView addCarToOrderPage(@PathVariable String carID){
         ModelAndView modelAndView = new ModelAndView("Order/addCarToOrderPage");
         Car car = carService.findCarById(carID);
+        List<Customer> customerList = customerService.getAllCustomer();
         modelAndView.addObject("car",car);
+        modelAndView.addObject("customers",customerList);
         modelAndView.addObject("order",new Order());
         return modelAndView;
     }
@@ -96,28 +102,25 @@ public class OrderController {
 
 
     @RequestMapping(value = "/createOrder",method = RequestMethod.POST)
-    public ModelAndView carListByCarType(HttpServletRequest request, HttpSession session) {
-        ModelAndView modelAndView = new ModelAndView("Order/orderDetail");
+    public ModelAndView createOrder(HttpServletRequest request, HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView("redirect: /Car/carSoldInfo");
         try {
             String orderId = request.getParameter("orderId");
             String carId = request.getParameter("carId");
-            String customer = request.getParameter("customer");
+            String customerID = request.getParameter("customer");
             String predictDate = request.getParameter("predictDate");
             String gifts = request.getParameter("gifts");
             String insurances = request.getParameter("insurances");
+
 
             Car car = carService.findCarById(carId);
             car.setValid("N");
             carService.updateCar(car);
 
             Order order = new Order();
-            float price = car.getPrice();
-
-
             order.setOrderID(orderId);
             order.setCarID(carId);
-            order.setCustomerID(Integer.valueOf(customer));
-            //int userId = (Integer)session.getAttribute("userId");
+            order.setCustomerID(Integer.valueOf(customerID));
             if (session.getAttribute("userId") != null) {
                 order.setSalesmanID((Integer) session.getAttribute("userId"));
             }
@@ -126,47 +129,11 @@ public class OrderController {
             order.setPredicted_pay_time(date);
             order.setFinish_status("N");
             order.setDate(new Date());
-
-
-
-            JSONArray JAgifts = new JSONArray();
-            JSONArray JAinsurances = new JSONArray();
-            List<Gift> giftList = new ArrayList<>();
-            List<Insurance> insuranceList = new ArrayList<>();
-
-            JAgifts = JSONArray.fromObject(gifts);
-            JAinsurances = JSONArray.fromObject(insurances);
-
-            for (int i = 0; i < JAgifts.size(); i++) {
-                JSONObject jo = JAgifts.getJSONObject(i);
-                String type = jo.getString("type");
-                String name = jo.getString("name");
-                Gift gift = giftService.giftTypeNameFilter(type, name).get(0);
-                gift.setOrderID(orderId);
-                price += gift.getDefault_price();
-                giftList.add(gift);
-            }
-
-            for (int i = 0; i < JAinsurances.size(); i++) {
-                JSONObject jo = JAinsurances.getJSONObject(i);
-                String type = jo.getString("type");
-                String name = jo.getString("name");
-                Insurance insurance = insuranceService.insuranceTypeNameFilter(type, name).get(0);
-                insurance.setOrderID(orderId);
-                price += insurance.getDefault_price();
-                insuranceList.add(insurance);
-            }
-
-            order.setSalePrice(price);
             orderService.createOrder(order);
 
-            for(Gift gift : giftList){
-                giftService.updateGift(gift);
-            }
+            giftService.updateGiftListByJSONOrderCreateHelper(gifts, orderId);
+            insuranceService.updateInsurancesByJSONOrderCreateHelper(insurances,orderId);
 
-            for(Insurance insurance: insuranceList){
-                insuranceService.updateInsurance(insurance);
-            }
 
 
             return modelAndView;
@@ -192,7 +159,6 @@ public class OrderController {
         return map;
     }
 
-
     @RequestMapping(value = "/orderSaleImpl/{orderID}", method = RequestMethod.GET)
     public ModelAndView orderSaleImplPage(@PathVariable String orderID){
         ModelAndView modelAndView = new ModelAndView("Order/orderSaleImpl");
@@ -201,7 +167,7 @@ public class OrderController {
         Car car = carService.findCarById(order.getCarID());
 
         List<AdditionalProduct> additionalProducts = additionalProductService.findAdditionalProductByOrderId(orderID);
-        List<AdditionalProduct> secondHand = additionalProductService.additionalProductTypeFilter(additionalProducts,"二手车");
+        List<AdditionalProduct> secondHand = additionalProductService.additionalProductTypeFilter(additionalProducts,"���ֳ�");
 
         modelAndView.addObject("car", car);
         modelAndView.addObject("order", order);
@@ -224,12 +190,10 @@ public class OrderController {
 
         if(Float.parseFloat(secondCar) != 0){
             List<AdditionalProduct> additionalProducts = additionalProductService.findAdditionalProductByOrderId(orderId);
-            List<AdditionalProduct> additionalProductList = additionalProductService.additionalProductTypeFilter(additionalProducts,"二手车");
+            List<AdditionalProduct> additionalProductList = additionalProductService.additionalProductTypeFilter(additionalProducts,"���ֳ�");
             if(additionalProductList != null){
                 AdditionalProduct additionalProduct = additionalProductList.get(0);
-
                 additionalProduct.setActualGetMoney(Float.parseFloat(secondCar));
-
                 additionalProductService.updateAdditionalProduct(additionalProduct);
             }
         }
@@ -245,19 +209,19 @@ public class OrderController {
         Car car = carService.findCarById(order.getCarID());
         List<AdditionalProduct> additionalProducts = additionalProductService.findAdditionalProductByOrderId(orderID);
 
-        List<AdditionalProduct> longTerm = additionalProductService.additionalProductTypeFilter(additionalProducts,"延保");
+        List<AdditionalProduct> longTerm = additionalProductService.additionalProductTypeFilter(additionalProducts,"�ӱ�");
 
         List<AdditionalProduct> VIP = additionalProductService.additionalProductTypeFilter(additionalProducts,"VIP");
 
-        List<AdditionalProduct> rent = additionalProductService.additionalProductTypeFilter(additionalProducts,"租赁");
+        List<AdditionalProduct> rent = additionalProductService.additionalProductTypeFilter(additionalProducts,"����");
 
-        List<AdditionalProduct> card = additionalProductService.additionalProductTypeFilter(additionalProducts,"上牌");
+        List<AdditionalProduct> card = additionalProductService.additionalProductTypeFilter(additionalProducts,"����");
 
-        List<AdditionalProduct> present = additionalProductService.additionalProductTypeFilter(additionalProducts,"赠送");
+        List<AdditionalProduct> present = additionalProductService.additionalProductTypeFilter(additionalProducts,"����");
 
-        List<AdditionalProduct> hire = additionalProductService.additionalProductTypeFilter(additionalProducts,"佣金");
+        List<AdditionalProduct> hire = additionalProductService.additionalProductTypeFilter(additionalProducts,"Ӷ��");
 
-        List<AdditionalProduct> finance = additionalProductService.additionalProductTypeFilter(additionalProducts,"金融");
+        List<AdditionalProduct> finance = additionalProductService.additionalProductTypeFilter(additionalProducts,"����");
 
 
         if(finance.size() != 0) {
@@ -274,7 +238,6 @@ public class OrderController {
             modelAndView.addObject("longTerm", null);
             modelAndView.addObject("longTermMsg","NO");
         }
-
         if(VIP.size() != 0){
             modelAndView.addObject("VIP",VIP.get(0));
             modelAndView.addObject("VIPMsg","YES");
@@ -282,7 +245,6 @@ public class OrderController {
             modelAndView.addObject("VIP",null);
             modelAndView.addObject("VIPMsg","NO");
         }
-
 
         if(rent.size() != 0) {
             modelAndView.addObject("rent", rent.get(0));
@@ -299,7 +261,6 @@ public class OrderController {
             modelAndView.addObject("card", null);
             modelAndView.addObject("cardMsg","NO");
         }
-
         if(present.size() != 0) {
             modelAndView.addObject("present", present.get(0));
             modelAndView.addObject("presentMsg","YES");
@@ -397,34 +358,10 @@ public class OrderController {
         JSONObject jo;
 
         if(gifts != null){
-            ja = JSONArray.fromObject(gifts);
-            for(int i = 0; i < ja.size(); i ++){
-                jo = ja.getJSONObject(i);
-                int giftId = Integer.valueOf(jo.getString("giftId"));
-
-                Gift gift = giftService.findGiftById(giftId);
-
-                gift.setActualGetMoney(Float.parseFloat(jo.getString("money")));
-
-                giftService.updateGift(gift);
-            }
-
+           giftService.updateGiftListByJSONWaitressHelper(gifts);
         }
-
         if(insurances != null){
-            ja = JSONArray.fromObject(insurances);
-            for(int i = 0; i < ja.size(); i ++){
-                jo = ja.getJSONObject(i);
-                //System.out.println(jo.get("giftId").toString());
-                int insuranceId = Integer.valueOf(jo.getString("insuranceId"));
-
-                Insurance insurance = insuranceService.findInsuranceById(insuranceId);
-
-                insurance.setActualGetMoney(Float.parseFloat(jo.getString("money")));
-
-                insuranceService.updateInsurance(insurance);
-
-            }
+            insuranceService.updateInsuranceByJSONWaitressHelper(insurances);
 
         }
         return modelAndView;

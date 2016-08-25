@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>车辆列表</title>
+    <title>车型列表</title>
 </head>
 <body>
 <jsp:include page="../Site/header.jsp"/>

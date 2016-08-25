@@ -27,5 +27,7 @@ public class CustomerService {
 
     public void updateCustomer(Customer customer){customerDAO.updateCustomer(customer);}
 
-    public Customer findCustomerById(int customerID){return customerDAO.findUserById(customerID);}
+    public Customer findCustomerById(int customerID){return customerDAO.findCustomerById(customerID);}
+
+
 }

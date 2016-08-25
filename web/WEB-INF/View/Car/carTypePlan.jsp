@@ -17,12 +17,12 @@
 <jsp:include page="../Site/header.jsp"/>
 <jsp:include page="../Site/seperator.jsp"/>
 
-<form:form cssClass="mywrapper form-horizontal" id="formCarTypePlan" method="post" commandName="carType" action="${pageContext.request.contextPath}/Car/updateCarTypePlan">
+<form:form cssClass="mywrapper form-horizontal" id="formCarTypePlan" method="post" commandName="carPlan" action="${pageContext.request.contextPath}/Car/updateCarTypePlan">
 
     <div class="form-group">
         <label class="col-sm-2 control-label">厂家:</label>
         <div class="col-sm-7">
-            <select class="form-control" name="garageBrand" id="GarageBrand">
+            <select class="form-control" name="garage" id="garage">
                     <option value="${carType.garage}">${carType.garage}</option>
             </select>
         </div>
@@ -40,7 +40,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">SFX:</label>
         <div class="col-sm-7">
-            <select class="form-control" name="Sfx" id="Sfx">
+            <select class="form-control" name="carSfx" id="carSfx">
                     <option value="${carType.carSfx}">${carType.carSfx}</option>
             </select>
 
@@ -50,7 +50,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">颜色:</label>
         <div class="col-sm-7">
-            <select class="form-control" name="Color" id="Color">
+            <select class="form-control" name="carColor" id="carColor">
                     <option value="${carType.carColor}">${carType.carColor}</option>
             </select>
                 <%--<input class="form-control" type="text" placeholder="颜色"--%>
@@ -61,16 +61,71 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">计划数量:</label>
         <div class="col-sm-7">
-
                 <input class="form-control" type="text" placeholder="计划数量"
-                id="plan" name="plan" required="required"/>
+                id="number" name="number" required="required"/>
         </div>
     </div>
 
     <div class="form-group">
+        <label class="col-sm-2 control-label">计划订车日:</label>
+        <div class="col-sm-7">
+            <input class="form-control" type="date" placeholder="计划订车日"
+                   id="predictedTime" name="predictedTime" required="required"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">计划在途日:</label>
+        <div class="col-sm-7">
+            <input class="form-control" type="date" placeholder="计划在途日"
+                   id="purchasedTime" name="purchasedTime" required="required"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">计划入库日:</label>
+        <div class="col-sm-7">
+            <input class="form-control" type="date" placeholder="计划入库日"
+                   id="inGarageTime" name="inGarageTime" required="required"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">计划出库日:</label>
+        <div class="col-sm-7">
+            <input class="form-control" type="date" placeholder="计划出库日"
+                   id="outGarageTime" name="outGarageTime" required="required"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">计划交车日:</label>
+        <div class="col-sm-7">
+            <input class="form-control" type="date" placeholder="计划交车日"
+                   id="submitTime" name="submitTime" required="required"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">指导价:</label>
+        <div class="col-sm-7">
+            <input class="form-control" type="text" placeholder="计划指导价" value="${carType.price}"
+                   id="defaultPrice" name="defaultPrice" required="required"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">计划折让:</label>
+        <div class="col-sm-7">
+            <input class="form-control" type="text" placeholder="计划折让" value="${carType.discount}"
+                   id="discount" name="discount" required="required"/>
+        </div>
+    </div>
+
+
+    <div class="form-group">
         <label class="col-sm-2 control-label">车型库存:</label>
         <div class="col-sm-7">
-
             <label class="control-label">${carType.stock}</label>
         </div>
     </div>

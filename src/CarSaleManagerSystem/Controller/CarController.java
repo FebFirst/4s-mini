@@ -2,10 +2,8 @@ package CarSaleManagerSystem.Controller;
 
 import CarSaleManagerSystem.Bean.*;
 import CarSaleManagerSystem.Service.*;
-import com.mongodb.util.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -61,7 +59,8 @@ public class CarController {
     public ModelAndView createStock(@ModelAttribute Car car){
         ModelAndView modelAndView = new ModelAndView("redirect:/Car/list");
 
-        System.out.println(car.toString());
+//        System.out.println(car.toString());
+        car.setPlanID(-1);
         car.setValid("Y");
         car.setCost(0);
         car.setNormal("Y");
@@ -73,8 +72,42 @@ public class CarController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/carStock",method = RequestMethod.POST)
+    public ModelAndView updateCarId(HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/carOnTheWayList");
+        String oldId = request.getParameter("oldId");
+        String newId = request.getParameter("newId");
+
+        Car oldCar = carService.findCarById(oldId);
+
+        Car newCar = new Car(oldCar);
+        newCar.setCarID(newId);
+        newCar.setInGarageTime(new Date());
+        newCar.setStockStatus("在库");
+        carService.removeUpdate(oldCar, newCar);
+        return modelAndView;
+    }
+    @RequestMapping(value = "/createStock/{planID}",method = RequestMethod.POST)
+    public ModelAndView createStock(@ModelAttribute Car car,@PathVariable int planID){
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/list");
+
+//        System.out.println(car.toString());
+        Date date = new Date();
+        car.setCarID("CHEJIAHAO"+ date.toString());
+        car.setPlanID(planID);
+        car.setValid("Y");
+        car.setCost(0);
+        car.setNormal("Y");
+
+        car.setPredictedTime(date);
+        car.setPurchasedTime(date);
+
+        carService.createCar(car);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public ModelAndView listCar(HttpSession session) {
+    public ModelAndView listCar() {
 
         ModelAndView modelAndView = new ModelAndView("Car/carList");
 
@@ -88,11 +121,98 @@ public class CarController {
         modelAndView.addObject("brands",carBrands);
         modelAndView.addObject("colors",carColors);
         modelAndView.addObject("sfxes",carSFXes);
-
         modelAndView.addObject("cars",carList);
         return modelAndView;
     }
 
+    @RequestMapping(value = "/carBookedList",method = RequestMethod.GET)
+    public ModelAndView bookedCar() {
+
+        ModelAndView modelAndView = new ModelAndView("Car/carInBookList");
+
+        Map<Car, CarPlan> carList = carService.getCarBookedList();
+        List<Garage> garages = carService.getAllGarages();
+        List<CarBrand> carBrands = carService.getAllCarBrands();
+        List<CarColor> carColors = carService.getAllColors();
+        List<CarSFX> carSFXes = carService.getAllCarSFX();
+
+        modelAndView.addObject("garages",garages);
+        modelAndView.addObject("brands",carBrands);
+        modelAndView.addObject("colors",carColors);
+        modelAndView.addObject("sfxes",carSFXes);
+        modelAndView.addObject("cars",carList);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/carOnTheWayList", method = RequestMethod.GET)
+    public ModelAndView onTheWayCar(){
+        ModelAndView modelAndView  = new ModelAndView("Car/carOnTheWay");
+        Map<Car, CarPlan> carList = carService.getCarOnWayList();
+        List<Garage> garages = carService.getAllGarages();
+        List<CarBrand> carBrands = carService.getAllCarBrands();
+        List<CarColor> carColors = carService.getAllColors();
+        List<CarSFX> carSFXes = carService.getAllCarSFX();
+
+        modelAndView.addObject("garages",garages);
+        modelAndView.addObject("brands",carBrands);
+        modelAndView.addObject("colors",carColors);
+        modelAndView.addObject("sfxes",carSFXes);
+        modelAndView.addObject("cars",carList);
+
+        return modelAndView;
+    }
+    @RequestMapping(value = "/carInGarageList", method = RequestMethod.GET)
+    public ModelAndView inGarageCar(){
+        ModelAndView modelAndView = new ModelAndView("Car/carInGarage");
+        Map<Car, CarPlan> carList = carService.getCarInGarage();
+        List<Garage> garages = carService.getAllGarages();
+        List<CarBrand> carBrands = carService.getAllCarBrands();
+        List<CarColor> carColors = carService.getAllColors();
+        List<CarSFX> carSFXes = carService.getAllCarSFX();
+
+        modelAndView.addObject("garages",garages);
+        modelAndView.addObject("brands",carBrands);
+        modelAndView.addObject("colors",carColors);
+        modelAndView.addObject("sfxes",carSFXes);
+        modelAndView.addObject("cars",carList);
+
+        return modelAndView;
+
+    }
+
+    @RequestMapping(value = "/carOutOfGarageList", method = RequestMethod.GET)
+    public ModelAndView outOfGarage(){
+        ModelAndView modelAndView = new ModelAndView("Car/carOutOfGarage");
+        Map<Car, CarPlan> carList = carService.getCarOutOfGarage();
+        List<Garage> garages = carService.getAllGarages();
+        List<CarBrand> carBrands = carService.getAllCarBrands();
+        List<CarColor> carColors = carService.getAllColors();
+        List<CarSFX> carSFXes = carService.getAllCarSFX();
+
+        modelAndView.addObject("garages",garages);
+        modelAndView.addObject("brands",carBrands);
+        modelAndView.addObject("colors",carColors);
+        modelAndView.addObject("sfxes",carSFXes);
+        modelAndView.addObject("cars",carList);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/carHandedOut", method = RequestMethod.GET)
+    public ModelAndView carHandedOut(){
+        ModelAndView modelAndView = new ModelAndView("Car/carSubmit");
+        Map<Car, CarPlan> carList = carService.getCarByStatus("交车");
+        List<Garage> garages = carService.getAllGarages();
+        List<CarBrand> carBrands = carService.getAllCarBrands();
+        List<CarColor> carColors = carService.getAllColors();
+        List<CarSFX> carSFXes = carService.getAllCarSFX();
+
+        modelAndView.addObject("garages",garages);
+        modelAndView.addObject("brands",carBrands);
+        modelAndView.addObject("colors",carColors);
+        modelAndView.addObject("sfxes",carSFXes);
+        modelAndView.addObject("cars",carList);
+        return modelAndView;
+    }
     @RequestMapping(value = "/setCost/{carID}",method = RequestMethod.GET)
     public ModelAndView setCarCostPage(@PathVariable String carID,@ModelAttribute Car car){
         ModelAndView modelAndView = new ModelAndView("Car/carSetPrice");
@@ -122,6 +242,7 @@ public class CarController {
         ModelAndView modelAndView = new ModelAndView("redirect:/Car/list");
         Car car = carService.findCarById(carID);
         try {
+            final String BOOK = new String("订车".getBytes("UTF-8"),"UTF-8");
             final String ON_WAY = new String("在途".getBytes("UTF-8"),"UTF-8");
             final String IN_GARAGE = new String("在库".getBytes("UTF-8"),"UTF-8");
             final String OUT_GARAGE = new String("出库".getBytes("UTF-8"),"UTF-8");
@@ -133,11 +254,17 @@ public class CarController {
                     car.setInGarageTime(new Date());
                     carService.updateCar(car);
                 }
+                else if(car.getStockStatus().equals(BOOK)){
+                    car.setStockStatus(ON_WAY);
+                    car.setPurchasedTime(new Date());
+                    carService.updateCar(car);
+                }
                 else if(car.getStockStatus().equals(IN_GARAGE)){
                     car.setStockStatus(OUT_GARAGE);
                     car.setOutGarageTime(new Date());
                     carService.updateCar(car);
                 }
+
                 else if(car.getStockStatus().equals(OUT_GARAGE)){
                     car.setStockStatus(SUBMIT);
                     car.setSubmitTime(new Date());
@@ -149,6 +276,8 @@ public class CarController {
             e.printStackTrace();
             return modelAndView;
         }
+
+        System.out.println(car.getStockStatus());
         return modelAndView;
     }
 
@@ -252,6 +381,28 @@ public class CarController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/createCarByCarPlan/{planID}",method = RequestMethod.GET)
+    public ModelAndView createCarByCarPlan(@PathVariable int planID){
+        ModelAndView modelAndView = new ModelAndView("Car/carTypeCreateStock");
+        CarPlan carPlan = carService.getCarPlanByID(planID);
+        if(carPlan == null){
+            return modelAndView;
+        }
+        String garage = carPlan.getGarage();
+        String brand = carPlan.getBrand();
+        String color = carPlan.getCarColor();
+        String sfx = carPlan.getCarSfx();
+        List<?> statusList = carService.getAllStockStatus();
+        modelAndView.addObject("garage",garage);
+        modelAndView.addObject("brand",brand);
+        modelAndView.addObject("color",color);
+        modelAndView.addObject("sfx",sfx);
+        modelAndView.addObject("statusList",statusList);
+        modelAndView.addObject("planID",planID);
+        modelAndView.addObject("car",new Car());
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/carListByCarType",method = RequestMethod.POST)
     public ModelAndView carListByCarType(HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView("Car/carList");
@@ -308,9 +459,6 @@ public class CarController {
         String sfx = request.getParameter("sfx");
         CarTypeID carTypeID = new CarTypeID(garage,brand,sfx,color);
         CarType carType = carService.getCarTypeByID(carTypeID);
-//        carTypeList = carService.BrandFilter(carTypeList, request.getParameter("brand"));
-//        carTypeList = carService.ColorFilter(carTypeList,request.getParameter("color"));
-//        carTypeList = carService.SFXFilter(carTypeList,request.getParameter("sfx"));
         if(carType != null) {
             carService.removeCarType(carType);
         }
@@ -331,14 +479,24 @@ public class CarController {
     }
 
     @RequestMapping(value = "/updateCarTypePlan",method = RequestMethod.POST)
-    public ModelAndView updateCarPlanType(@ModelAttribute CarType carType){
-        ModelAndView modelAndView = new ModelAndView("redirect:/Car/carTypeList");
-        CarTypeID carTypeID = new CarTypeID(carType.getGarage(),carType.getBrand(),carType.getCarSfx(),carType.getCarColor());
+    public ModelAndView updateCarPlanType(@ModelAttribute CarPlan carPlan){
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/carPlanList");
+//        CarPlan carPlan = (CarPlan)carPlan1;
+        CarTypeID carTypeID = new CarTypeID(carPlan.getGarage(),carPlan.getBrand(),carPlan.getCarSfx(),carPlan.getCarColor());
         CarType stock = carService.getCarTypeByID(carTypeID);
         if(stock != null){
-            stock.setPlan(carType.getPlan());
+            int old_plan = stock.getPlan();
+            stock.setPlan(carPlan.getNumber() + old_plan);
             carService.updateCarType(stock);
+            carService.createCarPlan(carPlan);
         }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/carPlanList",method = RequestMethod.GET)
+    public ModelAndView carPlanList(){
+        ModelAndView modelAndView = new ModelAndView("Car/carPlanList");
+        modelAndView.addObject("plans",carService.getAllCarPlans());
         return modelAndView;
     }
 
@@ -520,7 +678,7 @@ public class CarController {
         float loss = carService.carWarning(carId);
         int leftDay = carService.remainingProfitDay(carId);
 
-        System.out.println(loss + leftDay +" heihei ");
+       // System.out.println(loss + leftDay +" heihei ");
         map.put("loss",loss);
         map.put("day",leftDay);
         return map;
@@ -535,16 +693,13 @@ public class CarController {
     @RequestMapping(value = "/carSoldInfo")
     public @ResponseBody
     void soldCarInfo(HttpServletResponse response) throws IOException{
-//        ModelAndView modelAndView = new ModelAndView("/Car/carSoldInfo");
-        List<Car> cars = carService.getAllCars();
-        List<Car> carList = carService.CarStatusFilter(cars,"交车");
 
+        List<Order> orders = orderService.getAllOrders();
         JSONObject jo = new JSONObject();
         JSONArray ja = new JSONArray();
 
-
-        for(Car car : carList){
-            Order order = orderService.findOrderByCar(car.getCarID());
+        for(Order order : orders){
+            Car car = carService.findCarById(order.getCarID());
 
             List<Gift> gifts = giftService.findGiftByOrderId(order.getOrderID());
             List<Insurance> insurances = insuranceService.findInsuranceByOrderId(order.getOrderID());
@@ -661,9 +816,7 @@ public class CarController {
             jo.put("cost",car.getCost());
             jo.put("carEarn",car.getPrice() - car.getCost());
             jo.put("payback",car.getPayback());
-
-
-
+            
             ja.add(jo);
             jo.clear();
 
@@ -675,4 +828,7 @@ public class CarController {
 //        return modelAndView;
     }
 
+
 }
+
+

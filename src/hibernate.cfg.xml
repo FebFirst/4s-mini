@@ -38,5 +38,6 @@
                 <mapping resource="Apartment.hbm.xml"/>
                 <mapping resource="JobStatus.hbm.xml"/>
                 <mapping resource="GiftBrand.hbm.xml"/>
+                <mapping resource="CarPlan.hbm.xml"/>
         </session-factory>
 </hibernate-configuration>

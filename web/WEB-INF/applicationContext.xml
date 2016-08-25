@@ -48,6 +48,7 @@
                             <value>Level.hbm.xml</value>
                             <value>Apartment.hbm.xml</value>
                             <value>GiftBrand.hbm.xml</value>
+                            <value>CarPlan.hbm.xml</value>
                      </list>
               </property>
               <property name="hibernateProperties">

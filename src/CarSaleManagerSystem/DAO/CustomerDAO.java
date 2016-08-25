@@ -47,7 +47,7 @@ public class CustomerDAO {
         session.flush();
     }
 
-    public Customer findUserById(int customerID){
+    public Customer findCustomerById(int customerID){
         Session session = this.sessionFactory.getCurrentSession();
 
         Customer customer = null;

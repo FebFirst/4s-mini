@@ -26,6 +26,7 @@
         <property name="stockStatus" column="status" type="java.lang.String" length="32"/>
         <property name="normal" column="normal" type="java.lang.String" length="1"/>
         <property name="carNumber" column="vehicle_number" type="java.lang.String" length="16"/>
+        <property name="planID" column="plan_id" type="java.lang.Integer"/>
         <property name="valid" column="valid" type="java.lang.String" length="1"/>
         <!--<many-to-one name="garage" class="CarSaleManagerSystem.Bean.Garage" outer-join="auto" column="garage_brand" update="true" insert="true" not-null="true">-->
         <!--</many-to-one>-->

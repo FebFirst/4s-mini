@@ -2,6 +2,7 @@ package CarSaleManagerSystem.Service;
 
 import CarSaleManagerSystem.Bean.*;
 import CarSaleManagerSystem.DAO.*;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,9 +48,29 @@ public class CarService {
 
     @Autowired
     private InsuranceDAO insuranceDAO;
+
+    @Autowired
+    private CarPlanDAO carPlanDAO;
+
     public void createCar(Car car) {
         if (carExist(car.getCarID())) {
             return;
+        }
+        if(stockStatusDAO.getStockStatusByID(car.getStockStatus()) == null){
+            StockStatus stockStatus = new StockStatus();
+            stockStatus.setState(car.getStockStatus());
+            stockStatus.setValid("Y");
+            stockStatusDAO.createStockStatus(stockStatus);
+        }
+        if(car.getPlanID() != -1){
+            CarPlan carPlan = carPlanDAO.getCarPlanByID(car.getPlanID());
+            if(carPlan != null) {
+                int old_plan = carPlan.getNumber();
+                if (old_plan > 0) {
+                    carPlan.setNumber(old_plan - 1);
+                    carPlanDAO.updateCarPlan(carPlan);
+                }
+            }
         }
         CarType carType = getCarTypeByID(new CarTypeID(car.getGarage(), car.getBrand(), car.getSfx(), car.getColor()));
         car.setValid("Y");
@@ -91,6 +112,13 @@ public class CarService {
             stockStatusDAO.createStockStatus(stockStatus);
         }
         carDAO.updateCar(car);
+    }
+
+    public void removeUpdate(Car oldCar, Car newCar){
+        System.out.println("!!!!!!!!");
+        carDAO.removeCar(oldCar);
+        carDAO.createCar(newCar);
+        System.out.println("!!!!!!!!");
     }
     public Car findCarById(String carID) {
 //        Car car = carDAO.findCarById(carID);
@@ -368,21 +396,6 @@ public class CarService {
         return result;
     }
 
-    public List<Car> CarStatusFilter(List<Car> cars, String status) {
-        if (status == null) {
-            return cars;
-        }
-        List<Car> result = new ArrayList<>();
-        if (cars == null) {
-            return null;
-        }
-        for (int i = 0; i < cars.size(); i++) {
-            if (cars.get(i).getStockStatus().equals(status)) {
-                result.add(cars.get(i));
-            }
-        }
-        return result;
-    }
 
 
     public List<Car> CarSFXFilter(List<Car> cars, String SFX) {
@@ -401,6 +414,25 @@ public class CarService {
         return result;
     }
 
+    public List<Car> carStatusFilter(List<Car> cars, String status){
+       if(status == null){
+           return null;
+       }
+
+       if(cars == null){
+           return null;
+       }
+       List<Car> result = new ArrayList<>();
+
+        for(int i = 0; i < cars.size(); i ++){
+            if(cars.get(i).getStockStatus().equals(status)){
+                result.add(cars.get(i));
+            }
+        }
+
+
+        return result;
+    }
     public List<Car> findCarByCarType(CarTypeID carTypeID) {
         List<Car> result = getAllCars();
         result = CarGarageBrandFilter(result, carTypeID.getGarage());
@@ -469,6 +501,109 @@ public class CarService {
         return result;
     }
 
+    public Map<Car, CarPlan> getCarBookedList(){
+        List<Car> carList = getAllCars();
+
+        List<Car> cars = carStatusFilter(carList, "订车");
+
+        if(cars == null){
+            return null;
+        }
+
+        Map<Car,CarPlan> result = new HashMap<>();
+
+        for(int i = 0; i < cars.size(); i ++){
+            CarPlan carPlan = carPlanDAO.getCarPlanByID(cars.get(i).getPlanID());
+
+            result.put(cars.get(i), carPlan);
+        }
+
+        return result;
+    }
+
+    public Map<Car, CarPlan> getCarOnWayList(){
+        List<Car> carList = carDAO.getAllCars();
+
+        List<Car> cars = carStatusFilter(carList,"在途");
+
+        if(cars == null){
+            return null;
+        }
+        int age;
+        CarPlan carPlan;
+        Map<Car,CarPlan> result = new HashMap<>();
+        for(int i = 0; i < cars.size(); i ++){
+
+            age = getCarAge(cars.get(i).getCarID());
+            carPlan = carPlanDAO.getCarPlanByID(cars.get(i).getPlanID());
+            result.put(cars.get(i), carPlan);
+        }
+        return result;
+    }
+
+    public Map<Car, CarPlan> getCarInGarage(){
+        List<Car> carList = carDAO.getAllCars();
+
+        List<Car> cars = carStatusFilter(carList,"在库");
+
+        if(cars == null){
+            return null;
+        }
+
+        int age;
+        CarPlan carPlan;
+        Map<Car,CarPlan> result = new HashMap<>();
+        for(int i = 0; i < cars.size(); i ++){
+
+            age = getCarAge(cars.get(i).getCarID());
+            carPlan = carPlanDAO.getCarPlanByID(cars.get(i).getPlanID());
+            result.put(cars.get(i), carPlan);
+        }
+        return result;
+
+    }
+
+    public Map<Car, CarPlan> getCarOutOfGarage(){
+        List<Car> carList = carDAO.getAllCars();
+
+        List<Car> cars = carStatusFilter(carList,"出库");
+
+        if(cars == null){
+            return null;
+        }
+
+        int age;
+        CarPlan carPlan;
+        Map<Car,CarPlan> result = new HashMap<>();
+        for(int i = 0; i < cars.size(); i ++){
+
+            age = getCarAge(cars.get(i).getCarID());
+            carPlan = carPlanDAO.getCarPlanByID(cars.get(i).getPlanID());
+            result.put(cars.get(i), carPlan);
+        }
+        return result;
+    }
+
+    public Map<Car, CarPlan> getCarByStatus(String status){
+        List<Car> carList = carDAO.getAllCars();
+
+        List<Car> cars = carStatusFilter(carList,status);
+
+        if(cars == null){
+            return null;
+        }
+
+        int age;
+        CarPlan carPlan;
+        Map<Car,CarPlan> result = new HashMap<>();
+        for(int i = 0; i < cars.size(); i ++){
+
+            age = getCarAge(cars.get(i).getCarID());
+            carPlan = carPlanDAO.getCarPlanByID(cars.get(i).getPlanID());
+            result.put(cars.get(i), carPlan);
+        }
+        return result;
+    }
     public List<CarBrand> getCarBrandsByGarage(String garage) {
         List<CarBrand> carBrandList = getAllCarBrands();
         List<CarBrand> result = new ArrayList<>();
@@ -707,4 +842,162 @@ public class CarService {
         }
         return carAge - getCarAge(carID);
     }
+
+    public void createCarPlan(CarPlan carPlan){
+        carPlanDAO.createCarPlan(carPlan);
+    }
+
+    public List<CarPlan> getAllCarPlans(){
+        return carPlanDAO.getAllCarPlan();
+    }
+
+    public CarPlan getCarPlanByID(int planID){
+        return carPlanDAO.getCarPlanByID(planID);
+    }
+
+
+    /**
+     * 辅助函数 判断是否同一个月
+     * @param date1 date1
+     * @param date2 date2
+     * @return 是否同一个月
+     */
+    private boolean isSameMonth(Date date1,Date date2){
+        if(date1 == null || date2 == null){
+            return false;
+        }
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+        int year1 = calendar1.get(Calendar.YEAR);
+        int year2 = calendar2.get(Calendar.YEAR);
+        int month1 = calendar1.get(Calendar.MONTH);
+        int month2 = calendar2.get(Calendar.MONTH);
+        return year1 == year2 && month1 == month2;
+    }
+
+    /**
+     * 辅助函数 获得一个月有多少天
+     * @param date 某个月
+     * @return 这个月有多少天
+     */
+    public int dayOfMonth(Date date){
+        if(date == null){
+            return 0;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int result = 0;
+        int[] monthDay ={31,28,31,30,31,30,31,31,30,31,30,31};
+        if(month >= 0 && month < 12){
+            result = monthDay[month];
+        }
+        if(year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)){
+            if(result == 28){
+                result = 29;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 返回所有的车的计划
+     * @return 所有车的计划
+     */
+    public List<CarPlan> getAllCarPlan(){
+        return carPlanDAO.getAllCarPlan();
+    }
+
+    /**
+     * 某个月计划要卖的车的数量
+     * @param date 某个月
+     * @return 这个月要卖的车的数量
+     */
+    public int getCarPlanNumberByMonth(Date date){
+        List<CarPlan> carPlans = carPlanDAO.getAllCarPlan();
+        int result = 0;
+        if(carPlans == null || date == null){
+            return result;
+        }
+        for(int i = 0;i < carPlans.size();i++){
+            if(isSameMonth(carPlans.get(i).getOutGarageTime(),date)){
+                result += carPlans.get(i).getNumber();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 某个月的计划销售额
+     * @param date 某个月
+     * @return 这个月的计划销售额
+     */
+    public float getCarPlanTotalPriceByMonth(Date date){
+        List<CarPlan> carPlans = carPlanDAO.getAllCarPlan();
+        float result = 0;
+        if(carPlans == null || date == null){
+            return result;
+        }
+        for(int i = 0;i < carPlans.size();i++){
+            if(isSameMonth(carPlans.get(i).getOutGarageTime(),date)){
+                result += carPlans.get(i).getDefaultPrice();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 某个月的计划销售车辆的平均成本
+     * @param date 某个月
+     * @return 这个月的计划销售车辆的平均成本
+     */
+    public float averageBuyCarCostByMonth(Date date){
+        List<CarPlan> carPlans = carPlanDAO.getAllCarPlan();
+        float result = 0;
+        int number = 0;
+        CarType carType;
+        CarTypeID carTypeID;
+        CarPlan carPlan;
+        if(carPlans == null || date == null){
+            return result;
+        }
+        for(int i = 0;i < carPlans.size();i++){
+            carPlan = carPlans.get(i);
+            if(isSameMonth(carPlan.getOutGarageTime(), date)){
+                carTypeID = new CarTypeID(carPlan.getGarage(),carPlan.getBrand(),carPlan.getCarSfx(),carPlan.getCarColor());
+                carType = getCarTypeByID(carTypeID);
+                result += carType.getCost();
+                number++;
+            }
+        }
+        if(number != 0){
+            result /= number;
+        }
+        return result;
+    }
+
+    /**
+     * 某个月平均每天的计划销售数
+     * @param date 这个月
+     * @return 这个月平均每天的计划销售数
+     */
+    public float carPlanNumberPerDay(Date date){
+        int total = getCarPlanNumberByMonth(date);
+        return total / dayOfMonth(date);
+    }
+
+    /**
+     * 某个月平均每天的计划销售额
+     * @param date 这个月
+     * @return 这个月平均每天的计划销售额
+     */
+    public float carPlanTotalPricePerDay(Date date){
+        float total = getCarPlanTotalPriceByMonth(date);
+        return total / dayOfMonth(date);
+    }
+
+
 }

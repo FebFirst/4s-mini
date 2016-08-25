@@ -49,7 +49,7 @@
 </script>
 
 <body>
-  <form:form cssClass="mywrapper form-horizontal" id="formAddCustomer" method="post" commandName="user" action="${pageContext.request.contextPath}/User/create">
+  <form:form cssClass="mywrapper form-horizontal" id="formAddUser" method="post" commandName="user" action="${pageContext.request.contextPath}/User/create">
 
     <div class="form-group" align="center">
       <label class="col-sm-2 control-label">用户名 :</label>

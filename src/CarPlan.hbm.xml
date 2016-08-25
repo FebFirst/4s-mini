@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.CarPlan" table="vehicle_plan">
+        <id name="planID" column="plan_id" type="java.lang.Integer">
+            <generator class="increment"/>
+        </id>
+        <property name="garage" column="garage_brand" type="java.lang.String" length="64"/>
+        <property name="brand" column="brand" type="java.lang.String" length="64" />
+        <property name="carSfx" column="sfx" type="java.lang.String" length="64"/>
+        <property name="carColor" column="color" type="java.lang.String" length="32"/>
+        <property name="purchasedTime" column="purchase_time" type="java.util.Date"/>
+        <property name="predictedTime" column="predicted_time" type="java.util.Date"/>
+
+        <property name="inGarageTime" column="in_garage_time" type="java.util.Date"/>
+        <property name="outGarageTime" column="out_garage_time" type="java.util.Date"/>
+        <property name="submitTime" column="submit_time" type="java.util.Date"/>
+
+        <property name="number" column="number" type="java.lang.Integer"/>
+        <property name="discount" column="discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="defaultPrice" column="default_price" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="valid" column="valid" type="java.lang.String" length="1"/>
+
+    </class>
+</hibernate-mapping>

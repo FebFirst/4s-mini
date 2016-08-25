@@ -1,6 +1,7 @@
 package CarSaleManagerSystem.Controller;
 
 import CarSaleManagerSystem.Bean.*;
+import CarSaleManagerSystem.Service.CustomerService;
 import CarSaleManagerSystem.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CustomerService customerService;
 
     private LoginFilter loginFilter = new LoginFilter();
 
@@ -302,4 +306,24 @@ public class UserController {
     }
 
 
+    /**
+     * Customer controller
+     */
+
+    @RequestMapping(value = "/createCustomer",method = RequestMethod.GET)
+    public ModelAndView createCustomerPage(){
+        ModelAndView modelAndView = new ModelAndView("User/updateCustomer");
+        modelAndView.addObject("customer", new Customer());
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "createCustomer", method = RequestMethod.POST)
+    public ModelAndView createCustomer(@ModelAttribute Customer customer){
+        ModelAndView modelAndView = new ModelAndView("redirect: /User/createCustomer");
+
+        customerService.createCustomer(customer);
+
+        return modelAndView;
+    }
 }

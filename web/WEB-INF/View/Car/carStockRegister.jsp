@@ -118,9 +118,9 @@
     <label class="col-sm-2 control-label">库存状态:</label>
     <div class="col-sm-7">
       <select class="form-control" name="stockStatus" id="StockStatus">
-        <c:forEach items="${statusList}" var="status">
-          <option value="${status.state}">${status.state}</option>
-        </c:forEach>
+        <%--<c:forEach items="${statusList}" var="status">--%>
+          <option value="在途">在途</option>
+        <%--</c:forEach>--%>
       </select>
         <%--<input class="form-control" type="text" placeholder="颜色"--%>
         <%--id="CarColor" name="carColor" required="required"/>--%>

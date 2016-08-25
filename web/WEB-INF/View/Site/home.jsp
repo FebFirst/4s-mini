@@ -265,6 +265,11 @@
           <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
+          <%--<% if(session.getAttribute("userId") != null) { %>--%>
+          <%--<%= "<li><a href='${pageContext.request.contextPath}/User/profile'><i class='fa fa-user fa-fw'></i> 用户信息</a></li>"%>--%>
+          <%--<%}else{%>--%>
+          <%--<%= "<li><a href='$\{pageContext.request.contextPath\}/User/login'><i class='fa fa-user fa-fw'></i> 登入</a></li>"%>--%>
+          <%--<%}%>--%>
           <li><a href="#"><i class="fa fa-gear fa-fw"></i> 设置</a>
           </li>
           <li class="divider"></li>
@@ -339,6 +344,19 @@
           <li>
             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 汽车数据中心<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
+              <li>
+                <a href="${pageContext.request.contextPath}/Car/createCarType">创建车型</a>
+              </li>
+              <li>
+                <a href="${pageContext.request.contextPath}/Car/carTypeList">车型列表</a>
+              </li>
+              <%--<li>--%>
+              <%--<a href="${pageContext.request.contextPath}/Car/createStock">车辆入库登记</a>--%>
+              <%--</li>--%>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/Car/list">车辆列表</a>
+              </li>
 
               <li>
                 <a href="${pageContext.request.contextPath}/Car/createGarage">创建厂家品牌</a>
@@ -354,23 +372,32 @@
               </li>
 
               <li>
-                <a href="${pageContext.request.contextPath}/Car/createCarType">创建车型</a>
-              </li>
-              <li>
-                <a href="${pageContext.request.contextPath}/Car/carTypeList">车型列表</a>
-              </li>
-              <li>
-                <a href="${pageContext.request.contextPath}/Car/createStock">车辆入库登记</a>
-              </li>
-
-              <li>
-                <a href="${pageContext.request.contextPath}/Car/list">车辆列表</a>
+                <a href="${pageContext.request.contextPath}/Car/carPlanList">车辆计划列表</a>
               </li>
 
               <li>
                 <a href="${pageContext.request.contextPath}/Car/carSold">已售车辆列表</a>
               </li>
 
+              <li>
+                <a href="${pageContext.request.contextPath}/Car/carBookedList">在订车辆列表</a>
+              </li>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/Car/carOnTheWayList">在途车辆列表</a>
+              </li>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/Car/carInGarageList">在库车辆列表</a>
+              </li>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/Car/carOutOfGarageList">出库车辆列表</a>
+              </li>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/Car/carHandedOut">交车车辆列表</a>
+              </li>
             </ul>
             <!-- /.nav-second-level -->
           </li>

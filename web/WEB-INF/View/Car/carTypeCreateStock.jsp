@@ -53,15 +53,15 @@
   //  });
 </script>
 
-<form:form cssClass="mywrapper form-horizontal" id="formCarStockRegister" method="post" commandName="car" action="${pageContext.request.contextPath}/Car/createStock">
+<form:form cssClass="mywrapper form-horizontal" id="formCarStockRegister" method="post" commandName="car" action="${pageContext.request.contextPath}/Car/createStock/${planID}">
 
-  <div class="form-group">
-    <label class="col-sm-2 control-label">车架号:</label>
-    <div class="col-sm-7">
-      <input class="form-control" placeholder="车架号"
-             id="CarID" name="carID" required="required"/>
-    </div>
-  </div>
+  <%--<div class="form-group">--%>
+    <%--<label class="col-sm-2 control-label">车架号:</label>--%>
+    <%--<div class="col-sm-7">--%>
+      <%--<input class="form-control" placeholder="车架号"--%>
+             <%--id="CarID" name="carID" required="required"/>--%>
+    <%--</div>--%>
+  <%--</div>--%>
 
   <div class="form-group">
     <label class="col-sm-2 control-label">厂家:</label>
@@ -118,6 +118,7 @@
     <label class="col-sm-2 control-label">库存状态:</label>
     <div class="col-sm-7">
       <select class="form-control" name="stockStatus" id="StockStatus">
+          <option value="订车">订车</option>
         <c:forEach items="${statusList}" var="status">
           <option value="${status.state}">${status.state}</option>
         </c:forEach>

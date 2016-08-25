@@ -21,7 +21,7 @@
     <title>Title</title>
 </head>
 <body>
-<div class="row col-sm-12">
+<div class="row">
     <div class="col-lg-12">
         <h2>已售出车辆</h2>
         <div class="table-responsive">
@@ -42,6 +42,7 @@
             dataType: 'json',
             type: 'POST',
             success:function (data) {
+                alert(JSON.stringify(data));
                 $('#carSoldList').bootstrapTable({
                     data:data,
                     dataType:'json',
@@ -74,8 +75,7 @@
                             title: '返利',
                             field: 'payback',
                             align: 'center',
-                            rowspan:2,
-                            valign: 'middle'
+                            rowspan:2
                         },
                         {
                             title: '二手车',
@@ -151,22 +151,22 @@
                             align: 'center',
                             rowspan:2,
                             valign: 'middle'
+                        },
+                        {
+                            title: '操作',
+                            field: 'id',
+                            align: 'center',
+                            rowspan:2,
+                            valign: 'middle',
+                            formatter:function(value,row,index){
+                                //  alert(row.birthday);
+//                                var json = row.videoId + "/" + removeAllSpace(row.title) + "/" + removeAllSpace(row.topic) + "/" + removeAllSpace(row.content) +
+//                                        "/" + row.isPass + "/";
+                                var e = '<a href="#" mce_href="#">编辑</a> ';
+                                var d = '<a href="javascript:;" mce_href="#")">删除</a> ';
+                                return e+d;
+                            }
                         }
-//                        {
-//                            title: '操作',
-//                            field: 'id',
-//                            align: 'center',
-//                            rowspan:2,
-//                            valign: 'middle',
-//                            formatter:function(value,row,index){
-//                                //  alert(row.birthday);
-////                                var json = row.videoId + "/" + removeAllSpace(row.title) + "/" + removeAllSpace(row.topic) + "/" + removeAllSpace(row.content) +
-////                                        "/" + row.isPass + "/";
-//                                var e = '<a href="#" mce_href="#">编辑</a> ';
-//                                var d = '<a href="javascript:;" mce_href="#")">删除</a> ';
-//                                return e+d;
-//                            }
-//                        }
                     ],[
                         {
                             title: '品牌',
