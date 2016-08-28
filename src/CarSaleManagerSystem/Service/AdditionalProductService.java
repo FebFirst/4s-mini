@@ -75,37 +75,9 @@ public class AdditionalProductService {
 
 
     public List<AdditionalProduct> additionalProductTypeFilter(List<AdditionalProduct> additionalProducts, String type){
-
-        if(additionalProducts == null){
-            return null;
-        }
-
-        if(type ==null){
-            return null;
-        }
-        List<AdditionalProduct> result = new ArrayList<>();
-
-        for(AdditionalProduct additionalProduct : additionalProducts){
-            if(additionalProduct.getAdditionalProductType().equals(type)){
-                result.add(additionalProduct);
-            }
-        }
-
-        return result;
+        return additionalProductDAO.additionalProductTypeFilter(additionalProducts,type);
     }
-//    public List<AdditionalProduct> findAdditionalProductByOrder(String orderId){
-//        List<AdditionalProduct> additionalProducts = getAllAdditionalProducts();
-//
-//        List<AdditionalProduct> result = new ArrayList<>();
-//
-//        for(AdditionalProduct additionalProduct : additionalProducts){
-//            if(additionalProduct.getOrderID().equals(orderId)){
-//                result.add(additionalProduct);
-//            }
-//        }
-//
-//        return result;
-//    }
+
 
 /*
 *additionalProductType Service
@@ -167,16 +139,7 @@ public class AdditionalProductService {
     }
 
     public void updateAdditionalProductByJSON(String data){
-        if(data == null){
-            return;
-        }
-        JSONArray ja = JSONArray.fromObject(data);
-        JSONObject jo = ja.getJSONObject(0);
-        int Id = Integer.valueOf(jo.getString("key"));
-
-        AdditionalProduct additionalProduct = additionalProductDAO.findAdditionalProductById(Id);
-        additionalProduct.setActualGetMoney(Float.parseFloat(jo.getString("value")));
-        additionalProductDAO.updateAdditionalProduct(additionalProduct);
+        additionalProductDAO.updateAdditionalProductByJSON(data);
     }
 
 }

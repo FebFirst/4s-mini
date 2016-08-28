@@ -81,7 +81,7 @@
             <tr>
                 <th>厂家</th>
                 <th>品牌</th>
-                <th>SFX</th>
+                <th>配置</th>
                 <th>颜色</th>
                 <th>库存状态</th>
                 <th>成本</th>
@@ -93,8 +93,6 @@
                 <th>计划入库日</th>
                 <th>计划出库日</th>
                 <th>计划交车日</th>
-                <th>订车日</th>
-                <th>在途日</th>
                 <th colspan=2>操作</th>
             </tr>
             </thead>
@@ -110,14 +108,14 @@
                     <td>${car.key.price}</td>
                     <td>${car.key.discount}</td>
                     <td>${car.key.payback}</td>
-                    <td>${car.value.predictedTime}</td>
-                    <td>${car.value.purchasedTime}</td>
+                    <td>${car.key.predictedTime}</td>
+                    <td>${car.key.purchasedTime}</td>
                     <td>${car.value.inGarageTime}</td>
                     <td>${car.value.outGarageTime}</td>
                     <td>${car.value.submitTime}</td>
-                    <td>${car.key.predictedTime}</td>
-                    <td>${car.key.purchasedTime}</td>
-                    <td><button type="button" class="btn btn-primary" onclick="showModal('${car.key.carID}')">入库登记</button></td>
+
+                    <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/setStockStatus/${car.key.carID}'">入库</button></td>
+
                 </tr>
             </c:forEach>
             </tbody>
@@ -125,72 +123,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="carModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close"
-                        data-dismiss="modal" aria-hidden="true">
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    单车预警
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group  required"><label class="control-label">填写车架号：</label>
-                    <input id="newCarId" placeholder="填写车架号" required="required">
-                </div>
-                <div class="form-group  required" style="visibility: hidden">
-                    <input id="oldCarId">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal">关闭
-                </button>
-
-                <button type="button" class="btn btn-default"
-                        onclick="updateCarId()">确定
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<jsp:include page="../Site/footer.jsp"/>
-
-<script>
-    function showModal(oldCarId) {
-        document.getElementById("oldCarId").value = oldCarId;
-        $('#carModal').modal('show');
-    }
-
-    function updateCarId() {
-        var old = document.getElementById("oldCarId").value;
-        var newId = document.getElementById("newCarId").value;
-
-        var data = {"oldId":old,"newId":newId};
-        var url = "${pageContext.request.contextPath}/Car/carStock";
-        post(url,data);
-
-    }
-
-    function post(url, params) {
-        var temp = document.createElement("form");
-        temp.action = url;
-        temp.method = "post";
-        temp.style.display = "none";
-        for (var x in params) {
-            var opt = document.createElement("input");
-            opt.name = x;
-            opt.value = params[x];
-            temp.appendChild(opt);
-        }
-        document.body.appendChild(temp);
-        temp.submit();
-        return temp;
-    };
-</script>
 <%--<script>--%>
 <%--&lt;%&ndash;显示预警&ndash;%&gt;--%>
 <%--function predict(carId) {--%>

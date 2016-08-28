@@ -42,7 +42,6 @@
             dataType: 'json',
             type: 'POST',
             success:function (data) {
-                alert(JSON.stringify(data));
                 $('#carSoldList').bootstrapTable({
                     data:data,
                     dataType:'json',

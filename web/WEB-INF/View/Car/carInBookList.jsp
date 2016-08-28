@@ -81,19 +81,18 @@
             <tr>
                 <th>厂家</th>
                 <th>品牌</th>
-                <th>SFX</th>
+                <th>配置</th>
                 <th>颜色</th>
                 <th>库存状态</th>
                 <th>成本</th>
                 <th>指导价</th>
                 <th>折扣</th>
                 <th>返利</th>
-                <th>计划订车日</th>
+                <th>订车日</th>
                 <th>计划在途日</th>
                 <th>计划入库日</th>
                 <th>计划出库日</th>
                 <th>计划交车日</th>
-                <th>订车日</th>
 
                 <th colspan=2>操作</th>
             </tr>
@@ -110,16 +109,15 @@
                     <td>${car.key.price}</td>
                     <td>${car.key.discount}</td>
                     <td>${car.key.payback}</td>
-                    <td>${car.value.predictedTime}</td>
+                    <td>${car.key.predictedTime}</td>
                     <td>${car.value.purchasedTime}</td>
                     <td>${car.value.inGarageTime}</td>
                     <td>${car.value.outGarageTime}</td>
                     <td>${car.value.submitTime}</td>
-                    <td>${car.key.predictedTime}</td>
+
                     <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/setCost/${car.key.carID}'">设置成本</button></td>
-                    <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/setStockStatus/${car.key.carID}'">
-                        在途
-                    </button></td>
+                    <td><button type="button" class="btn btn-primary" onclick="showModal('${car.key.carID}')">车架号登记</button></td>
+
                 </tr>
             </c:forEach>
             </tbody>
@@ -136,25 +134,64 @@
                         data-dismiss="modal" aria-hidden="true">
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    单车预警
+                    车架号登记
                 </h4>
             </div>
             <div class="modal-body">
-                <div class="form-group  required"><label class="control-label">亏损剩余天数：</label>
-                    <label class="control-label" id="dayLeft"></label>
+                <form>
+                <div class="form-group  required"><label class="control-label">填写车架号：</label>
+                    <input id="newCarId" placeholder="填写车架号" required="required">
                 </div>
-                <div class="form-group  required"><label class="control-label">当前出售盈利额: </label>
-                    <label class="control-label" id="earn"></label>
+                <div class="form-group  required" style="visibility: hidden">
+                    <input id="oldCarId"  class="form-control" type="text" required="required">
                 </div>
+                </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal">关闭
+                </button>
+
+                <button type="button" class="btn btn-default"
+                        onclick="updateCarId()">确定
                 </button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<script>
+    function showModal(oldCarId) {
+        document.getElementById("oldCarId").value = oldCarId;
+        $('#carModal').modal('show');
+    }
+
+    function updateCarId() {
+        var old = document.getElementById("oldCarId").value;
+        var newId = document.getElementById("newCarId").value;
+
+        var data = {"oldId":old,"newId":newId};
+        var url = "${pageContext.request.contextPath}/Car/carStock";
+        post(url,data);
+
+    }
+
+    function post(url, params) {
+        var temp = document.createElement("form");
+        temp.action = url;
+        temp.method = "post";
+        temp.style.display = "none";
+        for (var x in params) {
+            var opt = document.createElement("input");
+            opt.name = x;
+            opt.value = params[x];
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    };
+</script>
 <jsp:include page="../Site/footer.jsp"/>
 
 <%--<script>--%>

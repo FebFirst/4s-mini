@@ -24,22 +24,19 @@
                 <th>车架号</th>
                 <th>厂家</th>
                 <th>品牌</th>
-                <th>SFX</th>
+                <th>配置</th>
                 <th>颜色</th>
                 <th>库存状态</th>
                 <th>成本</th>
                 <th>指导价</th>
                 <th>折扣</th>
                 <th>返利</th>
-                <th>计划订车日</th>
-                <th>计划在途日</th>
-                <th>计划入库日</th>
-                <th>计划出库日</th>
-                <th>计划交车日</th>
                 <th>订车日</th>
                 <th>在途日</th>
                 <th>入库日</th>
                 <th>出库日</th>
+                <th>计划交车日</th>
+
             </tr>
             </thead>
             <tbody id="carInfo">
@@ -60,10 +57,6 @@
                     <td>${car.value.inGarageTime}</td>
                     <td>${car.value.outGarageTime}</td>
                     <td>${car.value.submitTime}</td>
-                    <td>${car.key.predictedTime}</td>
-                    <td>${car.key.purchasedTime}</td>
-                    <td>${car.key.inGarageTime}</td>
-                    <td>${car.key.outOfGarageTime}</td>
                 </tr>
             </c:forEach>
             </tbody>

@@ -24,7 +24,7 @@
                 <th>车架号</th>
                 <th>厂家</th>
                 <th>品牌</th>
-                <th>SFX</th>
+                <th>配置</th>
                 <th>颜色</th>
                 <th>库存状态</th>
                 <th>成本</th>

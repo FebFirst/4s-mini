@@ -18,22 +18,22 @@
 
 
 <body>
-<form class="mywrapper form-horizontal" id="formAddGarage" method="post" action="${pageContext.request.contextPath}/Order/addCarToOrder">
+<form class="mywrapper form-horizontal" id="formAddGarage" method="post">
 
   <div class="form-group">
     <label class="col-sm-2 control-label">订单号：</label>
     <div class="col-sm-7">
      <input id="orderId" class="form-control"/>
+      <input class="btn btn-primary" value="添加精品" onclick="addGift()">
+      <input class="btn btn-primary" value="添加保险" onclick="addInsurance()">
+      <input class="btn btn-primary" value="添加其他水平事业" onclick="addOthers()">
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">顾客姓名：</label>
     <div class="col-sm-7">
-      <select class="form-control" id="customer">
-        <c:forEach items="${customers}" var="customer">
-          <option value="${customer.customerID}">${customer.name}</option>
-        </c:forEach>
-    </select>
+      <input id="customer" class="form-control"/>
+    </div>
     </div>
   </div>
   <div class="form-group">
@@ -42,12 +42,11 @@
     <label class="control-label" id="carId">${car.carID}</label>
     <label  class="col-sm-2 control-label"></label>
     <input class="btn btn-primary" value="车辆详情" onclick="carInfoShow()" readonly="readonly"/>
-    <input class="btn btn-primary" value="添加精品" onclick="addGift()">
-    <input class="btn btn-primary" value="添加保险" onclick="addInsurance()">
+
   </div>
   <div id="gift"></div>
   <div id="insurance"></div>
-
+  <div id="other"></div>
 
   <div class="form-group">
     <label class="col-sm-2 control-label">预计付款时间: </label>

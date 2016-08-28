@@ -20,7 +20,7 @@
 <form:form cssClass="mywrapper form-horizontal" id="formAddGarage" method="post" commandName="garage" action="${pageContext.request.contextPath}/Car/createGarage">
 
   <div class="form-group">
-    <label class="col-sm-2 control-label">品牌：</label>
+    <label class="col-sm-2 control-label">厂家品牌：</label>
     <div class="col-sm-7">
       <form:input cssClass="form-control" id="Brand" path="Brand"/>
     </div>

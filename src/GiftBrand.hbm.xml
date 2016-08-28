@@ -5,8 +5,10 @@
 
 <hibernate-mapping>
     <class name="CarSaleManagerSystem.Bean.GiftBrand" table="gift_brand">
-        <id name="giftBrand" column="gift_brand">
-        </id>
+        <composite-id>
+            <key-property name="giftBrand" column="gift_brand" length="64"/>
+            <key-property name="type" column="type" length="64"/>
+        </composite-id>
         <property name="valid" column="valid" type="java.lang.String" length="1"/>
     </class>
 </hibernate-mapping>

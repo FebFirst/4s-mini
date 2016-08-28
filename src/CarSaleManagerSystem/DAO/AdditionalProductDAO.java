@@ -2,11 +2,14 @@ package CarSaleManagerSystem.DAO;
 
 
 import CarSaleManagerSystem.Bean.AdditionalProduct;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Created by googo on 16/8/14.
@@ -65,5 +68,37 @@ public class AdditionalProductDAO {
 
         additionalProducts = session.createQuery(hql).list();
         return additionalProducts;
+    }
+
+
+    public List<AdditionalProduct> additionalProductTypeFilter(List<AdditionalProduct> additionalProductList, String type){
+        if(additionalProductList == null){
+            return null;
+        }
+
+        List<AdditionalProduct> additionalProducts = new ArrayList<>();
+
+        for(int i = 0; i < additionalProductList.size(); i++){
+            if(additionalProductList.get(i).getAdditionalProductType().equals("type"));
+            additionalProducts.add(additionalProductList.get(i));
+        }
+
+        return additionalProducts;
+    }
+
+    public void updateAdditionalProductByJSON(String data){
+        JSONArray ja ;
+        JSONObject jo;
+
+        ja = JSONArray.fromObject(data);
+        for(int i = 0; i<ja.size(); i++){
+            jo = ja.getJSONObject(i);
+            int id = jo.getInt("key");
+            float value = Float.parseFloat(jo.getString("value"));
+            AdditionalProduct additionalProduct = findAdditionalProductById(id);
+            additionalProduct.setActualGetMoney(value);
+            updateAdditionalProduct(additionalProduct);
+        }
+
     }
 }

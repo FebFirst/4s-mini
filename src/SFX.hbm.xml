@@ -5,8 +5,11 @@
 
 <hibernate-mapping>
     <class name="CarSaleManagerSystem.Bean.CarSFX" table="sfx">
-        <id name="sfx" column="sfx" type="java.lang.String" length="64">
-        </id>
+        <composite-id>
+            <key-property name="sfx" column="sfx"/>
+            <key-property name="brand" column="brand" length="64"/>
+            <key-property name="garage" column="garage_brand" length="64"/>
+        </composite-id>
         <property name="valid" column="valid" type="java.lang.String" length="1"/>
         <!--<set name="carTypeSet" table="vehicle_type" inverse="true">-->
             <!--<key column="sfx" not-null="true"/>-->

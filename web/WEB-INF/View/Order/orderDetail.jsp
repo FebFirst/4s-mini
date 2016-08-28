@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>车辆列表</title>
+    <title>订单详情</title>
 </head>
 <body>
 <jsp:include page="../Site/header.jsp"/>
@@ -120,61 +120,7 @@
         </table>
     </div>
 </div>
-<%--</div>--%>
 
-<%--<div class="mywrapper form-group">--%>
-    <%--<div class="col-sm-2"></div>--%>
-    <%--<div class="col-sm-8">--%>
-        <%--<table class="table table-bordered table-responsive">--%>
-            <%--<caption>保险</caption>--%>
-            <%--<thead>--%>
-            <%--<tr>--%>
-                <%--<th>编号</th>--%>
-                <%--<th>名称</th>--%>
-                <%--<th>成本</th>--%>
-                <%--<th>标价</th>--%>
-                <%--<th>折扣</th>--%>
-                <%--<th>应售价</th>--%>
-                <%--<th>实际收款</th>--%>
-            <%--</tr>--%>
-            <%--</thead>--%>
-            <%--<tbody>--%>
-            <%--<c:forEach items="${insurances}" var="insurance">--%>
-                <%--<tr>--%>
-                    <%--<td>${insurance.insuranceID}</td>--%>
-                    <%--<td>${insurance.name}</td>--%>
-                    <%--<td>${insurance.cost}</td>--%>
-                    <%--<td>${insurance.default_price}</td>--%>
-                    <%--<td>${insurance.discount}</td>--%>
-                    <%--<td>${insurance.selling_price}</td>--%>
-                    <%--<td>${insurance.actualGetMoney}</td>--%>
-                <%--</tr>--%>
-            <%--</c:forEach>--%>
-            <%--</tbody>--%>
-        <%--</table>--%>
-    <%--</div>--%>
-<%--</div>--%>
-<%--<div class="mywrapper form-group">--%>
-    <%--<div class="col-sm-2"></div>--%>
-    <%--<div class="col-sm-8">--%>
-        <%--<table class="table table-bordered table-responsive">--%>
-            <%--<caption>用户信息</caption>--%>
-            <%--<thead>--%>
-            <%--<tr>--%>
-                <%--<th>姓名</th>--%>
-                <%--<th>手机号</th>--%>
-            <%--</tr>--%>
-            <%--</thead>--%>
-            <%--<tbody>--%>
-            <%--&lt;%&ndash;<tr>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<td>${customer.name}</td>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<td>${customer.cellphone}</td>&ndash;%&gt;--%>
-
-            <%--&lt;%&ndash;</tr>&ndash;%&gt;--%>
-            <%--</tbody>--%>
-        <%--</table>--%>
-    <%--</div>--%>
-<%--</div>--%>
 <jsp:include page="../Site/footer.jsp"/>
 </body>
 </html>

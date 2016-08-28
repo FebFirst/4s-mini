@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="CarSaleManagerSystem.Bean.SalesPlan" table="sales_plan">
+        <id name="planID">
+            <generator class="increment"/>
+        </id>
+        <property name="garage" column="garage_brand" type="java.lang.String" length="64"/>
+        <property name="brand" column="brand" type="java.lang.String" length="64" />
+        <property name="sfx" column="sfx" type="java.lang.String" length="64"/>
+        <property name="color" column="color" type="java.lang.String" length="32"/>
+        <property name="planTime" column="plan_time" type="java.util.Date"/>
+
+
+        <property name="carCost" column="vehicle_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="carDiscount" column="vehicle_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="carPrice" column="vehicle_price" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="exchangeCost" column="exchange_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="exchangeDiscount" column="exchange_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="exchangePrice" column="exchange_price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="exchangeSaturate" column="exchange_saturate" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="giftCost" column="gift_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="giftDiscount" column="gift_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="giftPrice" column="gift_price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="giftSaturate" column="gift_saturate" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="insuranceCost" column="insurance_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="insuranceDiscount" column="insurance_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="insurancePrice" column="insurance_price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="insuranceSaturate" column="insurance_saturate" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="financeCost" column="finance_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="financeDiscount" column="finance_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="financePrice" column="finance_price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="financeSaturate" column="finance_saturate" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="rebookInsuranceCost" column="rebook_insurance_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="rebookInsuranceDiscount" column="rebook_insurance_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="rebookInsurancePrice" column="rebook_insurance_price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="rebookInsuranceSaturate" column="rebook_insurance_saturate" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="serviceCost" column="service_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="serviceDiscount" column="service_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="servicePrice" column="service_price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="serviceSaturate" column="service_saturate" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="vipCost" column="vip_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="vipDiscount" column="vip_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="vipPrice" column="vip_price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="vipSaturate" column="vip_saturate" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="renderCost" column="render_cost" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="renderDiscount" column="render_discount" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="renderPrice" column="render_price" type="java.lang.Float" precision="10" scale="2"/>
+        <property name="renderSaturate" column="render_saturate" type="java.lang.Float" precision="10" scale="2"/>
+
+        <property name="valid" column="valid" type="java.lang.String" length="1"/>
+
+    </class>
+</hibernate-mapping>

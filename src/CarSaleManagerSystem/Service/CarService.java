@@ -243,9 +243,29 @@ public class CarService {
         return carTypeDAO.getAllCarType();
     }
 
+    public List<CarType> getValidCarType() {
+
+        List<CarType> carTypeList = carTypeDAO.getAllCarType();
+
+        if(carTypeList == null){
+            return null;
+        }
+
+        List<CarType> result = new ArrayList<>();
+
+        for(int i = 0; i < carTypeList.size(); i ++){
+            if(carTypeList.get(i).getValid().equals("Y")){
+                result.add(carTypeList.get(i));
+            }
+        }
+
+        return result;
+    }
+
     public void removeCarType(CarType carType) {
         CarTypeID carTypeID = new CarTypeID(carType.getGarage(), carType.getBrand(), carType.getCarSfx(), carType.getCarColor());
         if (carTypeExist(carTypeID)) {
+            carType = getCarTypeByID(carTypeID);
             carType.setValid("N");
             carTypeDAO.updateCarType(carType);
         }
@@ -878,6 +898,41 @@ public class CarService {
     }
 
     /**
+     * 辅助函数 判断是否同一个日
+     * @param date1 date1
+     * @param date2 date2
+     * @return 是否同一个日
+     */
+    private boolean isSameDay(Date date1,Date date2){
+        if(date1 == null || date2 == null){
+            return false;
+        }
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(date1);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTime(date2);
+        int year1 = calendar1.get(Calendar.YEAR);
+        int year2 = calendar2.get(Calendar.YEAR);
+        int month1 = calendar1.get(Calendar.MONTH);
+        int month2 = calendar2.get(Calendar.MONTH);
+        int day1 = calendar1.get(Calendar.DAY_OF_MONTH);
+        int day2 = calendar2.get(Calendar.DAY_OF_MONTH);
+        return year1 == year2 && month1 == month2 && day1 == day2;
+    }
+
+    public Date setDate(int year, int month, int day){
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String date = year + "-" + month + "-" + day;
+            Date result = sdf.parse(sdf.format(date));
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * 辅助函数 获得一个月有多少天
      * @param date 某个月
      * @return 这个月有多少天
@@ -997,6 +1052,174 @@ public class CarService {
     public float carPlanTotalPricePerDay(Date date){
         float total = getCarPlanTotalPriceByMonth(date);
         return total / dayOfMonth(date);
+    }
+
+    /**
+     * 某月销售的汽车
+     * @param date 某一月
+     * @return 这一月卖的汽车
+     */
+    public List<Order> getCarSoldByMonth(Date date){
+        List<Order> orderList = orderDAO.getAllOrders();
+        List<Order> result = new ArrayList<>();
+
+        for(Order order : orderList){
+            if(isSameMonth(order.getActual_pay_time(), date)){
+                result.add(order);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * 某天销售的汽车
+     * @param date 某一天
+     * @return 这天卖的汽车
+     */
+
+    public List<Order> getCarSoldByDay(Date date){
+        List<Order> orderList = getCarSoldByMonth(date);
+
+        List<Order> result = new ArrayList<>();
+
+        for(Order order : orderList){
+            if(isSameDay(order.getActual_pay_time(), date)){
+                result.add(order);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * 某月购入的汽车
+     * @param date 本月
+     * @return 这月买入的汽车
+     */
+    public List<Car> getCarPurchasedByMonth(Date date){
+        List<Car> carList = carDAO.getAllCars();
+        carList = carStatusFilter(carList, "在库");
+        List<Car> result = new ArrayList<>();
+
+        for(Car car : carList){
+            if(isSameMonth(car.getPurchasedTime(),date)){
+                result.add(car);
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 某天买入的汽车
+     * @param date 某一天
+     * @return 这天买入的汽车
+     */
+    public List<Car> getCarPurchasedByDay(Date date){
+        List<Car> carList = getCarPurchasedByMonth(date);
+        List<Car> result = new ArrayList<>();
+
+        for(Car car : carList){
+            if(isSameDay(car.getPurchasedTime(), date)){
+                result.add(car);
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 某月每天销售汽车辆及销售金额
+     * @param date 某一天
+     * @return 这天卖的汽车数量及收入
+     */
+    public Map<Integer, Float> carSoldPerDay(String date){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date month;
+            month = sdf.parse(sdf.format(date));
+            Date day;
+            List<Order> orders;
+            Map<Integer, Float> result = new HashMap<>();
+
+            for(int i = 0; i < dayOfMonth(month); i ++){
+                day = new Date(month.getYear(),month.getMonth(), i+1);
+                orders = getCarSoldByDay(day);
+                float money = 0;
+                for(int j =0; j< orders.size(); j++){
+                    money += carTotalProfit(orders.get(i).getCarID());
+                }
+                result.put(orders.size(), money);
+                money = 0;
+            }
+
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * 某月每天买入汽车辆及销售金额
+     * @param date 某一天
+     * @return 这天买入的汽车数量及支出
+     */
+    public Map<Integer, Float> carPurchasedPerDay(String date){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date month;
+            month = sdf.parse(sdf.format(date));
+            Date day;
+            List<Car> cars;
+            Map<Integer, Float> result = new HashMap<>();
+
+            for(int i = 0; i < dayOfMonth(month); i ++){
+                day = new Date(month.getYear(),month.getMonth(), i+1);
+                cars = getCarPurchasedByDay(day);
+                float money = 0;
+                for(int j =0; j< cars.size(); j++){
+                    money += cars.get(i).getCost();
+                }
+                result.put(cars.size(), money);
+                money = 0;
+
+            }
+
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 未来某月每天计划销售汽车辆及销售金额
+     * @param date 某一天
+     * @return 未来这天计划卖的汽车数量及收入
+     */
+    public Map<Float, Float> getCarPlanByMonth(String date){
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date month;
+            month = sdf.parse(sdf.format(date));
+
+            Map<Float, Float> plan = new HashMap<>();
+
+            float planPerDay = carPlanNumberPerDay(month);
+            float money = carPlanTotalPricePerDay(month);
+            int days = dayOfMonth(month);
+
+            for (int i = 0; i < days; i++) {
+                plan.put(planPerDay,money);
+            }
+            return plan;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

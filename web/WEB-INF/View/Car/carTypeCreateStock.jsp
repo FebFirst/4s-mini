@@ -17,41 +17,6 @@
 <jsp:include page="../Site/header.jsp"/>
 <jsp:include page="../Site/seperator.jsp"/>
 
-<script>
-  //  $(function(){
-  //    //$("#formAddBook").validate();
-  //    $("#formAddBook").validate({
-  //      rules:{
-  //        ISBN:{
-  //          required:true,
-  //          digits:true,
-  //          minlength:10,
-  //          maxlength:13
-  //        },
-  //        Bookname:{
-  //          required:true,
-  //          maxlength:128
-  //        },
-  //        Price:{
-  //          required:true,
-  //          number:true,
-  //          min:0,
-  //          max:10000000
-  //        },
-  //        Quantity:{
-  //          required:true,
-  //          digits:true,
-  //          min:0,
-  //          max:10000000
-  //        },
-  //        Category:{
-  //          required:true,
-  //          maxlength:20
-  //        }
-  //      }
-  //    });
-  //  });
-</script>
 
 <form:form cssClass="mywrapper form-horizontal" id="formCarStockRegister" method="post" commandName="car" action="${pageContext.request.contextPath}/Car/createStock/${planID}">
 
@@ -88,7 +53,7 @@
   </div>
 
   <div class="form-group">
-    <label class="col-sm-2 control-label">SFX:</label>
+    <label class="col-sm-2 control-label">配置:</label>
     <div class="col-sm-7">
       <select class="form-control" name="sfx" id="Sfx">
         <%--<c:forEach items="${sfxList}" var="sfx">--%>

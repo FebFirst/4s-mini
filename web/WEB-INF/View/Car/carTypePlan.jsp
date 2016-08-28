@@ -38,7 +38,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label">SFX:</label>
+        <label class="col-sm-2 control-label">配置:</label>
         <div class="col-sm-7">
             <select class="form-control" name="carSfx" id="carSfx">
                     <option value="${carType.carSfx}">${carType.carSfx}</option>

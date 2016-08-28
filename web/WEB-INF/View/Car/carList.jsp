@@ -42,7 +42,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-sm-1 control-label">按SFX搜索:</label>
+        <label class="col-sm-1 control-label">按配置搜索:</label>
         <div class="col-sm-1" id ="sfx_div">
             <select class="form-control" name="sfx" id="sfx">
                 <option value="empty"></option>
@@ -82,7 +82,7 @@
                 <th>车架号</th>
                 <th>厂家</th>
                 <th>品牌</th>
-                <th>SFX</th>
+                <th>配置</th>
                 <th>颜色</th>
                 <th>库存状态</th>
                 <th>成本</th>
@@ -117,29 +117,29 @@
                     <td>${car.key.outGarageTime}</td>
                     <td><button type="button" class="btn btn-primary" onclick="redirectBuy('${car.key.carID}')">购买</button></td>
                     <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/setCost/${car.key.carID}'">设置成本</button></td>
-                    <td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/setStockStatus/${car.key.carID}'">
-                        <c:choose>
-                            <c:when test="${car.key.stockStatus.equals('订车')}">
-                                在途
-                            </c:when>
-                            <c:when test="${car.key.stockStatus.equals('在途')}">
-                                入库
-                            </c:when>
-                            <c:when test="${car.key.stockStatus.equals('在库')}">
-                                出库
-                            </c:when>
-                            <c:when test="${car.key.stockStatus.equals('出库')}">
-                                交车
-                            </c:when>
-                            <c:when test="${car.key.stockStatus.equals('交车')}">
-                                已交车
-                            </c:when>
-                            <c:otherwise>
-                                车辆状态错误
-                            </c:otherwise>
-                        </c:choose>
+                    <%--<td><button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/setStockStatus/${car.key.carID}'">--%>
+                        <%--<c:choose>--%>
+                            <%--<c:when test="${car.key.stockStatus.equals('订车')}">--%>
+                                <%--在途--%>
+                            <%--</c:when>--%>
+                            <%--<c:when test="${car.key.stockStatus.equals('在途')}">--%>
+                                <%--入库--%>
+                            <%--</c:when>--%>
+                            <%--<c:when test="${car.key.stockStatus.equals('在库')}">--%>
+                                <%--出库--%>
+                            <%--</c:when>--%>
+                            <%--<c:when test="${car.key.stockStatus.equals('出库')}">--%>
+                                <%--交车--%>
+                            <%--</c:when>--%>
+                            <%--<c:when test="${car.key.stockStatus.equals('交车')}">--%>
+                                <%--已交车--%>
+                            <%--</c:when>--%>
+                            <%--<c:otherwise>--%>
+                                <%--车辆状态错误--%>
+                            <%--</c:otherwise>--%>
+                        <%--</c:choose>--%>
 
-                    </button></td>
+                    <%--</button></td>--%>
                     <td><button type="button" class="btn btn-primary" onclick="predict('${car.key.carID}')">预警明细</button></td>
                 </tr>
             </c:forEach>
@@ -231,23 +231,23 @@
         return result;
     }
 
-    function statusChose(status) {
-        var result;
-        if(status == '在途'){
-            result = '入库';
-        }else if(status == '在库'){
-            result = '出库';
-        }else if(status == '出库'){
-            result = '交车';
-        }else if(status == '交车'){
-            result = '已交车';
-        }else if(status == '订车'){
-            result = '在途';
-        }else{
-            result = '车辆状态错误';
-        }
-        return result
-    }
+//    function statusChose(status) {
+//        var result;
+//        if(status == '在途'){
+//            result = '入库';
+//        }else if(status == '在库'){
+//            result = '出库';
+//        }else if(status == '出库'){
+//            result = '交车';
+//        }else if(status == '交车'){
+//            result = '已交车';
+//        }else if(status == '订车'){
+//            result = '在途';
+//        }else{
+//            result = '车辆状态错误';
+//        }
+//        return result
+//    }
     function carSelect() {
         var garage = document.getElementById("garage");
         var brand = document.getElementById("carbrand");
@@ -299,7 +299,7 @@
                             "<td>" + outGarageTime + "</td>" +
                             '<td><button type="button" class="btn btn-primary" onclick= "redirectBuy(\'' + item.carID + '\')">购买</button></td>' +
                             '<td><button type="button" class="btn btn-primary" onclick= "redirectCost(\''+item.carID + '\')">设置成本</button></td>' +
-                            '<td><button type="button" class="btn btn-primary" onclick= "redirectStock(\''+item.carID+'\')">' + statusChose(item.stockStatus) + '</button></td>' +
+//                            '<td><button type="button" class="btn btn-primary" onclick= "redirectStock(\''+item.carID+'\')">' + statusChose(item.stockStatus) + '</button></td>' +
                             '<td><button type="button" class="btn btn-primary" onclick= "predict(\''+item.carID +'\')">预警明细</button></td>';
 
                 });

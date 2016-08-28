@@ -107,34 +107,13 @@ public class OrderController {
         try {
             String orderId = request.getParameter("orderId");
             String carId = request.getParameter("carId");
-            String customerID = request.getParameter("customer");
+            String customer = request.getParameter("customer");
             String predictDate = request.getParameter("predictDate");
             String gifts = request.getParameter("gifts");
             String insurances = request.getParameter("insurances");
+            String userId = (String)session.getAttribute("userId");
 
-
-            Car car = carService.findCarById(carId);
-            car.setValid("N");
-            carService.updateCar(car);
-
-            Order order = new Order();
-            order.setOrderID(orderId);
-            order.setCarID(carId);
-            order.setCustomerID(Integer.valueOf(customerID));
-            if (session.getAttribute("userId") != null) {
-                order.setSalesmanID((Integer) session.getAttribute("userId"));
-            }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-            Date date = sdf.parse(predictDate);
-            order.setPredicted_pay_time(date);
-            order.setFinish_status("N");
-            order.setDate(new Date());
-            orderService.createOrder(order);
-
-            giftService.updateGiftListByJSONOrderCreateHelper(gifts, orderId);
-            insuranceService.updateInsurancesByJSONOrderCreateHelper(insurances,orderId);
-
-
+            orderService.beginAnOrder(orderId,carId,customer,predictDate,gifts,insurances,userId);
 
             return modelAndView;
         }catch(Exception e){
@@ -182,21 +161,7 @@ public class OrderController {
         String carId = request.getParameter("carId");
         String actaulGetMoney = request.getParameter("actualGetMoney");
         String secondCar = request.getParameter("secondCar");
-        System.out.println( orderId);
-        Order order = orderService.findOrderById(orderId);
-        order.setActualGetMoney(Float.parseFloat(actaulGetMoney));
-
-        orderService.updateOrder(order);
-
-        if(Float.parseFloat(secondCar) != 0){
-            List<AdditionalProduct> additionalProducts = additionalProductService.findAdditionalProductByOrderId(orderId);
-            List<AdditionalProduct> additionalProductList = additionalProductService.additionalProductTypeFilter(additionalProducts,"���ֳ�");
-            if(additionalProductList != null){
-                AdditionalProduct additionalProduct = additionalProductList.get(0);
-                additionalProduct.setActualGetMoney(Float.parseFloat(secondCar));
-                additionalProductService.updateAdditionalProduct(additionalProduct);
-            }
-        }
+        orderService.orderSaleImpl(orderId,actaulGetMoney, secondCar);
 
         ModelAndView modelAndView = new ModelAndView("redirect:/Car/carSold" );
         return modelAndView;
@@ -293,39 +258,7 @@ public class OrderController {
         String hire = request.getParameter("hire");
         String longTerm = request.getParameter("longTerm");
 
-        JSONArray ja;
-        JSONObject jo;
-
-
-        if(finance != null && JSONArray.fromObject(finance).size() != 0){
-            additionalProductService.updateAdditionalProductByJSON(finance);
-        }
-
-        if(card != null && JSONArray.fromObject(card).size() != 0){
-            additionalProductService.updateAdditionalProductByJSON(card);
-        }
-
-
-        if(VIP != null && JSONArray.fromObject(VIP).size() != 0){
-            additionalProductService.updateAdditionalProductByJSON(VIP);
-        }
-
-        if(rent != null && JSONArray.fromObject(rent).size() != 0){
-            additionalProductService.updateAdditionalProductByJSON(rent);
-        }
-
-        if(hire != null && JSONArray.fromObject(hire).size() != 0){
-            additionalProductService.updateAdditionalProductByJSON(hire);
-        }
-
-        if(longTerm != null){
-            ja = JSONArray.fromObject(longTerm);
-            for(int i = 0; i < ja.size(); i ++){
-                jo = ja.getJSONObject(i);
-                additionalProductService.updateAdditionalProductByJSON(jo.toString());
-            }
-
-        }
+        orderService.orderSaleManager(finance,card,VIP,rent,hire,longTerm);
         return modelAndView;
     }
 

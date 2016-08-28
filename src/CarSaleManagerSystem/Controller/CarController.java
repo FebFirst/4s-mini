@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -74,7 +75,7 @@ public class CarController {
 
     @RequestMapping(value = "/carStock",method = RequestMethod.POST)
     public ModelAndView updateCarId(HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/Car/carOnTheWayList");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/carBookedList");
         String oldId = request.getParameter("oldId");
         String newId = request.getParameter("newId");
 
@@ -83,15 +84,14 @@ public class CarController {
         Car newCar = new Car(oldCar);
         newCar.setCarID(newId);
         newCar.setInGarageTime(new Date());
-        newCar.setStockStatus("在库");
+        newCar.setStockStatus("在途");
         carService.removeUpdate(oldCar, newCar);
         return modelAndView;
     }
     @RequestMapping(value = "/createStock/{planID}",method = RequestMethod.POST)
     public ModelAndView createStock(@ModelAttribute Car car,@PathVariable int planID){
-        ModelAndView modelAndView = new ModelAndView("redirect:/Car/list");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/carBookedList");
 
-//        System.out.println(car.toString());
         Date date = new Date();
         car.setCarID("CHEJIAHAO"+ date.toString());
         car.setPlanID(planID);
@@ -302,7 +302,7 @@ public class CarController {
 
     @RequestMapping(value = "/createGarage",method = RequestMethod.POST)
     public ModelAndView createGarage(@ModelAttribute Garage garage){
-        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createStock");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createCarType");
         carService.createGarage(garage);
         return modelAndView;
     }
@@ -318,7 +318,7 @@ public class CarController {
 
     @RequestMapping(value = "/createCarBrand",method = RequestMethod.POST)
     public ModelAndView createCarBrand(@ModelAttribute CarBrand carBrand){
-        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createStock");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createCarType");
         carService.createCarBrand(carBrand);
         return modelAndView;
     }
@@ -332,7 +332,7 @@ public class CarController {
 
     @RequestMapping(value = "/createColor",method = RequestMethod.POST)
     public ModelAndView createColor(@ModelAttribute CarColor carColor){
-        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createStock");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createCarType");
         carService.createColor(carColor);
         return modelAndView;
     }
@@ -346,7 +346,7 @@ public class CarController {
 
     @RequestMapping(value = "/createStockStatus",method = RequestMethod.POST)
     public ModelAndView createStockStatus(@ModelAttribute StockStatus stockStatus){
-        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createStock");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createCarType");
         carService.createStockStatus(stockStatus);
         return modelAndView;
     }
@@ -360,7 +360,7 @@ public class CarController {
 
     @RequestMapping(value = "/createSFX",method = RequestMethod.POST)
     public ModelAndView createSFX(@ModelAttribute CarSFX carSFX){
-        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createStock");
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/createCarType");
         carService.createCarSFX(carSFX);
         return modelAndView;
     }
@@ -442,7 +442,7 @@ public class CarController {
         return modelAndView;
     }
     @RequestMapping(value = "/carTypeList",method = RequestMethod.GET)
-    public ModelAndView listCarType(HttpSession session) {
+    public ModelAndView listCarType() {
 
         ModelAndView modelAndView = new ModelAndView("Car/carTypeList");
         List<?> carTypeList = carService.getAllCarType();
@@ -451,7 +451,6 @@ public class CarController {
     }
     @RequestMapping(value = "/deleteCarType",method = RequestMethod.POST)
     public ModelAndView removeCarType(HttpServletRequest request){
-
         ModelAndView modelAndView = new ModelAndView("redirect:/Car/carTypeList");
         String garage = request.getParameter("garage");
         String brand = request.getParameter("brand");
@@ -500,6 +499,36 @@ public class CarController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/updateCarTypePrice", method = RequestMethod.POST)
+    public ModelAndView updateCarTypePrice(HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView("redirect:/Car/carTypeList");
+        String garage = request.getParameter("garage");
+        String brand = request.getParameter("brand");
+        String color = request.getParameter("color");
+        String sfx = request.getParameter("sfx");
+        CarTypeID carTypeID = new CarTypeID(garage,brand,sfx,color);
+        CarType carType = carService.getCarTypeByID(carTypeID);
+        if(carType != null) {
+            String cost = request.getParameter("cost");
+            String price = request.getParameter("price");
+            String discount = request.getParameter("discount");
+
+            if(!price.equals("null")) {
+                carType.setPrice(Float.parseFloat(price));
+            }
+            if(!cost.equals("null")) {
+                carType.setCost(Float.parseFloat(cost));
+            }
+            if(!discount.equals("null")) {
+                carType.setDiscount(Float.parseFloat(discount));
+            }
+
+            carService.updateCarType(carType);
+        }
+
+        return  modelAndView;
+
+    }
     @RequestMapping(value = "/selectCarBrand")
     public @ResponseBody
     Map<String,Object> selectCarBrand(HttpServletRequest request) throws IOException {
@@ -668,6 +697,40 @@ public class CarController {
     }
 
 
+    @RequestMapping(value = "/carTypeSelect")
+    public @ResponseBody
+    void selectCarType(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String garage = request.getParameter("garage");
+        String brand = request.getParameter("brand");
+        String sfx = request.getParameter("sfx");
+        String color = request.getParameter("color");
+
+        List<CarType> result = carService.getValidCarType();
+
+        if(!garage.equals("empty")){
+            result = carService.GarageBrandFilter(result, garage);
+        }
+
+        if(!brand.equals("empty")){
+            result = carService.BrandFilter(result, brand);
+        }
+
+        if(!sfx.equals("empty")){
+            result = carService.SFXFilter(result, sfx);
+        }
+
+        if(!color.equals("empty")){
+            result = carService.ColorFilter(result, color);
+        }
+
+        JSONArray ja = new JSONArray();
+        ja = JSONArray.fromObject(request);
+
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(ja.toString());
+        response.getWriter().flush();
+    }
+
     @RequestMapping(value = "/predict")
     public @ResponseBody
     Map<String,Object> predict(HttpServletRequest request) throws IOException{
@@ -678,7 +741,6 @@ public class CarController {
         float loss = carService.carWarning(carId);
         int leftDay = carService.remainingProfitDay(carId);
 
-       // System.out.println(loss + leftDay +" heihei ");
         map.put("loss",loss);
         map.put("day",leftDay);
         return map;
@@ -826,6 +888,20 @@ public class CarController {
         response.getWriter().write(ja.toString());
         response.getWriter().flush();
 //        return modelAndView;
+    }
+
+    @RequestMapping(value = "/planPerMonth/{date}", method = RequestMethod.GET)
+    public ModelAndView carPlanPerMonth(@PathVariable String date){
+        ModelAndView modelAndView = new ModelAndView("Plan/carPlanPerMonth");
+        Map<Float,Float> planByMonth = carService.getCarPlanByMonth(date);
+        Map<Integer, Float> carSoldPerDay = carService.carSoldPerDay(date);
+        Map<Integer, Float> carPurchasedPerDay = carService.carPurchasedPerDay(date);
+
+        modelAndView.addObject("plans", planByMonth);
+        modelAndView.addObject("carsSold", carSoldPerDay);
+        modelAndView.addObject("carsPurchased", carPurchasedPerDay);
+        modelAndView.addObject("date", date);
+        return modelAndView;
     }
 
 

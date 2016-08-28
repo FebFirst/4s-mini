@@ -20,7 +20,7 @@
 <form:form cssClass="mywrapper form-horizontal" id="formAddSfx" method="post" commandName="SFX" action="${pageContext.request.contextPath}/Car/createSFX">
 
   <div class="form-group">
-    <label class="col-sm-2 control-label">SFX：</label>
+    <label class="col-sm-2 control-label">配置：</label>
     <div class="col-sm-7">
       <form:input cssClass="form-control" id="sfx" path="sfx"/>
     </div>
