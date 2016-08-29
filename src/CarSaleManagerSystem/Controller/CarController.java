@@ -446,6 +446,15 @@ public class CarController {
 
         ModelAndView modelAndView = new ModelAndView("Car/carTypeList");
         List<?> carTypeList = carService.getAllCarType();
+        List<Garage> garages = carService.getAllGarages();
+        List<CarBrand> carBrands = carService.getAllCarBrands();
+        List<CarColor> carColors = carService.getAllColors();
+        List<CarSFX> carSFXes = carService.getAllCarSFX();
+
+        modelAndView.addObject("garages",garages);
+        modelAndView.addObject("brands",carBrands);
+        modelAndView.addObject("colors",carColors);
+        modelAndView.addObject("sfxes",carSFXes);
         modelAndView.addObject("carTypes",carTypeList);
         return modelAndView;
     }

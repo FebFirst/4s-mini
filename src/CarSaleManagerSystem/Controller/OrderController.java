@@ -113,8 +113,40 @@ public class OrderController {
             String insurances = request.getParameter("insurances");
             String userId = (String)session.getAttribute("userId");
 
-            orderService.beginAnOrder(orderId,carId,customer,predictDate,gifts,insurances,userId);
+            String secondCar = request.getParameter("secondCar");
+            String finance = request.getParameter("finance");
+            String card = request.getParameter("card");
+            String VIP = request.getParameter("VIP");
+            String rent = request.getParameter("rent");
+            String longTerm = request.getParameter("long");
+            orderService.beginAnOrder(orderId, carId, customer, predictDate, gifts, insurances, userId);
 
+            AdditionalProduct additionalProduct = new AdditionalProduct();
+            additionalProduct.setOrderID(orderId);
+
+            additionalProduct.setSelling_price(Float.parseFloat(secondCar));
+            additionalProduct.setAdditionalProductType("二手车");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(finance));
+            additionalProduct.setAdditionalProductType("金融");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(card));
+            additionalProduct.setAdditionalProductType("上牌");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(VIP));
+            additionalProduct.setAdditionalProductType("会员");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(rent));
+            additionalProduct.setAdditionalProductType("租赁");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(longTerm));
+            additionalProduct.setAdditionalProductType("延保");
+            additionalProductService.createAdditionalProduct(additionalProduct);
             return modelAndView;
         }catch(Exception e){
             e.printStackTrace();

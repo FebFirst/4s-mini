@@ -52,10 +52,10 @@
                     <td>${car.key.price}</td>
                     <td>${car.key.discount}</td>
                     <td>${car.key.payback}</td>
-                    <td>${car.value.predictedTime}</td>
-                    <td>${car.value.purchasedTime}</td>
-                    <td>${car.value.inGarageTime}</td>
-                    <td>${car.value.outGarageTime}</td>
+                    <td>${car.key.predictedTime}</td>
+                    <td>${car.key.purchasedTime}</td>
+                    <td>${car.key.inGarageTime}</td>
+                    <td>${car.key.outGarageTime}</td>
                     <td>${car.value.submitTime}</td>
                 </tr>
             </c:forEach>

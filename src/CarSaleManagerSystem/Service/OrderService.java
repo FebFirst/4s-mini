@@ -162,8 +162,8 @@ public class OrderService {
             order.setDate(new Date());
             orderDAO.createOrder(order);
 
-            giftService.updateGiftListByJSONOrderCreateHelper(gifts, orderId);
-            insuranceService.updateInsurancesByJSONOrderCreateHelper(insurances, orderId);
+            giftService.createGiftListByJSONOrderCreateHelper(gifts, orderId);
+            insuranceService.createInsurancesByJSONOrderCreateHelper(insurances, orderId);
         }catch (Exception e){
             e.printStackTrace();
         }

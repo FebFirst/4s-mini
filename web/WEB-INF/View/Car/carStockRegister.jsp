@@ -72,7 +72,6 @@
         </c:forEach>
       </select>
     </div>
-    <button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/createGarage'">没有这个厂家，添加一个</button>
   </div>
 
   <div class="form-group">
@@ -84,7 +83,7 @@
         </c:forEach>
       </select>
     </div>
-    <button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/createCarBrand'">没有这个车型，添加一个</button>
+    <%--<button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/createCarBrand'">没有这个车型，添加一个</button>--%>
   </div>
 
   <div class="form-group">
@@ -97,7 +96,7 @@
       </select>
 
     </div>
-    <button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/createSFX'">没有这个SFX，添加一个</button>
+    <%--<button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/createSFX'">没有这个SFX，添加一个</button>--%>
   </div>
 
   <div class="form-group">
@@ -111,7 +110,7 @@
       <%--<input class="form-control" type="text" placeholder="颜色"--%>
              <%--id="CarColor" name="carColor" required="required"/>--%>
     </div>
-    <button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/createColor'">没有这个颜色，添加一个</button>
+    <%--<button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/createColor'">没有这个颜色，添加一个</button>--%>
   </div>
 
   <div class="form-group">
@@ -125,7 +124,6 @@
         <%--<input class="form-control" type="text" placeholder="颜色"--%>
         <%--id="CarColor" name="carColor" required="required"/>--%>
     </div>
-    <button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Car/createStockStatus'">添加一个库存状态</button>
   </div>
 
   <div class="form-group">

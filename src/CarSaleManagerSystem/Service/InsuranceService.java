@@ -130,7 +130,7 @@ public class InsuranceService {
     }
 
 
-    public void updateInsurancesByJSONOrderCreateHelper(String insuranceList, String orderId){
+    public void createInsurancesByJSONOrderCreateHelper(String insuranceList, String orderId){
         JSONArray JAInsurances = new JSONArray();
         JAInsurances = JSONArray.fromObject(insuranceList);
 
@@ -141,7 +141,7 @@ public class InsuranceService {
             Insurance insurance = insuranceTypeNameFilter(type, name).get(0);
             insurance.setOrderID(orderId);
             insurance.setValid("N");
-            insuranceDAO.updateInsurance(insurance);
+            insuranceDAO.createInsurance(insurance);
         }
     }
 

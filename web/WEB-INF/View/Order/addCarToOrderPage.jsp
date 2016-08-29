@@ -26,7 +26,6 @@
      <input id="orderId" class="form-control"/>
       <input class="btn btn-primary" value="添加精品" onclick="addGift()">
       <input class="btn btn-primary" value="添加保险" onclick="addInsurance()">
-      <input class="btn btn-primary" value="添加其他水平事业" onclick="addOthers()">
     </div>
   </div>
   <div class="form-group">
@@ -46,8 +45,47 @@
   </div>
   <div id="gift"></div>
   <div id="insurance"></div>
-  <div id="other"></div>
 
+  <div class="form-group">
+    <label class="col-sm-2 control-label">二手车应收款: </label>
+    <div class="col-sm-7">
+      <input class="form-control" value="" id="secondCar" type="date">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">分期应收款: </label>
+    <div class="col-sm-7">
+      <input class="form-control" value="" id="finance" type="date">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">上牌应收款: </label>
+    <div class="col-sm-7">
+      <input class="form-control" value="" id="card" type="date">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">延保应收款: </label>
+    <div class="col-sm-7">
+      <input class="form-control" value="" id="long" type="date">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">会员应收款: </label>
+    <div class="col-sm-7">
+      <input class="form-control" value="" id="VIP" type="date">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">租赁应收款: </label>
+    <div class="col-sm-7">
+      <input class="form-control" value="" id="rent" type="date">
+    </div>
+  </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">预计付款时间: </label>
     <div class="col-sm-7">
@@ -55,7 +93,7 @@
       <%--<form:input cssClass="form-control" ID="Brand" path="Brand"/>--%>
     </div>
   </div>
-  
+
   <div class="form-group">
     <div class="col-sm-2"></div>
     <div class="col-sm-7" id="msg">
@@ -271,9 +309,14 @@ To be implemented 检查重复
 
     var carId = document.getElementById("carId").innerHTML;
     var customer = document.getElementById("customer");
-    index = customer.selectedIndex;
-    customer = customer.options[index].value;
+    customer = customer.value;
     var predictDate = document.getElementById("predictDate").value;
+    var secondCar = document.getElementById("secondCar").value;
+    var finance = document.getElementById("finance").value;
+    var card = document.getElementById("card").value;
+    var long = document.getElementById("long").value;
+    var VIP = document.getElementById("VIP").value;
+    var rent = document.getElementById("rent").value;
 
     var giftDivNum = document.getElementById("gift").getElementsByTagName("div").length/4;
     var insuranceDivNum = document.getElementById("insurance").getElementsByTagName("div").length/4;
@@ -313,7 +356,8 @@ To be implemented 检查重复
 
 
 
-    var data = {"orderId":orderId,"carId":carId,"customer":customer,"predictDate":predictDate,"gifts": JSON.stringify(giftsData),"insurances":JSON.stringify(insuranceData)};
+    var data = {"orderId":orderId,"carId":carId,"customer":customer,"secondCar":secondCar,"finance":finance,"card":card,"long":long,"VIP":VIP,"rent":rent,
+      "predictDate":predictDate,"gifts": JSON.stringify(giftsData),"insurances":JSON.stringify(insuranceData)};
 
     post("${pageContext.request.contextPath}/Order/createOrder", data);
 

@@ -13,6 +13,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -25,6 +26,17 @@
 
 <body>
 <form:form cssClass="mywrapper form-horizontal" id="formAddGiftBrand" method="post" commandName="giftBrand" action="${pageContext.request.contextPath}/Sale/createGiftBrand">
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">精品类别：</label>
+    <div class="col-sm-7">
+      <select class="form-control" name="GiftType" id="GiftType">
+        <c:forEach items="${giftTypes}" var="type">
+          <option value="${type.type}">${type.type}</option>
+        </c:forEach>
+      </select>
+    </div>
+  </div>
 
   <div class="form-group">
     <label class="col-sm-2 control-label">精品品牌：</label>
@@ -44,10 +56,15 @@
   function existsChecking() {
     var obj = document.getElementById("giftBrand");
     var type = obj.value;
+
+    obj = document.getElementById("GiftType");
+    var index = obj.selectedIndex;
+    var giftType = obj.options[index].value;
+
     //alert(type);
     $.ajax({
       url: "${pageContext.request.contextPath}/Sale/giftBrandExists",
-      data:{"giftBrand":type},
+      data:{"giftBrand":type,"giftType":giftType},
       type: 'POST',
       dataType:'JSON',
       success:function (data) {

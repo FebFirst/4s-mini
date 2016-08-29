@@ -89,7 +89,7 @@
                 <th>成本</th>
                 <th>指导价</th>
                 <th>折让</th>
-                <th colspan=5>操作</th>
+                <th colspan=4>操作</th>
             </tr>
             </thead>
             <tbody>
@@ -113,7 +113,7 @@
                     <td><button type="button" class="btn btn-primary" onclick="updatePlan('${carType.garage}','${carType.brand}','${carType.carSfx}','${carType.carColor}')">添加计划</button></td>
                     <td><button type="button" class="btn btn-primary" onclick="showModal('${carType.garage}','${carType.brand}','${carType.carSfx}','${carType.carColor}')">设置价格</button></td>
                     <td><button type="button" class="btn btn-primary" onclick="getStock('${carType.garage}','${carType.brand}','${carType.carSfx}','${carType.carColor}')">查看库存</button></td>
-                    <td><button type="button" class="btn btn-primary" onclick="stockRegister('${carType.garage}','${carType.brand}','${carType.carSfx}','${carType.carColor}')">向厂家订车请求</button></td>
+                    <%--<td><button type="button" class="btn btn-primary" onclick="stockRegister('${carType.garage}','${carType.brand}','${carType.carSfx}','${carType.carColor}')">向厂家订车请求</button></td>--%>
                 </tr>
             </c:forEach>
             </tbody>
@@ -288,8 +288,7 @@
                             '<td><button type="button" class="btn btn-primary" onclick= "deleteCarType(\'' + item.garage + '\' + ',' + \'' + item.brand + '\' + ',' + \'' + item.carSfx + '\' +',' + \'' + item.carColor+ '\')">删除</button></td>' +
                             '<td><button type="button" class="btn btn-primary" onclick= "updatePlan(\'' + item.garage + '\' + ',' + \'' + item.brand + '\' + ',' + \'' + item.carSfx + '\' +',' + \'' + item.carColor+ '\')">添加计划</button></td>' +
                             '<td><button type="button" class="btn btn-primary" onclick= "showModal(\'' + item.garage + '\' + ',' + \'' + item.brand + '\' + ',' + \'' + item.carSfx + '\' +',' + \'' + item.carColor+ '\')">设置价格</button></td>' +
-                            '<td><button type="button" class="btn btn-primary" onclick= "getStock(\'' + item.garage + '\' + ',' + \'' + item.brand + '\' + ',' + \'' + item.carSfx + '\' +',' + \'' + item.carColor+ '\')">查看库存</button></td>' +
-                            '<td><button type="button" class="btn btn-primary" onclick= "stockRegister(\'' + item.garage + '\' + ',' + \'' + item.brand + '\' + ',' + \'' + item.carSfx + '\' +',' + \'' + item.carColor+ '\')">向厂家订车请求</button></td>';
+                            '<td><button type="button" class="btn btn-primary" onclick= "getStock(\'' + item.garage + '\' + ',' + \'' + item.brand + '\' + ',' + \'' + item.carSfx + '\' +',' + \'' + item.carColor+ '\')">查看库存</button></td>';
 
                 });
             }

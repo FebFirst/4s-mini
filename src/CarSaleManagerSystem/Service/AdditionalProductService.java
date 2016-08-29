@@ -54,6 +54,7 @@ public class AdditionalProductService {
         additionalProductDAO.createAdditionalProduct(additionalProduct);
     }
 
+
     public List<AdditionalProduct> getAllAdditionalProducts() {
         return additionalProductDAO.getAllAdditionalProduct();
     }

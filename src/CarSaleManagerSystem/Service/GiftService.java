@@ -83,10 +83,10 @@ public class GiftService {
 
 
     public void createGiftBrand(GiftBrand giftBrand){
-        if(giftBrandExist(giftBrand.getGiftBrand())){
+        if(giftBrandExist(giftBrand.getType(),giftBrand.getGiftBrand())){
             return;
         }
-        if(giftBrandDAO.findGiftBrandById(giftBrand.getGiftBrand()) != null){
+        if(giftBrandDAO.findGiftBrandById(giftBrand.getType(),giftBrand.getGiftBrand()) != null){
             giftBrand.setValid("Y");
             giftBrandDAO.updateGiftBrand(giftBrand);
             return;
@@ -95,8 +95,8 @@ public class GiftService {
         giftBrandDAO.createGiftBrand(giftBrand);
     }
 
-    public GiftBrand findGiftBrandById(String brand){
-        return giftBrandDAO.findGiftBrandById(brand);
+    public GiftBrand findGiftBrandById(String type, String brand){
+        return giftBrandDAO.findGiftBrandById(type,brand);
     }
 
     public List<GiftBrand> getAllGiftBrands(){
@@ -146,8 +146,8 @@ public class GiftService {
         return true;
     }
 
-    public boolean giftBrandExist(String giftBrandId){
-        GiftBrand giftBrand = giftBrandDAO.findGiftBrandById(giftBrandId);
+    public boolean giftBrandExist(String giftType, String giftBrandId){
+        GiftBrand giftBrand = giftBrandDAO.findGiftBrandById(giftType,giftBrandId);
         if(giftBrand == null){
             return false;
         }
@@ -179,7 +179,7 @@ public class GiftService {
     }
 
 
-    public void updateGiftListByJSONOrderCreateHelper(String giftList, String orderId){
+    public void createGiftListByJSONOrderCreateHelper(String giftList, String orderId){
         JSONArray JAgifts = new JSONArray();
         JAgifts = JSONArray.fromObject(giftList);
 
@@ -190,7 +190,7 @@ public class GiftService {
             Gift gift = giftTypeNameFilter(type, name).get(0);
             gift.setOrderID(orderId);
             gift.setValid("N");
-            giftDAO.updateGift(gift);
+            giftDAO.createGift(gift);
         }
     }
 

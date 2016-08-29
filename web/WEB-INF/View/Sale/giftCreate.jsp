@@ -22,44 +22,32 @@
 <form:form cssClass="mywrapper form-horizontal" id="formAddGift" method="post" commandName="gift" action="${pageContext.request.contextPath}/Sale/createGift">
 
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">精品名称 :</label>
-        <div class="col-sm-7">
-            <form:input cssClass="form-control" ID="Name" path="Name"/>
-        </div>
-    </div>
+    <%--<div class="form-group">--%>
+        <%--<label class="col-sm-2 control-label">精品名称 :</label>--%>
+        <%--<div class="col-sm-7">--%>
+            <%--<form:input cssClass="form-control" ID="Name" path="Name"/>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 
     <div class="form-group">
         <label class="col-sm-2 control-label">精品类别 :</label>
         <div class="col-sm-7">
                 <%--<form:input cssClass="form-control" ID="Type" path="Type"/>--%>
-            <select class="form-control" name="GiftType" id="GiftType">
+            <select class="form-control" name="GiftType" id="GiftType" onchange="brandSelect()">
                 <c:forEach items="${types}" var="type">
                     <option value="${type.type}">${type.type}</option>
                 </c:forEach>
             </select>
         </div>
-        <button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Sale/createGiftType'">添加一个类别</button>
+        <%--<button type="button" class="btn btn-primary" onclick="window.location='${pageContext.request.contextPath}/Sale/createGiftType'">添加一个类别</button>--%>
     </div>
 
-    <%--<div class="form-group">--%>
-        <%--<label class="col-sm-2 control-label">厂家:</label>--%>
-        <%--<div class="col-sm-7">--%>
-            <%--<select class="form-control" name="Garage" id="Garage" onchange="brandSelect()">--%>
-                <%--<c:forEach items="${carBrands}" var="carBrand">--%>
-                    <%--<option value="${carBrand.garage}">${carBrand.garage}</option>--%>
-                <%--</c:forEach>--%>
-            <%--</select>--%>
-        <%--</div>--%>
-    <%--</div>>--%>
 
     <div class="form-group">
         <label class="col-sm-2 control-label">品牌:</label>
         <div class="col-sm-7">
             <select class="form-control" name="GiftBrand" id="GiftBrand">
-                <c:forEach items="${giftBrands}" var="Brand">
-                    <option value="${Brand.giftBrand}">${Brand.giftBrand}</option>
-                </c:forEach>
+
             </select>
         </div>
     </div>
@@ -96,32 +84,32 @@
 
 <jsp:include page="../Site/footer.jsp"/>
 <script>
-    <%--$(document).ready(function() {--%>
-        <%--brandSelect();--%>
-    <%--});--%>
+    $(document).ready(function() {
+        brandSelect();
+    });
 
-    <%--function brandSelect() {--%>
+    function brandSelect() {
 
-        <%--var obj = document.getElementById("Garage");--%>
-        <%--var index = obj.selectedIndex; // 选中索引--%>
-        <%--var value = obj.options[index].value; // 选中值--%>
-        <%--$.ajax({--%>
-            <%--url:"${pageContext.request.contextPath}/Car/selectCarBrand",--%>
-            <%--data: {"garage":value},--%>
-            <%--type:'POST',--%>
-            <%--dataType:'JSON',--%>
-            <%--cache:true,--%>
-            <%--success:function(data){--%>
-                <%--//alert(data.size());--%>
-                <%--var brand = document.getElementById("Brand");--%>
-                <%--var jsonObj=eval(data);--%>
-                <%--brand.innerHTML = "";--%>
-                <%--$.each(jsonObj, function (i, item) {--%>
-                    <%--brand.innerHTML = brand.innerHTML + "<option value=" + JSON.stringify(item) + ">" +JSON.stringify(item).substr(1,JSON.stringify(item).length - 2) + "</option>";--%>
-                <%--});--%>
-            <%--}--%>
-        <%--})--%>
-    <%--}--%>
+        var obj = document.getElementById("GiftType");
+        var index = obj.selectedIndex; // 选中索引
+        var value = obj.options[index].value; // 选中值
+        $.ajax({
+            url:"${pageContext.request.contextPath}/Sale/selectGiftBrand",
+            data: {"type":value},
+            type:'POST',
+            dataType:'JSON',
+            cache:true,
+            success:function(data){
+                //alert(data.size());
+                var brand = document.getElementById("GiftBrand");
+                var jsonObj=eval(data);
+                brand.innerHTML = "";
+                $.each(jsonObj, function (i, item) {
+                    brand.innerHTML = brand.innerHTML + "<option value=" + JSON.stringify(item) + ">" +JSON.stringify(item).substr(1,JSON.stringify(item).length - 2) + "</option>";
+                });
+            }
+        })
+    }
 
 </script>
 

@@ -113,6 +113,8 @@ public class SaleController {
     @RequestMapping(value = "/createGiftBrand",method = RequestMethod.GET)
     public ModelAndView createGiftBrandPage(){
         ModelAndView modelAndView = new ModelAndView("Sale/createGiftBrand");
+        List<?> giftTypeList = giftService.getAllGiftTypes();
+        modelAndView.addObject("giftTypes", giftTypeList);
         modelAndView.addObject("giftBrand",new GiftBrand());
         return modelAndView;
     }
@@ -164,7 +166,24 @@ public class SaleController {
         }
         return map;
     }
+    @RequestMapping(value = "/selectGiftName")
+    public @ResponseBody
+    Map<String,Object> getGiftBrand(HttpServletRequest request) throws IOException{
+        Map<String, Object> map = new HashMap<>();
 
+        String type = request.getParameter("type");
+        List<GiftBrand> giftBrands = giftService.getAllGiftBrands();
+
+        for(int j = 0; j < giftBrands.size(); j++){
+            if(giftBrands.get(j).getValid().equals("Y")){
+                if(giftBrands.get(j).getType().equals(type)){
+                    map.put(String.valueOf(j), giftBrands.get(j).getGiftBrand());
+                }
+            }
+        }
+
+        return map;
+    }
 
     /*
     * insurance controller
@@ -377,7 +396,8 @@ public class SaleController {
         Map<String,Object> map = new HashMap<String,Object>();
 
         String brand = request.getParameter("giftBrand");
-        if(!giftService.giftBrandExist(brand)){
+        String type = request.getParameter("giftType");
+        if(!giftService.giftBrandExist(type,brand)){
             map.put("message","false");
         }else {
             map.put("message","true");
