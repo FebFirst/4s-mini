@@ -2,11 +2,13 @@ package CarSaleManagerSystem.Service;
 
 import CarSaleManagerSystem.Bean.*;
 import CarSaleManagerSystem.DAO.*;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -51,6 +53,9 @@ public class CarService {
 
     @Autowired
     private CarPlanDAO carPlanDAO;
+
+    @Autowired
+    private SalesPlanDAO salesPlanDAO;
 
     public void createCar(Car car) {
         if (carExist(car.getCarID())) {
@@ -625,7 +630,7 @@ public class CarService {
         return result;
     }
     public List<CarBrand> getCarBrandsByGarage(String garage) {
-        List<CarBrand> carBrandList = getAllCarBrands();
+        List<CarBrand> carBrandList = carBrandDAO.getAllCarBrands();
         List<CarBrand> result = new ArrayList<>();
         if (garage == null) {
             return carBrandList;
@@ -641,6 +646,22 @@ public class CarService {
         return result;
     }
 
+    public List<CarSFX> getCarSFXByBrand(String garage, String brand){
+        List<CarSFX> carSFXList = sfxdao.getAllCarSFXs();
+        List<CarSFX> result = new ArrayList<>();
+
+        if(garage == null || brand == null){
+            return carSFXList;
+        }
+
+        for(int i = 0; i < carSFXList.size(); i++){
+            if(carSFXList.get(i).getGarage().equals(garage) && carSFXList.get(i).getBrand().equals(brand)){
+                result.add(carSFXList.get(i));
+            }
+        }
+
+        return result;
+    }
     public boolean garageExist(String brand) {
         Garage garage = garageDAO.findGarageByBrand(brand);
         if (garage == null || garage.getValid().equals('N')) {
@@ -894,6 +915,8 @@ public class CarService {
         int year2 = calendar2.get(Calendar.YEAR);
         int month1 = calendar1.get(Calendar.MONTH);
         int month2 = calendar2.get(Calendar.MONTH);
+//        System.out.println(year1);
+//        System.out.println(year2);
         return year1 == year2 && month1 == month2;
     }
 
@@ -1072,6 +1095,160 @@ public class CarService {
         return result;
     }
 
+
+    /**
+     * 月度全车型销售利润*/
+    public HashMap<String,HashMap<String, CarProfit>> getCarTypeSoldByMonth(int year, int month) throws IOException{
+        try {
+            Date dt = new Date(year - 1900, month,1);
+
+            List<Order> orderList = getCarSoldByMonth(dt);
+            if(orderList == null){
+                return null;
+            }
+
+            HashMap<String,HashMap<String, CarProfit>> result = new HashMap<>();
+            CarProfit carProfit = new CarProfit();
+            for(int i = 0; i <orderList.size(); i ++){
+                carProfit.setValueChainIncome(0);
+                carProfit.setValueChainProfit(0);
+                Car car = carDAO.findCarById(orderList.get(i).getCarID());
+                List<Gift> gifts = giftDAO.findGiftByOrderId(orderList.get(i).getOrderID());
+                List<Insurance> insurances = insuranceDAO.findInsuranceByOrderId(orderList.get(i).getOrderID());
+                List<AdditionalProduct> additionalProducts = additionalProductDAO.findAdditionalProductByOrderId(orderList.get(i).getOrderID());
+
+
+                carProfit.setCarCost(car.getCost());
+                carProfit.setCarPayBack(car.getPayback());
+                carProfit.setCarPrice(orderList.get(i).getActualGetMoney());
+                carProfit.setCarProfit1(orderList.get(i).getActualGetMoney() - car.getCost());
+                carProfit.setCarProfit2(carProfit.getCarProfit1() + car.getPayback());
+
+                float get = 0;
+                float earn = 0;
+
+                for(Gift gift : gifts){
+                    get += gift.getActualGetMoney();
+                    earn += (get - gift.getCost());
+                }
+
+                carProfit.setGiftPrice(get);
+                carProfit.setGiftProfit(earn);
+                carProfit.setValueChainIncome(carProfit.getValueChainProfit() + get);
+                carProfit.setValueChainProfit(carProfit.getValueChainProfit() + earn);
+                get = 0;
+                earn = 0;
+
+                for(Insurance insurance : insurances){
+                    get += insurance.getActualGetMoney();
+                    earn += (get - insurance.getCost());
+                }
+
+                carProfit.setInsurancePrice(get);
+                carProfit.setInsuranceProfit(earn);
+                carProfit.setValueChainIncome(carProfit.getValueChainProfit() + get);
+                carProfit.setValueChainProfit(carProfit.getValueChainProfit() + earn);
+                get = 0;
+                earn = 0;
+
+                List<AdditionalProduct> finance = additionalProductDAO.additionalProductTypeFilter(additionalProducts,"金融");
+                for(AdditionalProduct add : finance){
+                    get += add.getActualGetMoney();
+                    earn += (get - add.getCost());
+                }
+                carProfit.setFinancePrice(get);
+                carProfit.setFinanceProfit(earn);
+                carProfit.setValueChainIncome(carProfit.getValueChainProfit() + get);
+                carProfit.setValueChainProfit(carProfit.getValueChainProfit() + earn);
+                get = 0;
+                earn = 0;
+
+                List<AdditionalProduct> secondHand = additionalProductDAO.additionalProductTypeFilter(additionalProducts,"二手车");
+                for(AdditionalProduct add : secondHand){
+                    get += add.getActualGetMoney();
+                    earn += (get - add.getCost());
+                }
+                carProfit.setExchangePrice(get);
+                carProfit.setExchangeProfit(earn);
+                carProfit.setValueChainIncome(carProfit.getValueChainProfit() + get);
+                carProfit.setValueChainProfit(carProfit.getValueChainProfit() + earn);
+                get = 0;
+                earn = 0;
+
+
+                List<AdditionalProduct> service = additionalProductDAO.additionalProductTypeFilter(additionalProducts,"服务费");
+                for(AdditionalProduct add : service){
+                    get += add.getActualGetMoney();
+                    earn += (get - add.getCost());
+                }
+                carProfit.setServicePrice(get);
+                carProfit.setExchangeProfit(earn);
+                carProfit.setValueChainIncome(carProfit.getValueChainProfit() + get);
+                carProfit.setValueChainProfit(carProfit.getValueChainProfit() + earn);
+                get = 0;
+                earn = 0;
+
+                List<AdditionalProduct> VIP = additionalProductDAO.additionalProductTypeFilter(additionalProducts,"VIP");
+                for(AdditionalProduct add : VIP){
+                    get += add.getActualGetMoney();
+                    earn += (get - add.getCost());
+                }
+                carProfit.setVipPrice(get);
+                carProfit.setVipProfit(earn);
+                carProfit.setValueChainIncome(carProfit.getValueChainProfit() + get);
+                carProfit.setValueChainProfit(carProfit.getValueChainProfit() + earn);
+                get = 0;
+                earn = 0;
+
+                List<AdditionalProduct> rent = additionalProductDAO.additionalProductTypeFilter(additionalProducts,"租赁");
+                for(AdditionalProduct add : rent){
+                    get += add.getActualGetMoney();
+                    earn += (get - add.getCost());
+                }
+                carProfit.setRenderPrice(get);
+                carProfit.setRenderProfit(earn);
+                carProfit.setValueChainIncome(carProfit.getValueChainProfit() + get);
+                carProfit.setValueChainProfit(carProfit.getValueChainProfit() + earn);
+                get = 0;
+                earn = 0;
+
+                List<AdditionalProduct> reBook = additionalProductDAO.additionalProductTypeFilter(additionalProducts,"延保");
+                for(AdditionalProduct add : reBook){
+                    get += add.getActualGetMoney();
+                    earn += (get - add.getCost());
+                }
+                carProfit.setRebookInsurancePrice(get);
+                carProfit.setRebookInsuranceProfit(earn);
+                carProfit.setValueChainIncome(carProfit.getValueChainProfit() + get);
+                carProfit.setValueChainProfit(carProfit.getValueChainProfit() + earn);
+
+                carProfit.setNumber(1);
+                carProfit.setCarDynamicProfit((carProfit.getCarProfit2() + carProfit.getValueChainProfit()) *
+                        (1-0.17f*1.12f));
+                carProfit.setCarDynamicFee(carProfit.getCarCost() * (0.05f + 30 * 0.0002f));
+                carProfit.setCarBoundProfit(carProfit.getCarDynamicProfit() - carProfit.getCarDynamicFee());
+
+                if(!result.containsKey(car.getBrand())){
+                    HashMap<String, CarProfit> sfx= new HashMap<>();
+                    sfx.put(car.getSfx(), carProfit);
+                    result.put(car.getBrand(), sfx);
+                }else{
+                    if(result.get(car.getBrand()).containsKey(car.getSfx())){
+                        CarProfit tmp = result.get(car.getBrand()).get(car.getSfx());
+                        tmp.dataAdd(carProfit);
+                        result.get(car.getBrand()).replace(car.getSfx(),tmp);
+                    }else {
+                        result.get(car.getBrand()).put(car.getSfx(), carProfit);
+                    }
+                }
+            }
+
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
     /**
      * 某天销售的汽车
      * @param date 某一天
@@ -1223,4 +1400,388 @@ public class CarService {
     }
 
 
+//    private boolean carTypeEqual(String garage1, String brand1, String garage2, String brand2){
+//        return (garage1.equals(garage2) && brand1.equals(brand2));
+//    }
+
+
+    /**
+     * 某月计划销售的汽车
+     * @param date 某一月
+     * @return 这一月计划卖的汽车
+     */
+
+    public List<CarPlan> getCarPlanMonthly(Date date){
+        List<CarPlan> carPlanList = carPlanDAO.getAllCarPlan();
+
+        if(carPlanList == null){
+            return null;
+        }
+        List<CarPlan> result = new ArrayList<>();
+
+        for(int i = 0; i < carPlanList.size(); i ++){
+            if(isSameMonth(carPlanList.get(i).getSubmitTime(), date)){
+                result.add(carPlanList.get(i));
+            }
+        }
+
+        return result;
+    }
+
+
+    public List<CarPlan> carPlanGarageFilter(List<CarPlan> carPlanList, String garage){
+        List<CarPlan> result = new ArrayList<>();
+
+
+        for(int i = 0; i< carPlanList.size(); i ++){
+            if(carPlanList.get(i).getGarage().equals(garage)){
+                result.add(carPlanList.get(i));
+            }
+        }
+
+        return result;
+    }
+    /**
+     * 某列表中某品牌的所有汽车
+     * @param carPlanList 某列表
+     * @param brand 某品牌
+     * @return 某列表中某品牌的所有汽车
+     */
+    public List<CarPlan> carPlanBrandFilter(List<CarPlan> carPlanList, String brand){
+        List<CarPlan> result = new ArrayList<>();
+
+        for(int i = 0; i< carPlanList.size(); i ++){
+            if(carPlanList.get(i).getBrand().equals(brand)){
+                result.add(carPlanList.get(i));
+            }
+        }
+
+        return result;
+    }
+
+    public void createSalesPlan(SalesPlan salesPlan){
+        salesPlanDAO.createSalesPlan(salesPlan);
+    }
+    public List<SalesPlan> getAllSalesPlans(){
+        return salesPlanDAO.getAllSalesPlans();
+    }
+
+    public void removeSalesPlan(SalesPlan salesPlan){
+        salesPlanDAO.removeSalesPlan(salesPlan);
+    }
+
+    public void updateSalesPlan(SalesPlan salesPlan){
+        salesPlanDAO.updateSalesPlan(salesPlan);
+    }
+
+    public SalesPlan findSalesPlanById(int salesPlanId){
+        return salesPlanDAO.findSalesPlanById(salesPlanId);
+    }
+
+    public List<SalesPlan> getSalesPlanByMonth(Date date){
+        List<SalesPlan> salesPlanList = salesPlanDAO.getAllSalesPlans();
+
+        if(salesPlanList == null){
+            return null;
+        }
+
+        List<SalesPlan> result = new ArrayList<>();
+
+        for(int i = 0; i < salesPlanList.size(); i ++){
+           // System.out.println(salesPlanList.get(i).getPlanTime().toString());
+            if(isSameMonth(salesPlanList.get(i).getPlanTime(), date)){
+                System.out.println(i);
+                result.add(salesPlanList.get(i));
+            }
+        }
+        System.out.println(result.size());
+        return result;
+    }
+    /**
+     * 返回某一年按map<Brand, Map<sfx, month[12]>> 存储的计划车销量
+     * 第一层Map的key是Brand 第二层Map的key是SFX value 是一个存了12个月车销量的数组
+     * @param year 某一年
+     * @return result
+     */
+    public HashMap<String,HashMap<String,Integer[]>> carPlanNumberByYear(int year){
+        HashMap<String,HashMap<String,Integer[]>> result = new HashMap<>();
+        List<SalesPlan> salesPlans = salesPlanDAO.getAllSalesPlans();
+        if(salesPlans == null) return null;
+        Calendar calendar = Calendar.getInstance();
+        SalesPlan salesPlan;
+        String brand;
+        String sfx;
+        int number;
+        int month;
+        for(int i = 0;i < salesPlans.size();i++){
+            salesPlan = salesPlans.get(i);
+            calendar.setTime(salesPlan.getPlanTime());
+            if(calendar.get(Calendar.YEAR) != year)
+                continue;
+            brand = salesPlan.getBrand();
+            sfx = salesPlan.getSfx();
+            month = calendar.get(Calendar.MONTH);
+            number = salesPlan.getNumber();
+            if(!result.containsKey(brand)){
+                Integer Month[] = new Integer[12];
+                for(int index = 0;index < 12;index++){
+                    Month[index] = 0;
+                }
+                Month[month] = number;
+                HashMap<String ,Integer[]> sfx_month_map = new HashMap<>();
+                sfx_month_map.put(sfx,Month);
+                result.put(brand,sfx_month_map);
+            }else{
+                if(!result.get(brand).containsKey(sfx)){
+                    Integer Month[] = new Integer[12];
+                    for(int index = 0;index < 12;index++){
+                        Month[index] = 0;
+                    }
+                    Month[month] = number;
+                    result.get(brand).put(sfx, Month);
+                }else{
+                    result.get(brand).get(sfx)[month] += number;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 返回某一年按map<Brand, Map<sfx, month[12]>> 存储的计划价值链的预算（必须保证plan的年月唯一）
+     * @param year 某年
+     * @return result
+     */
+    public HashMap<String,HashMap<String,ValueChain[]>> valueChainPlanByYearMonth(int year){
+        HashMap<String,HashMap<String,ValueChain[]>> result = new HashMap<>();
+        List<SalesPlan> salesPlans = salesPlanDAO.getAllSalesPlans();
+        if(salesPlans == null) return null;
+        Calendar calendar = Calendar.getInstance();
+        SalesPlan salesPlan;
+        String brand;
+        String sfx;
+        ValueChain valueChain;
+        int month;
+        for(int i = 0;i < salesPlans.size();i++){
+            salesPlan = salesPlans.get(i);
+            calendar.setTime(salesPlan.getPlanTime());
+            if(calendar.get(Calendar.YEAR) != year)
+                continue;
+            brand = salesPlan.getBrand();
+            sfx = salesPlan.getSfx();
+            month = calendar.get(Calendar.MONTH);
+            valueChain = new ValueChain(salesPlan);
+            if(!result.containsKey(brand)){
+                ValueChain Month[] = new ValueChain[12];
+                for(int index = 0;index < 12;index++){
+                    Month[index] = new ValueChain();
+                }
+                Month[month] = valueChain;
+                HashMap<String ,ValueChain[]> sfx_month_map = new HashMap<>();
+                sfx_month_map.put(sfx,Month);
+                result.put(brand,sfx_month_map);
+            }else{
+                if(!result.get(brand).containsKey(sfx)){
+                    ValueChain Month[] = new ValueChain[12];
+                    for(int index = 0;index < 12;index++){
+                        Month[index] = new ValueChain();
+                    }
+                    Month[month] = valueChain;
+                    result.get(brand).put(sfx, Month);
+                }else{
+                    result.get(brand).get(sfx)[month] = valueChain;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 返回某一年按map<Brand, Map<sfx, total>> 存储的计划价值链的预算（必须保证plan的年月唯一）
+     * @param year 某年
+     * @return result
+     */
+    public HashMap<String,HashMap<String,ValueChain>> valueChainPlanByYear(int year){
+        HashMap<String,HashMap<String,ValueChain[]>> map = valueChainPlanByYearMonth(year);
+        HashMap<String,HashMap<String,ValueChain>> result = new HashMap<>();
+        String brand;
+        String sfx;
+        ValueChain[] valueChains;
+        Iterator iterator = map.entrySet().iterator();
+        HashMap<String,ValueChain[]> innerMap;
+        ValueChain total;
+        while (iterator.hasNext()){
+            Map.Entry<String,HashMap<String,ValueChain[]>> entry = (Map.Entry)iterator.next();
+            brand = entry.getKey();
+            innerMap = entry.getValue();
+            Iterator innerIterator = innerMap.entrySet().iterator();
+            result.put(brand,new HashMap<String, ValueChain>());
+            while (innerIterator.hasNext()){
+                Map.Entry<String,ValueChain[]> innerEntry = (Map.Entry)innerIterator.next();
+                sfx = innerEntry.getKey();
+                valueChains = innerEntry.getValue();
+                total = new ValueChain();
+                for(int i = 0;i < 12;i++){
+                    total.dataAdd(valueChains[i]);
+                }
+                result.get(brand).put(sfx,total);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 返回某一年按map<Brand, Map<sfx, month[12]>> 存储的计划利润预算（必须保证plan的年月唯一）
+     * @param year 某年
+     * @return result
+     */
+    public HashMap<String,HashMap<String,CarProfit[]>> carProfitPlanByYearMonth(int year){
+        HashMap<String,HashMap<String,CarProfit[]>> result = new HashMap<>();
+        List<SalesPlan> salesPlans = salesPlanDAO.getAllSalesPlans();
+        if(salesPlans == null) return null;
+        Calendar calendar = Calendar.getInstance();
+        SalesPlan salesPlan;
+        String brand;
+        String sfx;
+        CarProfit carProfit;
+        int month;
+        for(int i = 0;i < salesPlans.size();i++){
+            salesPlan = salesPlans.get(i);
+            calendar.setTime(salesPlan.getPlanTime());
+            if(calendar.get(Calendar.YEAR) != year)
+                continue;
+            brand = salesPlan.getBrand();
+            sfx = salesPlan.getSfx();
+            month = calendar.get(Calendar.MONTH);
+            carProfit = new CarProfit(salesPlan);
+            if(!result.containsKey(brand)){
+                CarProfit Month[] = new CarProfit[12];
+                for(int index = 0;index < 12;index++){
+                    Month[index] = new CarProfit();
+                }
+                Month[month] = carProfit;
+                HashMap<String ,CarProfit[]> sfx_month_map = new HashMap<>();
+                sfx_month_map.put(sfx,Month);
+                result.put(brand,sfx_month_map);
+            }else{
+                if(!result.get(brand).containsKey(sfx)){
+                    CarProfit Month[] = new CarProfit[12];
+                    for(int index = 0;index < 12;index++){
+                        Month[index] = new CarProfit();
+                    }
+                    Month[month] = carProfit;
+                    result.get(brand).put(sfx, Month);
+                }else{
+                    result.get(brand).get(sfx)[month] = carProfit;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 返回某一年按map<Brand, Map<sfx, total>> 存储的计划价值链的预算（必须保证plan的年月唯一）
+     * 即年度利润预算的那张表
+     * @param year 某年
+     * @return result
+     */
+    public HashMap<String,HashMap<String,CarProfit>> carProfitPlanByYear(int year){
+        HashMap<String,HashMap<String,CarProfit[]>> map = carProfitPlanByYearMonth(year);
+        HashMap<String,HashMap<String,CarProfit>> result = new HashMap<>();
+        String brand;
+        String sfx;
+        CarProfit[] carProfits;
+        Iterator iterator = map.entrySet().iterator();
+        HashMap<String,CarProfit[]> innerMap;
+        CarProfit total;
+        while (iterator.hasNext()){
+            Map.Entry<String,HashMap<String,CarProfit[]>> entry = (Map.Entry)iterator.next();
+            brand = entry.getKey();
+            innerMap = entry.getValue();
+            Iterator innerIterator = innerMap.entrySet().iterator();
+            result.put(brand,new HashMap<String, CarProfit>());
+            while (innerIterator.hasNext()){
+                Map.Entry<String,CarProfit[]> innerEntry = (Map.Entry)innerIterator.next();
+                sfx = innerEntry.getKey();
+                carProfits = innerEntry.getValue();
+                total = new CarProfit();
+                for(int i = 0;i < 12;i++){
+                    total.dataAdd(carProfits[i]);
+                }
+                result.get(brand).put(sfx,total);
+            }
+        }
+        return result;
+    }
+
+    /**
+     *
+     * 返回某一月按map<Brand, Map<sfx, total>> 存储的计划价值链的预算（必须保证plan的年月唯一）
+     * 即月度利润预算的那张表
+     * @param year 年
+     * @param month 月
+     * @return result
+     */
+    public HashMap<String,HashMap<String,CarProfit>> carProfitPlanByMonth(int year,int month){
+        HashMap<String,HashMap<String,CarProfit[]>> map = carProfitPlanByYearMonth(year);
+        HashMap<String,HashMap<String,CarProfit>> result = new HashMap<>();
+        String brand;
+        String sfx;
+        CarProfit[] carProfits;
+        Iterator iterator = map.entrySet().iterator();
+        HashMap<String,CarProfit[]> innerMap;
+        CarProfit total;
+        while (iterator.hasNext()){
+            Map.Entry<String,HashMap<String,CarProfit[]>> entry = (Map.Entry)iterator.next();
+            brand = entry.getKey();
+            innerMap = entry.getValue();
+            Iterator innerIterator = innerMap.entrySet().iterator();
+            result.put(brand,new HashMap<String, CarProfit>());
+            while (innerIterator.hasNext()){
+                Map.Entry<String,CarProfit[]> innerEntry = (Map.Entry)innerIterator.next();
+                sfx = innerEntry.getKey();
+                carProfits = innerEntry.getValue();
+                total = new CarProfit();
+
+                total.dataAdd(carProfits[month]);
+                result.get(brand).put(sfx,total);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 单车利润预算*/
+
+    public HashMap<String, HashMap<String,CarProfit>> singleCarTypeProfitByMonth(int year, int month){
+        try {
+//            String dateLine = "-";
+//            if(month < 10){
+//                dateLine = "-0";
+//            }
+//            String date = year + dateLine + month + "-01";
+            //System.out.println(date);
+
+            Date dt = new Date(year - 1900,month,1);
+           // System.out.println(date.toString());
+            List<SalesPlan> planList = getSalesPlanByMonth(dt);
+            if(planList == null){
+                return null;
+            }
+            HashMap<String, HashMap<String,CarProfit>> result = new HashMap<>();
+            for(int i = 0; i < planList.size(); i ++){
+                if(!result.containsKey(planList.get(i).getBrand())){
+                    HashMap<String, CarProfit> sfx = new HashMap<>();
+                    sfx.put(planList.get(i).getSfx(), new CarProfit(planList.get(i)));
+                    result.put(planList.get(i).getBrand(), sfx);
+                }else{
+                    result.get(planList.get(i).getBrand()).put(planList.get(i).getSfx(),new CarProfit(planList.get(i)));
+                }
+            }
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

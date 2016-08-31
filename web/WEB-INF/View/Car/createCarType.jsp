@@ -38,10 +38,7 @@
         <label class="col-sm-2 control-label">车型品牌:</label>
         <div class="col-sm-7">
             <select class="form-control" name="Brand" id="Brand">
-              
-                <%--<c:forEach items="${carBrands}" var="carBrand">--%>
-                    <%--<option value="${carBrand.brand}">${carBrand.brand}</option>--%>
-                <%--</c:forEach>--%>
+
             </select>
         </div>
     </div>

@@ -464,6 +464,19 @@
             <!-- /.nav-second-level -->
           </li>
 
+
+          <li>
+            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 销售计划中心<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              <li>
+                <a href="${pageContext.request.contextPath}/Plan/createSalesPlan">创建销售计划</a>
+              </li>
+              <li>
+                <a href="${pageContext.request.contextPath}/Plan/searchBox">销售计划数据查询</a>
+              </li>
+            </ul>
+            <!-- /.nav-second-level -->
+          </li>
         </ul>
         <!-- /.nav-second-level -->
         </li>

@@ -1,5 +1,7 @@
 package CarSaleManagerSystem.Bean;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -12,10 +14,13 @@ public class SalesPlan {
     private String sfx;
     private String color;
     private int number;
-    private Date planTime; // 这个计划的时间
+
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date planTime; //
     private float carCost;
     private float carPrice;
     private float carDiscount;
+    private float carPayback;
 
     private float exchangeCost;
     private float exchangePrice;
@@ -58,6 +63,14 @@ public class SalesPlan {
     private float renderSaturate;
 
     private String valid;
+
+    public float getCarPayback() {
+        return carPayback;
+    }
+
+    public void setCarPayback(float carPayback) {
+        this.carPayback = carPayback;
+    }
 
     public int getPlanID() {
         return planID;

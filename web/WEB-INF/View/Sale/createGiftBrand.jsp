@@ -30,7 +30,7 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">精品类别：</label>
     <div class="col-sm-7">
-      <select class="form-control" name="GiftType" id="GiftType">
+      <select class="form-control" name="Type" id="Type">
         <c:forEach items="${giftTypes}" var="type">
           <option value="${type.type}">${type.type}</option>
         </c:forEach>
@@ -57,7 +57,7 @@
     var obj = document.getElementById("giftBrand");
     var type = obj.value;
 
-    obj = document.getElementById("GiftType");
+    obj = document.getElementById("Type");
     var index = obj.selectedIndex;
     var giftType = obj.options[index].value;
 

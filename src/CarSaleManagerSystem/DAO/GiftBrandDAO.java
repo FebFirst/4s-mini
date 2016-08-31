@@ -51,9 +51,12 @@ public class GiftBrandDAO {
 
     public GiftBrand findGiftBrandById(String type, String brand){
         Session session = this.sessionFactory.getCurrentSession();
-
         String hql = "from GiftBrand where type = '" + type +"' and giftBrand = '" + brand + "'";
-        GiftBrand giftBrand = (GiftBrand)session.createQuery(hql).list().get(0);
+        List<GiftBrand> giftBrandList = session.createQuery(hql).list();
+        if(giftBrandList == null || giftBrandList.size() == 0){
+            return null;
+        }
+        GiftBrand giftBrand = (GiftBrand)giftBrandList.get(0);
         return giftBrand;
     }
 }

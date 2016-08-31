@@ -166,7 +166,7 @@ public class SaleController {
         }
         return map;
     }
-    @RequestMapping(value = "/selectGiftName")
+    @RequestMapping(value = "/selectGiftBrand")
     public @ResponseBody
     Map<String,Object> getGiftBrand(HttpServletRequest request) throws IOException{
         Map<String, Object> map = new HashMap<>();

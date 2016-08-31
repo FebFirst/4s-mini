@@ -4,6 +4,7 @@ import CarSaleManagerSystem.Bean.*;
 import CarSaleManagerSystem.Service.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -541,7 +542,7 @@ public class CarController {
     @RequestMapping(value = "/selectCarBrand")
     public @ResponseBody
     Map<String,Object> selectCarBrand(HttpServletRequest request) throws IOException {
-        System.out.println(request.getParameter("garage"));
+       // System.out.println(request.getParameter("garage"));
         Map<String,Object> map = new HashMap<String,Object>();
 
         String garage = request.getParameter("garage");
@@ -552,6 +553,22 @@ public class CarController {
         return map;
     }
 
+    @RequestMapping(value = "/selectCarSfx")
+    public @ResponseBody
+    Map<String, Object> selectCarSfx(HttpServletRequest request) throws IOException{
+        Map<String, Object> map = new HashedMap();
+
+        String garage = request.getParameter("garage");
+        String brand = request.getParameter("brand");
+
+        List<CarSFX> carSFXes = carService.getCarSFXByBrand(garage,brand);
+
+        for(int i = 0; i < carSFXes.size(); i ++){
+            map.put(String.valueOf(i), carSFXes.get(i).getSfx());
+        }
+
+        return map;
+    }
     @RequestMapping(value = "/carTypeExists")
     public @ResponseBody
     Map<String, Object> carTypeExists(HttpServletRequest request) throws IOException{
@@ -914,6 +931,13 @@ public class CarController {
     }
 
 
+    @RequestMapping(value = "/carTypeProfit/{year}/{month}", method = RequestMethod.GET)
+    public ModelAndView getCarTypeSoldByMonth(@PathVariable int year, @PathVariable int month) throws IOException{
+        ModelAndView modelAndView = new ModelAndView("/Car/carSoldInfoByMonth");
+        HashMap<String,HashMap<String, CarProfit>> carTypeProfit = carService.getCarTypeSoldByMonth(year, month);
+        modelAndView.addObject("carTypeProfit",carTypeProfit);
+        return modelAndView;
+    }
 }
 
 
