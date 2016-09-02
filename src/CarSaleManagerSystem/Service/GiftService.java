@@ -168,9 +168,9 @@ public class GiftService {
        for(Gift gift:giftList){
            if(gift.getOrderID() == null) {
                if (gift.getValid().equals("Y")) {
-                   if (gift.getName().equals(name)) {
+//                   if (gift.getName().equals(name)) {
                        result.add(gift);
-                   }
+//                   }
                }
            }
        }

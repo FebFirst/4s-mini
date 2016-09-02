@@ -150,21 +150,6 @@
                             align: 'center',
                             rowspan:2,
                             valign: 'middle'
-                        },
-                        {
-                            title: '操作',
-                            field: 'id',
-                            align: 'center',
-                            rowspan:2,
-                            valign: 'middle',
-                            formatter:function(value,row,index){
-                                //  alert(row.birthday);
-//                                var json = row.videoId + "/" + removeAllSpace(row.title) + "/" + removeAllSpace(row.topic) + "/" + removeAllSpace(row.content) +
-//                                        "/" + row.isPass + "/";
-                                var e = '<a href="#" mce_href="#">编辑</a> ';
-                                var d = '<a href="javascript:;" mce_href="#")">删除</a> ';
-                                return e+d;
-                            }
                         }
                     ],[
                         {

@@ -34,9 +34,9 @@
                 <th colspan="2">会员</th>
                 <th colspan="2">租赁</th>
                 <th colspan="2">价值链</th>
-                <th rowspan="2" valign="center">变动毛利</th>
-                <th rowspan="2" valign="center">变动费用</th>
-                <th rowspan="2" valign="center">边际利润</th>
+                <th rowspan="2" valign="middle">变动毛利</th>
+                <th rowspan="2" valign="middle">变动费用</th>
+                <th rowspan="2" valign="middle">边际利润</th>
             </tr>
             </thead>
             <thead>
@@ -106,38 +106,37 @@
                 <c:set var="sum29" value="0"/>
                 <c:forEach items="${profit.value}" var="sfx">
                     <tr>
-                        <td>${profit.key}</td>
+                        <td class="tableFormat">${profit.key}</td>
                         <td>${sfx.key}</td>
-                        <td>${sfx.value.number}</td>
-                        <td>${sfx.value.carPrice}</td>
-                        <td>${sfx.value.carDiscount}</td>
-                        <td>${sfx.value.carProfit1}</td>
-                        <td>${sfx.value.carPayBack}</td>
-                        <td>${sfx.value.carProfit2}</td>
-                        <td>${sfx.value.exchangePrice}</td>
-                        <td>${sfx.value.exchangeProfit}</td>
-                        <td>${sfx.value.giftPrice}</td>
-                        <td>${sfx.value.giftProfit}</td>
-                        <td>${sfx.value.insurancePrice}</td>
-                        <td>${sfx.value.insuranceProfit}</td>
-                        <td>${sfx.value.financePrice}</td>
-                        <td>${sfx.value.financeProfit}</td>
-                        <td>${sfx.value.servicePrice}</td>
-                        <td>${sfx.value.serviceProfit}</td>
-                        <td>${sfx.value.rebookInsurancePrice}</td>
-                        <td>${sfx.value.rebookInsuranceProfit}</td>
-                        <td>${sfx.value.vipPrice}</td>
-                        <td>${sfx.value.vipProfit}</td>
-                        <td>${sfx.value.renderPrice}</td>
-                        <td>${sfx.value.renderProfit}</td>
-                        <td>${sfx.value.exchangePrice + sfx.value.giftPrice + sfx.value.insurancePrice + sfx.value.financePrice +
-                                sfx.value.servicePrice + sfx.value.rebookInsurancePrice + sfx.value.vipPrice + sfx.value.renderPrice}</td>
-                        <td>${sfx.value.exchangeProfit + sfx.value.giftProfit + sfx.value.insuranceProfit + sfx.value.financeProfit +
-                                sfx.value.serviceProfit + sfx.value.rebookInsuranceProfit + sfx.value.vipProfit + sfx.value.renderProfit}</td>
-
-                        <td>${sfx.value.carDynamicProfit}</td>
-                        <td>${sfx.value.carDynamicFee}</td>
-                        <td>${sfx.value.carBoundProfit}</td>
+                        <td><fmt:formatNumber value="${sfx.value.number}" pattern="#"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.carPrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.carDiscount}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.carProfit1}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.carPayBack}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.carProfit2}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.exchangePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.exchangeProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.giftPrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.giftProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.insurancePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.insuranceProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.financePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.financeProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.servicePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.serviceProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.rebookInsurancePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.rebookInsuranceProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.vipPrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.vipProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.renderPrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.renderProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.exchangePrice + sfx.value.giftPrice + sfx.value.insurancePrice + sfx.value.financePrice +
+                                sfx.value.servicePrice + sfx.value.rebookInsurancePrice + sfx.value.vipPrice + sfx.value.renderPrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.exchangeProfit + sfx.value.giftProfit + sfx.value.insuranceProfit + sfx.value.financeProfit +
+                                sfx.value.serviceProfit + sfx.value.rebookInsuranceProfit + sfx.value.vipProfit + sfx.value.renderProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.carDynamicProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.carDynamicFee}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.carBoundProfit}" pattern="#.00"/></td>
 
                         <c:set value="${sum0 + sfx.value.number}" var="sum0" />
                         <c:set value="${sum1 + sfx.value.carPrice}" var="sum1"/>
@@ -185,8 +184,8 @@
                         <%--</td>--%>
                     </tr>
                 </c:forEach>
-                <tr>
-                    <td>${profit.key}</td>
+                <tr bgcolor="gray">
+                    <td class="tableFormat">${profit.key}</td>
                     <td>TOTAL</td>
                     <td><fmt:formatNumber value="${sum0}" pattern="#.00"/></td>
                     <td><fmt:formatNumber value="${sum1}" pattern="#.00"/></td>
@@ -227,4 +226,5 @@
 </div>
 
 </body>
+<script src="/web_resources/js/tableFormat.js"></script>
 </html>

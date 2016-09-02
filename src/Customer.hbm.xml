@@ -8,13 +8,13 @@
         <id name="customerID" type="java.lang.Integer" column="customer_id">
             <generator class="increment"/>
         </id>
-        <property name="name" column="name" type="java.lang.String" length="32" not-null="true"/>
+        <property name="name" column="name" type="java.lang.String" length="32"/>
         <property name="cellphone" column="cellphone" type="java.lang.String" length="20" not-null="false"/>
         <property name="wechat" column="wechat" type="java.lang.String" length="64" not-null="false"/>
         <property name="gender" column="gender" type="java.lang.String" length="1" not-null="false"/>
         <property name="birthday" column="birthday" type="java.util.Date" not-null="false"/>
         <property name="occupation" column="occupation" type="java.lang.String" length="64" not-null="false"/>
-        <property name="occupationType" column="occupationType" type="java.lang.String" length="64" not-null="false"/>
+        <property name="occupationType" column="occupation_type" type="java.lang.String" length="64" not-null="false"/>
         <property name="job" column="job" type="java.lang.String" length="64" not-null="false"/>
         <property name="familySize" column="family_size" type="java.lang.Integer" not-null="false"/>
         <property name="hobby" column="hobby" type="java.lang.String" length="64" not-null="false"/>

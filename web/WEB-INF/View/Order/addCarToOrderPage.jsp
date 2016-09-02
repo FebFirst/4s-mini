@@ -49,41 +49,41 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">二手车应收款: </label>
     <div class="col-sm-7">
-      <input class="form-control" value="" id="secondCar" type="date">
+      <input class="form-control" value="" id="secondCar" >
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">分期应收款: </label>
     <div class="col-sm-7">
-      <input class="form-control" value="" id="finance" type="date">
+      <input class="form-control" value="" id="finance" >
     </div>
   </div>
 
   <div class="form-group">
     <label class="col-sm-2 control-label">上牌应收款: </label>
     <div class="col-sm-7">
-      <input class="form-control" value="" id="card" type="date">
+      <input class="form-control" value="" id="card" >
     </div>
   </div>
 
   <div class="form-group">
     <label class="col-sm-2 control-label">延保应收款: </label>
     <div class="col-sm-7">
-      <input class="form-control" value="" id="long" type="date">
+      <input class="form-control" value="" id="long" >
     </div>
   </div>
 
   <div class="form-group">
     <label class="col-sm-2 control-label">会员应收款: </label>
     <div class="col-sm-7">
-      <input class="form-control" value="" id="VIP" type="date">
+      <input class="form-control" value="" id="VIP" >
     </div>
   </div>
 
   <div class="form-group">
     <label class="col-sm-2 control-label">租赁应收款: </label>
     <div class="col-sm-7">
-      <input class="form-control" value="" id="rent" type="date">
+      <input class="form-control" value="" id="rent" >
     </div>
   </div>
   <div class="form-group">
@@ -154,7 +154,7 @@ To be implemented 检查重复
     var value = obj.options[index].value; // 选中值
    // alert(divNum + value);
     $.ajax({
-      url:"${pageContext.request.contextPath}/Sale/selectGiftName",
+      url:"${pageContext.request.contextPath}/Sale/selectGiftBrand",
       data: {"type":value},
       type:'POST',
       dataType:'JSON',

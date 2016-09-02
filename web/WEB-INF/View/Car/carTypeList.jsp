@@ -218,6 +218,10 @@
         $('#carModal').modal('show');
     }
     function updatePrice() {
+        var garage = document.getElementById("moGarage").value;
+        var brand = document.getElementById("moBrand").value;
+        var sfx = document.getElementById("moSfx").value;
+        var color = document.getElementById("moColor").value;
         var cost = document.getElementById("cost").value;
         var price = document.getElementById("price").value;
         var discount = document.getElementById("discount").value;

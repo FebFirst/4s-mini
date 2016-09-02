@@ -5,7 +5,7 @@ package CarSaleManagerSystem.Bean;
  */
 public class Gift {
     private int giftID;
-    private String name;
+//    private String name;
 //    private String type;
     private float cost;
     private float default_price;
@@ -26,13 +26,13 @@ public class Gift {
         this.giftID = giftID;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public float getCost() {
         return cost;

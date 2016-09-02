@@ -56,4 +56,19 @@ public class CustomerDAO {
 
         return customer;
     }
+
+    public Customer findCustomerByName(String name){
+        List<Customer> customerList = getAllCustomer();
+
+        if(customerList == null){
+            return null;
+        }
+
+        for(Customer customer : customerList){
+            if(customer.getName().equals(name))
+                return customer;
+        }
+
+        return null;
+    }
 }

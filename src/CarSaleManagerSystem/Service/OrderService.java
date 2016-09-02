@@ -42,6 +42,8 @@ public class OrderService {
     @Autowired
     private InsuranceService insuranceService;
 
+    @Autowired
+    private AdditionalProductService additionalProductService;
     public void createOrder(Order order){
         orderDAO.createOrder(order);
     }
@@ -140,7 +142,8 @@ public class OrderService {
     }
 
 
-    public void beginAnOrder(String orderId, String carId, String customer, String predictDate, String gifts, String insurances, String userId){
+    public void beginAnOrder(String orderId, String carId, String customer, String predictDate, String gifts, String insurances, String userId,
+                             String secondCar, String finance, String card, String VIP, String rent, String longTerm){
         try {
             Car car = carDAO.findCarById(carId);
             car.setValid("N");
@@ -151,7 +154,16 @@ public class OrderService {
             order.setCarID(carId);
             Customer customer1 = new Customer();
             customer1.setName(customer);
+            System.out.println(customer1.getName());
             customerDAO.createCustomer(customer1);
+
+            customer1 = customerDAO.findCustomerByName(customer1.getName());
+            if(customer1 != null) {
+                order.setCustomerID(customer1.getCustomerID());
+            }else{
+                System.out.println("cao nimade DJ");
+            }
+
             if (userId != null) {
                 order.setSalesmanID(Integer.parseInt(userId));
             }
@@ -164,6 +176,34 @@ public class OrderService {
 
             giftService.createGiftListByJSONOrderCreateHelper(gifts, orderId);
             insuranceService.createInsurancesByJSONOrderCreateHelper(insurances, orderId);
+
+
+            AdditionalProduct additionalProduct = new AdditionalProduct();
+            additionalProduct.setOrderID(orderId);
+
+            additionalProduct.setSelling_price(Float.parseFloat(secondCar));
+            additionalProduct.setAdditionalProductType("二手车");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(finance));
+            additionalProduct.setAdditionalProductType("金融");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(card));
+            additionalProduct.setAdditionalProductType("上牌");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(VIP));
+            additionalProduct.setAdditionalProductType("会员");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(rent));
+            additionalProduct.setAdditionalProductType("租赁");
+            additionalProductService.createAdditionalProduct(additionalProduct);
+
+            additionalProduct.setSelling_price(Float.parseFloat(longTerm));
+            additionalProduct.setAdditionalProductType("延保");
+            additionalProductService.createAdditionalProduct(additionalProduct);
         }catch (Exception e){
             e.printStackTrace();
         }

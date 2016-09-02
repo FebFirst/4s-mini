@@ -56,7 +56,7 @@
 
                 <c:forEach items="${carPlan.value}" var="sfx">
                 <tr>
-                    <td>${carPlan.key}</td>
+                    <td class="tableFormat">${carPlan.key}</td>
                     <td>${sfx.key}</td>
                     <td>${sfx.value[0]}</td>
                     <td>${sfx.value[1]}</td>
@@ -86,20 +86,11 @@
                         <c:set value="${sum9 + sfx.value[9]}" var="sum9"/>
                         <c:set value="${sum10 + sfx.value[10]}" var="sum10"/>
                         <c:set value="${sum11 + sfx.value[11]}" var="sum11"/>
-                        <%--<c:set value="" var="sum12"/>--%>
-                        <%--<c:set value="" var="sum13"/>--%>
-                        <%--<c:set value="" var="sum14"/>--%>
-                        <%--<c:set value="" var="sum15"/>--%>
-                        <%--<c:set value="" var="sum16"/>--%>
-                        <%--<c:set value="" var="sum17"/>--%>
-                        <%--<c:set value="" var="sum18"/>--%>
-                        <%--<c:set value="" var="sum19"/>--%>
-                        <%--<c:set value="" var="sum20"/>--%>
 
                 </tr>
                 </c:forEach>
-                <tr>
-                    <td>${carPlan.key}</td>
+                <tr bgcolor="gray">
+                    <td class="tableFormat">${carPlan.key}</td>
                     <td>TOTAL</td>
                     <td>${sum0}</td>
                     <td>${sum1}</td>
@@ -124,4 +115,5 @@
 </div>
 
 </body>
+<script src="/web_resources/js/tableFormat.js"></script>
 </html>

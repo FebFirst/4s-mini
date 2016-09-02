@@ -103,7 +103,7 @@ public class OrderController {
 
     @RequestMapping(value = "/createOrder",method = RequestMethod.POST)
     public ModelAndView createOrder(HttpServletRequest request, HttpSession session) {
-        ModelAndView modelAndView = new ModelAndView("redirect: /Car/carSoldInfo");
+        ModelAndView modelAndView = new ModelAndView("redirect: /Car/carSold");
         try {
             String orderId = request.getParameter("orderId");
             String carId = request.getParameter("carId");
@@ -119,34 +119,10 @@ public class OrderController {
             String VIP = request.getParameter("VIP");
             String rent = request.getParameter("rent");
             String longTerm = request.getParameter("long");
-            orderService.beginAnOrder(orderId, carId, customer, predictDate, gifts, insurances, userId);
+            orderService.beginAnOrder(orderId, carId, customer, predictDate, gifts, insurances, userId,
+                    secondCar,finance,card,VIP,rent,longTerm);
 
-            AdditionalProduct additionalProduct = new AdditionalProduct();
-            additionalProduct.setOrderID(orderId);
 
-            additionalProduct.setSelling_price(Float.parseFloat(secondCar));
-            additionalProduct.setAdditionalProductType("二手车");
-            additionalProductService.createAdditionalProduct(additionalProduct);
-
-            additionalProduct.setSelling_price(Float.parseFloat(finance));
-            additionalProduct.setAdditionalProductType("金融");
-            additionalProductService.createAdditionalProduct(additionalProduct);
-
-            additionalProduct.setSelling_price(Float.parseFloat(card));
-            additionalProduct.setAdditionalProductType("上牌");
-            additionalProductService.createAdditionalProduct(additionalProduct);
-
-            additionalProduct.setSelling_price(Float.parseFloat(VIP));
-            additionalProduct.setAdditionalProductType("会员");
-            additionalProductService.createAdditionalProduct(additionalProduct);
-
-            additionalProduct.setSelling_price(Float.parseFloat(rent));
-            additionalProduct.setAdditionalProductType("租赁");
-            additionalProductService.createAdditionalProduct(additionalProduct);
-
-            additionalProduct.setSelling_price(Float.parseFloat(longTerm));
-            additionalProduct.setAdditionalProductType("延保");
-            additionalProductService.createAdditionalProduct(additionalProduct);
             return modelAndView;
         }catch(Exception e){
             e.printStackTrace();

@@ -95,32 +95,32 @@
 
                 <c:forEach items="${valueChain.value}" var="sfx">
                     <tr>
-                        <td>${valueChain.key}</td>
+                        <td class="tableFormat" valign="middle" align="center">${valueChain.key}</td>
                         <td>${sfx.key}</td>
-                        <td>${sfx.value.exchangePrice}</td>
-                        <td>${sfx.value.exchangeProfit}</td>
-                        <td>${sfx.value.exchangeSaturate}</td>
-                        <td>${sfx.value.giftPrice}</td>
-                        <td>${sfx.value.giftProfit}</td>
-                        <td>${sfx.value.giftSaturate}</td>
-                        <td>${sfx.value.insurancePrice}</td>
-                        <td>${sfx.value.insuranceProfit}</td>
-                        <td>${sfx.value.insuranceSaturate}</td>
-                        <td>${sfx.value.financePrice}</td>
-                        <td>${sfx.value.financeProfit}</td>
-                        <td>${sfx.value.financeSaturate}</td>
-                        <td>${sfx.value.servicePrice}</td>
-                        <td>${sfx.value.serviceProfit}</td>
-                        <td>${sfx.value.serviceSaturate}</td>
-                        <td>${sfx.value.rebookInsurancePrice}</td>
-                        <td>${sfx.value.rebookInsuranceProfit}</td>
-                        <td>${sfx.value.rebookInsuranceSaturate}</td>
-                        <td>${sfx.value.vipPrice}</td>
-                        <td>${sfx.value.vipProfit}</td>
-                        <td>${sfx.value.vipSaturate}</td>
-                        <td>${sfx.value.renderPrice}</td>
-                        <td>${sfx.value.renderProfit}</td>
-                        <td>${sfx.value.renderSaturate}</td>
+                        <td><fmt:formatNumber value="${sfx.value.exchangePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.exchangeProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.exchangeSaturate}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.giftPrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.giftProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.giftSaturate}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.insurancePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.insuranceProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.insuranceSaturate}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.financePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.financeProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.financeSaturate}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.servicePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.serviceProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.serviceSaturate}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.rebookInsurancePrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.rebookInsuranceProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.rebookInsuranceSaturate}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.vipPrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.vipProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.vipSaturate}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.renderPrice}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.renderProfit}" pattern="#.00"/></td>
+                        <td><fmt:formatNumber value="${sfx.value.renderSaturate}" pattern="#.00"/></td>
 
                         <c:set value="${sum0 + sfx.value.exchangePrice}" var="sum0" />
                         <c:set value="${sum1 + sfx.value.exchangeProfit}" var="sum1"/>
@@ -147,22 +147,11 @@
                         <c:set value="${sum22 + sfx.value.renderProfit}" var="sum22"/>
                         <c:set value="${sum23 + sfx.value.renderSaturate}" var="sum23"/>
                         <c:set value="${sum24 + sfx.value.number}" var="sum24"/>
-                        <%--<c:set value="${sum25 + sfx.value.carDynamicFee}" var="sum25"/>--%>
-                        <%--<c:set value="${sum26 + sfx.value.carBoundProfit}" var="sum26"/>--%>
-                        <%--<td style="visibility: hidden">${sum0 +=sfx.value.exchangePrice * sfx.value.number; sum1 +=sfx.value.exchangeProfit*sfx.value.number ; sum2 += sfx.value.exchangeSaturate *sfx.value.number;--%>
-                          <%--sum3 +=sfx.value.giftPrice * sfx.value.number; sum4 += sfx.value.giftProfit*sfx.value.number; sum5 += sfx.value.giftSaturate *sfx.value.number;--%>
-                          <%--sum6 +=sfx.value.insurancePrice*sfx.value.number; sum7 +=sfx.value.insuranceProfit*sfx.value.number; sum8 +=sfx.value.insuranceSaturate*sfx.value.number;--%>
-                          <%--sum9 +=sfx.value.financePrice*sfx.value.number; sum10 +=sfx.value.financeProfit*sfx.value.number; sum11 +=sfx.value.financeSaturate*sfx.value.number;--%>
-                          <%--sum12 +=sfx.value.servicePrice*sfx.value.number; sum13 +=sfx.value.serviceProfit*sfx.value.number; sum14 +=sfx.value.serviceSaturate*sfx.value.number;--%>
-                          <%--sum15 +=sfx.value.rebookInsurancePrice*sfx.value.number; sum16 +=sfx.value.rebookInsuranceProfit*sfx.value.number; sum17 +=sfx.value.rebookInsuranceSaturate*sfx.value.number;--%>
-                          <%--sum18 +=sfx.value.vipPrice*sfx.value.number; sum19 +=sfx.value.vipProfit*sfx.value.number; sum20 +=sfx.value.vipSaturate*sfx.value.number;--%>
-                          <%--sum21 +=sfx.value.renderPrice*sfx.value.number; sum22 +=sfx.value.renderProfit*sfx.value.number; sum23 +=sfx.value.renderSaturate*sfx.value.number;--%>
-                          <%--sum24 += sfx.value.number}--%>
-                        <%--</td>--%>
+
                     </tr>
                 </c:forEach>
-                <tr>
-                    <td>${valueChain.key}</td>
+                <tr bgcolor="gray">
+                    <td class="tableFormat">${valueChain.key}</td>
                     <td>WAN</td>
                     <td><fmt:formatNumber value="${sum0 /sum24}" pattern="#.00"/></td>
                     <td><fmt:formatNumber value="${sum1/sum24}" pattern="#.00"/></td>
@@ -198,4 +187,5 @@
 </div>
 
 </body>
+<script src="/web_resources/js/tableFormat.js"></script>
 </html>

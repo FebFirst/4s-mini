@@ -149,23 +149,23 @@ public class SaleController {
     }
 
 
-    @RequestMapping(value = "/selectGiftName")
-    public @ResponseBody
-    Map<String,Object> getGiftName(HttpServletRequest request) throws IOException {
-        Map<String,Object> map = new HashMap<String,Object>();
-
-        String type = request.getParameter("type");
-        List<Gift> giftList = giftService.findGiftByType(type);
-        //System.out.println(type);
-        for(int j = 0; j < giftList.size(); j ++){
-            if(giftList.get(j).getValid().equals("Y")) {
-                if(giftList.get(j).getOrderID() == null) {
-                    map.put(String.valueOf(j), giftList.get(j).getName());
-                }
-            }
-        }
-        return map;
-    }
+//    @RequestMapping(value = "/selectGiftName")
+//    public @ResponseBody
+//    Map<String,Object> getGiftName(HttpServletRequest request) throws IOException {
+//        Map<String,Object> map = new HashMap<String,Object>();
+//
+//        String type = request.getParameter("type");
+//        List<Gift> giftList = giftService.findGiftByType(type);
+//        //System.out.println(type);
+//        for(int j = 0; j < giftList.size(); j ++){
+//            if(giftList.get(j).getValid().equals("Y")) {
+//                if(giftList.get(j).getOrderID() == null) {
+//                    map.put(String.valueOf(j), giftList.get(j).getName());
+//                }
+//            }
+//        }
+//        return map;
+//    }
     @RequestMapping(value = "/selectGiftBrand")
     public @ResponseBody
     Map<String,Object> getGiftBrand(HttpServletRequest request) throws IOException{
